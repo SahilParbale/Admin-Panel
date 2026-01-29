@@ -1,0 +1,11 @@
+<div class="stat-card">
+    <div class="card-title">{{ title }}</div>
+    <div class="card-value">{{ value }}</div>
+    <div class="card-trend">
+        <span class="trend-badge" [class.down]="trend === 'down'">
+            <i class='bx' [class.bx-up-arrow-alt]="trend === 'up'" [class.bx-down-arrow-alt]="trend === 'down'"></i>
+            {{ trendValue }}
+        </span>
+        <span class="trend-label">{{ trendLabel }}</span>
+    </div>
+</div>

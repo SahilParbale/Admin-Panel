@@ -1,0 +1,25 @@
+<div class="performance-widgets">
+    <div class="widget">
+        <div class="chart-wrapper">
+            <canvas baseChart [data]="chart1Data" [options]="chartOptions" [type]="'doughnut'"></canvas>
+            <div class="percentage">82%</div>
+        </div>
+        <div class="label">Total Order<br>Completed</div>
+    </div>
+
+    <div class="widget">
+        <div class="chart-wrapper">
+            <canvas baseChart [data]="chart2Data" [options]="chartOptions" [type]="'doughnut'"></canvas>
+            <div class="percentage">10%</div>
+        </div>
+        <div class="label">Total Delivery<br>Return</div>
+    </div>
+
+    <div class="widget">
+        <div class="chart-wrapper">
+            <canvas baseChart [data]="chart3Data" [options]="chartOptions" [type]="'doughnut'"></canvas>
+            <div class="percentage">40%</div>
+        </div>
+        <div class="label">Total Delivery<br>Cancel</div>
+    </div>
+</div>

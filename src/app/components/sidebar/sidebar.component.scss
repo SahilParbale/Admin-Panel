@@ -1,0 +1,161 @@
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 0 10px;
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+
+            i {
+                color: white;
+                font-size: 24px;
+            }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+    }
+
+    .user-profile {
+        background-color: #ffffff;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 12px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .user-info {
+            flex: 1;
+
+            .name {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--secondary-color);
+            }
+
+            .role {
+                font-size: 11px;
+                color: var(--text-muted);
+            }
+        }
+
+        .settings-icon {
+            color: var(--text-muted);
+            cursor: pointer;
+
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    .nav-menu {
+        flex: 1;
+        overflow-y: auto;
+
+        ul {
+            li {
+                margin-bottom: 5px;
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px 15px;
+                    border-radius: 8px;
+                    color: var(--text-color);
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+
+                    i {
+                        font-size: 20px;
+                        margin-right: 12px;
+                        color: #888;
+                    }
+
+                    .ml-auto {
+                        margin-left: auto;
+                        margin-right: 0;
+                        font-size: 16px;
+                    }
+
+                    &:hover {
+                        background-color: rgba(40, 167, 69, 0.05);
+                        color: var(--primary-color);
+
+                        i {
+                            color: var(--primary-color);
+                        }
+                    }
+                }
+
+                &.active {
+                    a {
+                        background-color: #e6f7eb;
+                        /* Light green bg */
+                        color: var(--secondary-color);
+                        /* Keep text dark as per design, or maybe primary? Design shows dark text on active item in some themes, but here "Dashboard" looks like it has a grey background? No, wait. */
+                        /* Looking at the image: Dashboard has a grey background, not green. Wait. */
+                        /* Actually, looking closely at the image: "Dashboard" item has a grey background `background-color: #e0e0e0` or similar, and icon is dark. */
+                        /* BUT, the logo is green. */
+                        /* Let's look at the active state in the image. "Dashboard" is active. It has a light grey background. */
+                        /* "Order Analytics" has green text. */
+                        /* I'll stick to a subtle grey for active, or maybe the design implies the grey one is active. */
+                        background-color: #e9ecef;
+                        color: var(--secondary-color);
+
+                        i {
+                            color: var(--secondary-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        .section-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 20px 0 10px 15px;
+            font-weight: 500;
+        }
+    }
+}

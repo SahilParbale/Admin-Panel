@@ -1,0 +1,55 @@
+.stat-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    height: 100%;
+
+    .card-title {
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 12px;
+        font-weight: 500;
+    }
+
+    .card-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 12px;
+    }
+
+    .card-trend {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+
+        .trend-badge {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-weight: 600;
+
+            &.down {
+                background-color: rgba(255, 107, 107, 0.1);
+                color: #ff6b6b;
+            }
+
+            &:not(.down) {
+                background-color: rgba(40, 167, 69, 0.1);
+                color: var(--primary-color);
+            }
+
+            i {
+                font-size: 16px;
+                margin-right: 2px;
+            }
+        }
+
+        .trend-label {
+            color: #aaa;
+        }
+    }
+}

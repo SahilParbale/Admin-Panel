@@ -1,0 +1,94 @@
+.header {
+    height: var(--header-height);
+    background-color: #ffffff;
+    /* Or transparent? Image shows white header background matching dashboard? No, dashboard has white cards on light grey bg. Header seems to be on the light grey bg or white? */
+    /* Looking at the image: The top bar "Dashboard" ... "Search" ... seems to be on the same background as the main content, OR it's a white strip. */
+    /* Actually, looking at the top left "WeEats" is on white sidebar. */
+    /* The "Dashboard" title is on the light grey background. */
+    /* The Search bar is white. */
+    /* So the header itself might be transparent or just part of the layout. */
+    /* Let's make the header transparent but containing the elements. */
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    margin-bottom: 30px;
+
+    .page-title {
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .search-bar {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+
+            i {
+                color: #888;
+                font-size: 20px;
+                margin-right: 10px;
+            }
+
+            input {
+                border: none;
+                outline: none;
+                width: 100%;
+                font-family: var(--font-family);
+                font-size: 14px;
+                color: var(--text-color);
+
+                &::placeholder {
+                    color: #aaa;
+                }
+            }
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            /* Or circle? Image shows rounded square/circle. Looks like rounded square similar to search bar height? No, it's a separate icon. */
+            /* Actually, in the image, the bell is just an icon, maybe with a white bg circle? */
+            /* Let's look closely. It looks like a bell icon on a white square button. */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+
+            i {
+                font-size: 22px;
+                color: var(--secondary-color);
+            }
+
+            .badge {
+                position: absolute;
+                top: 10px;
+                right: 12px;
+                width: 8px;
+                height: 8px;
+                background-color: #ff6b6b;
+                /* Red dot */
+                border-radius: 50%;
+                border: 2px solid #ffffff;
+            }
+        }
+    }
+}

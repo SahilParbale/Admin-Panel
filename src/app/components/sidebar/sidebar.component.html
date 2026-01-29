@@ -1,0 +1,45 @@
+<div class="sidebar">
+    <div class="logo-container">
+        <div class="logo-icon">
+            <i class='bx bx-search'></i>
+        </div>
+        <span class="logo-text">WeEats</span>
+    </div>
+
+    <div class="user-profile">
+        <div class="avatar">
+            <img src="assets/avatar-placeholder.png" alt="User" onerror="this.src='https://via.placeholder.com/40'">
+        </div>
+        <div class="user-info">
+            <div class="name">Kazi Mahbub</div>
+            <div class="role">Super Admin</div>
+        </div>
+        <div class="settings-icon">
+            <i class='bx bx-cog'></i>
+        </div>
+    </div>
+
+    <nav class="nav-menu">
+        <ul>
+            <li *ngFor="let item of menuItems" [class.active]="item.active">
+                <a href="#">
+                    <i class='bx' [ngClass]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                    <i *ngIf="item.hasSubmenu" class='bx bx-chevron-down ml-auto'></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="section-label">Others</div>
+
+        <ul>
+            <li *ngFor="let item of otherItems">
+                <a href="#">
+                    <i class='bx' [ngClass]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                    <i *ngIf="item.hasSubmenu" class='bx bx-chevron-down ml-auto'></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
