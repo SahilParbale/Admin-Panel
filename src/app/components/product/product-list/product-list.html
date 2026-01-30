@@ -1,66 +1,94 @@
 <div class="product-container">
-    <div class="header-actions">
+    <div class="card-panel">
+        <div class="panel-header">
+            <div class="title-group">
+                <h3>Items</h3>
+                <span class="subtitle">Manage your product inventory</span>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" (click)="openAddModal()">
+                    <i class='bx bx-plus'></i> Add New Product
+                </button>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+        </div>
 
-        <div class="actions">
-            <button class="btn btn-primary" routerLink="add">
-                <i class='bx bx-plus'></i> Add New Product
-            </button>
-            <button class="btn btn-outline">
-                <i class='bx bx-export'></i> Export
-            </button>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>SKU</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of filteredProducts; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <div class="product-img">
+                                <i class='bx bxs-image' *ngIf="!product.image"></i>
+                                <img [src]="product.image" *ngIf="product.image" alt="Product">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="product-info">
+                                <span class="name">{{ product.name }}</span>
+                                <span class="category">{{ product.category }}</span>
+                            </div>
+                        </td>
+                        <td>{{ product.sku }}</td>
+                        <td>₹{{ product.price }}</td>
+                        <td>
+                            <span class="stock-badge" [ngStyle]="{color: getStockColor(product.stock)}">
+                                {{ getStockStatus(product.stock) }} ({{ product.stock }})
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-badge" [class.active]="product.status === 'Active'">
+                                {{ product.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon edit" (click)="openEditModal(product)"><i
+                                        class='bx bx-edit'></i></button>
+                                <button class="btn-icon delete" (click)="openDeleteModal(product)"><i
+                                        class='bx bx-trash'></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
+<app-add-product-modal [isOpen]="isAddModalOpen" [product]="selectedProduct" (close)="closeAddModal()"
+    (save)="onProductSaved($event)">
+</app-add-product-modal>
 
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product Name</th>
-                    <th>SKU</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of filteredProducts">
-                    <td>
-                        <div class="product-img">
-                            <i class='bx bxs-image' *ngIf="!product.image"></i>
-                            <img [src]="product.image" *ngIf="product.image" alt="Product">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="product-info">
-                            <span class="name">{{ product.name }}</span>
-                            <span class="category">{{ product.category }}</span>
-                        </div>
-                    </td>
-                    <td>{{ product.sku }}</td>
-                    <td>₹{{ product.price }}</td>
-                    <td>
-                        <span class="stock-badge" [ngStyle]="{color: getStockColor(product.stock)}">
-                            {{ getStockStatus(product.stock) }} ({{ product.stock }})
-                        </span>
-                    </td>
-                    <td>
-                        <span class="status-badge" [class.active]="product.status === 'Active'">
-                            {{ product.status }}
-                        </span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn-icon edit" routerLink="edit/{{product.id}}"><i
-                                    class='bx bx-edit'></i></button>
-                            <button class="btn-icon delete"><i class='bx bx-trash'></i></button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<!-- Delete Confirmation Modal -->
+<div class="delete-modal-overlay" [class.open]="isDeleteModalOpen">
+    <div class="delete-modal-container">
+        <div class="delete-icon">
+            <i class='bx bx-trash'></i>
+        </div>
+        <h3>Delete Product?</h3>
+        <p>Are you sure you want to delete <strong>{{ productToDelete?.name }}</strong>? This action cannot be undone.
+        </p>
+        <div class="delete-actions">
+            <button class="btn-cancel" (click)="closeDeleteModal()">Cancel</button>
+            <button class="btn-delete" (click)="confirmDelete()">Delete</button>
+        </div>
     </div>
 </div>

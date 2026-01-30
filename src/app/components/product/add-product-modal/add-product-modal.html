@@ -1,0 +1,108 @@
+<div class="modal-overlay" [class.open]="isOpen" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ product ? 'Edit ' + product.name : 'Add New Product' }}</h2>
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <!-- Product Name -->
+                    <div class="form-group">
+                        <label for="name">Product Name</label>
+                        <input type="text" id="name" formControlName="name" placeholder="Enter product name">
+                        <div class="error" *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid">
+                            Name is required.
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" formControlName="category">
+                            <option value="" disabled selected>Select category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="home">Home & Kitchen</option>
+                            <option value="beauty">Beauty</option>
+                        </select>
+                        <div class="error"
+                            *ngIf="productForm.get('category')?.touched && productForm.get('category')?.invalid">
+                            Category is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price, Stock & Stock Status -->
+                <div class="form-row three-col">
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input type="number" id="price" formControlName="price" placeholder="0.00">
+                        <div class="error"
+                            *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid">
+                            Valid price required.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock Qty</label>
+                        <input type="number" id="stock" formControlName="stock" placeholder="0">
+                        <div class="error"
+                            *ngIf="productForm.get('stock')?.touched && productForm.get('stock')?.invalid">
+                            Valid stock required.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Status</label>
+                        <select formControlName="stockStatus">
+                            <option value="In Stock">In Stock</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Status</label>
+                    <div class="status-options">
+                        <div class="status-pill active-pill"
+                            [class.selected]="productForm.get('status')?.value === 'Active'"
+                            (click)="setStatus('Active')">
+                            Active
+                        </div>
+                        <div class="status-pill inactive-pill"
+                            [class.selected]="productForm.get('status')?.value === 'Inactive'"
+                            (click)="setStatus('Inactive')">
+                            Inactive
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload-area" (click)="fileInput.click()">
+                        <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
+                        <div class="placeholder" *ngIf="!imagePreview">
+                            <i class='bx bx-cloud-upload'></i>
+                            <span>Click to upload image</span>
+                        </div>
+                        <img [src]="imagePreview" *ngIf="imagePreview" alt="Preview" class="preview-image">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="modal-footer">
+                    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+                    <button type="submit" class="submit-btn" [disabled]="productForm.invalid">
+                        {{ product ? 'Update Product' : 'Add Product' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
