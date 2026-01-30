@@ -1,17 +1,17 @@
 <div class="sidebar">
     <div class="logo-container">
         <div class="logo-icon">
-            <i class='bx bx-search'></i>
+            <i class='bx bxs-dish'></i>
         </div>
         <span class="logo-text">WeEats</span>
     </div>
 
     <div class="user-profile">
         <div class="avatar">
-            <img src="assets/avatar-placeholder.png" alt="User" onerror="this.src='https://via.placeholder.com/40'">
+            <span>SP</span>
         </div>
         <div class="user-info">
-            <div class="name">Kazi Mahbub</div>
+            <div class="name">Santosh Pawar</div>
             <div class="role">Super Admin</div>
         </div>
         <div class="settings-icon">
@@ -21,8 +21,9 @@
 
     <nav class="nav-menu">
         <ul>
-            <li *ngFor="let item of menuItems" [class.active]="item.active">
-                <a href="#">
+            <li *ngFor="let item of menuItems" [class.active]="item.active" [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{exact: true}">
+                <a [routerLink]="item.route">
                     <i class='bx' [ngClass]="item.icon"></i>
                     <span>{{ item.label }}</span>
                     <i *ngIf="item.hasSubmenu" class='bx bx-chevron-down ml-auto'></i>

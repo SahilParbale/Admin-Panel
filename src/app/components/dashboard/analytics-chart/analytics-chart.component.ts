@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -7,7 +7,9 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
     styleUrls: ['./analytics-chart.component.scss'],
     standalone: false
 })
-export class AnalyticsChartComponent {
+export class AnalyticsChartComponent implements OnChanges {
+    @Input() data: { labels: string[], completed: (number | null)[], pending: (number | null)[] } = { labels: [], completed: [], pending: [] };
+
     public lineChartData: ChartConfiguration<'line'>['data'] = {
         labels: ['01', '03', '06', '09', '12', '15', '18', '21', '24', '27', '30'],
         datasets: [
@@ -27,7 +29,7 @@ export class AnalyticsChartComponent {
             },
             {
                 data: [500, 600, 550, 600, 900, 500, 800, 1200, 1100, 1300, 1500],
-                label: 'Pending',
+                label: 'Cancelled',
                 fill: false,
                 tension: 0.4,
                 borderColor: '#aaaaaa',
@@ -72,8 +74,37 @@ export class AnalyticsChartComponent {
                 grid: { color: '#f0f0f0' },
                 ticks: { color: '#aaa', stepSize: 500, font: { size: 11 } },
                 min: 0,
-                max: 3000
+                // max: 3000 // Removed max for auto-scaling
             }
         }
     };
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['data']) {
+            this.updateCharts();
+        }
+    }
+
+    private updateCharts() {
+        if (!this.data || !this.data.labels) return;
+
+        this.lineChartData = {
+            ...this.lineChartData,
+            labels: this.data.labels,
+            datasets: [
+                {
+                    ...this.lineChartData.datasets[0],
+                    data: this.data.completed
+                },
+                {
+                    ...this.lineChartData.datasets[1],
+                    data: this.data.pending
+                }
+            ]
+        };
+
+        this.cdr.markForCheck();
+    }
 }

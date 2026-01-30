@@ -1,19 +1,23 @@
 .header {
     height: var(--header-height);
-    background-color: #ffffff;
-    /* Or transparent? Image shows white header background matching dashboard? No, dashboard has white cards on light grey bg. Header seems to be on the light grey bg or white? */
-    /* Looking at the image: The top bar "Dashboard" ... "Search" ... seems to be on the same background as the main content, OR it's a white strip. */
-    /* Actually, looking at the top left "WeEats" is on white sidebar. */
-    /* The "Dashboard" title is on the light grey background. */
-    /* The Search bar is white. */
-    /* So the header itself might be transparent or just part of the layout. */
-    /* Let's make the header transparent but containing the elements. */
-
+    background-color: var(--bg-color);
+    /* Opaque background for sticky */
+    /* Transparent to show BG color */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
-    margin-bottom: 30px;
+    padding: 0 20px;
+    /* Reduced from 30px */
+    margin-bottom: 20px;
+    /* Restored some spacing */
+    /* Reduced from 30px to pull content up */
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    /* Optional: Separation line */
+    width: 100%;
+    /* Ensure full width */
+    flex-shrink: 0;
+    /* Prevent shrinking */
 
     .page-title {
         h1 {
@@ -36,7 +40,8 @@
             display: flex;
             align-items: center;
             width: 300px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            /* Soft shadow */
 
             i {
                 color: #888;
@@ -63,15 +68,12 @@
             height: 40px;
             background-color: #ffffff;
             border-radius: 8px;
-            /* Or circle? Image shows rounded square/circle. Looks like rounded square similar to search bar height? No, it's a separate icon. */
-            /* Actually, in the image, the bell is just an icon, maybe with a white bg circle? */
-            /* Let's look closely. It looks like a bell icon on a white square button. */
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 
             i {
                 font-size: 22px;
@@ -85,7 +87,6 @@
                 width: 8px;
                 height: 8px;
                 background-color: #ff6b6b;
-                /* Red dot */
                 border-radius: 50%;
                 border: 2px solid #ffffff;
             }

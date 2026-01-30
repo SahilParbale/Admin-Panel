@@ -8,18 +8,18 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
     menuItems = [
-        { label: 'Dashboard', icon: 'bx-grid-alt', active: true },
-        { label: 'Orders', icon: 'bx-calendar', hasSubmenu: true },
-        { label: 'Food Menu', icon: 'bx-food-menu' },
-        { label: 'Riders', icon: 'bx-cycling' },
-        { label: 'Restaurant', icon: 'bx-store', hasSubmenu: true },
-        { label: 'Report', icon: 'bx-bar-chart-alt-2' },
-        { label: 'Message', icon: 'bx-message-dots' }
+        { label: 'Dashboard', icon: 'bx-grid-alt', active: true, hasSubmenu: false, route: '/' },
+        { label: 'Product Management', icon: 'bx-box', hasSubmenu: false, route: '/product-management' },
+        { label: 'Order Management', icon: 'bx-cart', hasSubmenu: false, route: '/order-management' },
+        { label: 'Pricing & Offer Management', icon: 'bx-purchase-tag', hasSubmenu: false, route: '/pricing-management' },
+        { label: 'User Management', icon: 'bx-user', hasSubmenu: false, route: '/user-management' },
+        { label: 'Payment & Finance', icon: 'bx-dollar-circle', hasSubmenu: false, route: '/finance' },
+        { label: 'Sales & Analytics', icon: 'bx-line-chart', hasSubmenu: false, route: '/analytics' }
     ];
 
     otherItems = [
-        { label: 'Marketing', icon: 'bx-target-lock', hasSubmenu: true },
-        { label: 'Support', icon: 'bx-headphone' },
-        { label: 'Settings', icon: 'bx-cog' }
+        { label: 'Marketing', icon: 'bx-target-lock', hasSubmenu: false },
+        { label: 'Support', icon: 'bx-headphone', hasSubmenu: false },
+        { label: 'Settings', icon: 'bx-cog', hasSubmenu: false }
     ];
 }

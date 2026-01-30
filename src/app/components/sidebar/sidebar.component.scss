@@ -9,7 +9,8 @@
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 1001;
+    /* Ensure above header (1000) */
 
     .logo-container {
         display: flex;
@@ -37,6 +38,7 @@
             font-size: 24px;
             font-weight: 700;
             color: var(--primary-color);
+            letter-spacing: 0.5px;
         }
     }
 
@@ -56,12 +58,13 @@
             border-radius: 50%;
             overflow: hidden;
             margin-right: 12px;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+            background-color: #e9ecef;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         .user-info {
@@ -130,21 +133,19 @@
 
                 &.active {
                     a {
-                        background-color: #e6f7eb;
-                        /* Light green bg */
-                        color: var(--secondary-color);
-                        /* Keep text dark as per design, or maybe primary? Design shows dark text on active item in some themes, but here "Dashboard" looks like it has a grey background? No, wait. */
-                        /* Looking at the image: Dashboard has a grey background, not green. Wait. */
-                        /* Actually, looking closely at the image: "Dashboard" item has a grey background `background-color: #e0e0e0` or similar, and icon is dark. */
-                        /* BUT, the logo is green. */
-                        /* Let's look at the active state in the image. "Dashboard" is active. It has a light grey background. */
-                        /* "Order Analytics" has green text. */
-                        /* I'll stick to a subtle grey for active, or maybe the design implies the grey one is active. */
-                        background-color: #e9ecef;
-                        color: var(--secondary-color);
+                        background-color: transparent;
+                        color: var(--text-color);
+                        font-weight: 600;
+
+                        /* Active indicator logic usually involves a highlight or bar. 
+                               In the provided image, 'Dashboard' has a greyish background 
+                               and the text is dark. Let's replicate a subtle active state.
+                            */
+                        background-color: rgba(0, 0, 0, 0.04);
 
                         i {
-                            color: var(--secondary-color);
+                            color: var(--primary-color);
+                            /* Icon becomes green */
                         }
                     }
                 }

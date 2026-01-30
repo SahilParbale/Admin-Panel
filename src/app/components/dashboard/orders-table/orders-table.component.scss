@@ -1,6 +1,9 @@
 .table-responsive {
     width: 100%;
     overflow-x: auto;
+    max-height: 320px;
+    /* Limit height to show ~5 rows (Header + 5 rows) */
+    overflow-y: auto;
 
     table {
         width: 100%;
@@ -16,9 +19,20 @@
         }
 
         th {
-            font-weight: 600;
-            color: #888;
+            font-weight: 700;
+            /* Bolder */
+            color: var(--secondary-color);
+            /* Darker text */
             white-space: nowrap;
+            position: sticky;
+            /* Fix header */
+            top: 0;
+            background-color: #fff;
+            /* Opaque background */
+            z-index: 10;
+            /* Above content */
+            box-shadow: 0 1px 0 #f0f0f0;
+            /* Bottom border replacement */
 
             i {
                 font-size: 12px;

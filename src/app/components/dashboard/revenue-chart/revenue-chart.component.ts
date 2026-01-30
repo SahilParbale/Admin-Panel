@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -7,7 +7,9 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
     styleUrls: ['./revenue-chart.component.scss'],
     standalone: false
 })
-export class RevenueChartComponent {
+export class RevenueChartComponent implements OnChanges {
+    @Input() data: { labels: string[], data: number[] } = { labels: [], data: [] };
+
     public areaChartData: ChartConfiguration<'line'>['data'] = {
         labels: ['Jan 01', 'Jan 07', 'Jan 14', 'Jan 21', 'Jan 28'],
         datasets: [
@@ -47,8 +49,31 @@ export class RevenueChartComponent {
                 grid: { color: '#f0f0f0' },
                 ticks: { color: '#aaa', font: { size: 11 }, callback: (value) => value + 'k' },
                 min: 0,
-                max: 50000
+                // max: removed to allow auto-scaling
             }
         }
     };
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['data']) {
+            this.updateChart();
+        }
+    }
+
+    private updateChart() {
+        if (!this.data || !this.data.labels || !this.data.data) return;
+
+        this.areaChartData = {
+            ...this.areaChartData,
+            labels: this.data.labels,
+            datasets: [{
+                ...this.areaChartData.datasets[0],
+                data: this.data.data
+            }]
+        };
+
+        this.cdr.markForCheck();
+    }
 }

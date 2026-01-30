@@ -1,19 +1,60 @@
 .main-content {
     margin-left: var(--sidebar-width);
     padding: 0;
-    min-height: 100vh;
+    height: 100vh;
+    /* Fixed height */
+    overflow: hidden;
+    /* Prevent body scroll */
     display: flex;
     flex-direction: column;
     transition: margin-left 0.3s ease;
 }
 
 .content-wrapper {
-    padding: 0 30px 30px 30px;
+    padding: 0 20px 20px 20px;
+    /* Reduced from 30px */
     flex: 1;
+    overflow-y: auto;
+    /* Enable independent scrolling */
+    height: 100%;
 }
 
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
+    }
+}
+
+// Analytics Legend Styles
+.chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        color: #6c757d;
+        font-weight: 500;
+
+        .indicator {
+            width: 70px;
+            height: 2px;
+            margin-right: 8px;
+            position: relative;
+
+            &.solid {
+                background-color: #000000;
+            }
+
+            &.dotted {
+                border-top: 2px dashed #aaaaaa;
+                background: transparent;
+                height: 0;
+            }
+        }
     }
 }

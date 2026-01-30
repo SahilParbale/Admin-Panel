@@ -1,0 +1,66 @@
+<div class="product-container">
+    <div class="header-actions">
+
+        <div class="actions">
+            <button class="btn btn-primary" routerLink="add">
+                <i class='bx bx-plus'></i> Add New Product
+            </button>
+            <button class="btn btn-outline">
+                <i class='bx bx-export'></i> Export
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>SKU</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of filteredProducts">
+                    <td>
+                        <div class="product-img">
+                            <i class='bx bxs-image' *ngIf="!product.image"></i>
+                            <img [src]="product.image" *ngIf="product.image" alt="Product">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="product-info">
+                            <span class="name">{{ product.name }}</span>
+                            <span class="category">{{ product.category }}</span>
+                        </div>
+                    </td>
+                    <td>{{ product.sku }}</td>
+                    <td>₹{{ product.price }}</td>
+                    <td>
+                        <span class="stock-badge" [ngStyle]="{color: getStockColor(product.stock)}">
+                            {{ getStockStatus(product.stock) }} ({{ product.stock }})
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge" [class.active]="product.status === 'Active'">
+                            {{ product.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon edit" routerLink="edit/{{product.id}}"><i
+                                    class='bx bx-edit'></i></button>
+                            <button class="btn-icon delete"><i class='bx bx-trash'></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
