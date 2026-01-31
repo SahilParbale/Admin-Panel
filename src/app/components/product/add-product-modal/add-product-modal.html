@@ -20,13 +20,22 @@
                     <!-- Category -->
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <select id="category" formControlName="category">
-                            <option value="" disabled selected>Select category</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="fashion">Fashion</option>
-                            <option value="home">Home & Kitchen</option>
-                            <option value="beauty">Beauty</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <div class="custom-select-trigger" (click)="toggleCategoryDropdown()"
+                                [class.active]="showCategoryDropdown">
+                                {{ productForm.get('category')?.value || 'Select category' }}
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                            <div class="dropdown-menu" *ngIf="showCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let option of categoryOptions" (click)="selectCategory(option)"
+                                        [class.active]="option === productForm.get('category')?.value">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="error"
                             *ngIf="productForm.get('category')?.touched && productForm.get('category')?.invalid">
                             Category is required.
@@ -56,11 +65,21 @@
 
                     <div class="form-group">
                         <label>Stock Status</label>
-                        <select formControlName="stockStatus">
-                            <option value="In Stock">In Stock</option>
-                            <option value="Low Stock">Low Stock</option>
-                            <option value="Out of Stock">Out of Stock</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <div class="custom-select-trigger" (click)="toggleStockStatusDropdown()"
+                                [class.active]="showStockStatusDropdown">
+                                {{ productForm.get('stockStatus')?.value || 'In Stock' }}
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                            <div class="dropdown-menu" *ngIf="showStockStatusDropdown">
+                                <ul>
+                                    <li *ngFor="let option of stockStatusOptions" (click)="selectStockStatus(option)"
+                                        [class.active]="option === productForm.get('stockStatus')?.value">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -13,6 +13,7 @@ import { PerformanceChartComponent } from './components/dashboard/performance-ch
 import { RevenueChartComponent } from './components/dashboard/revenue-chart/revenue-chart.component';
 import { OrdersTableComponent } from './components/dashboard/orders-table/orders-table.component';
 
+
 @NgModule({
   declarations: [
     App,

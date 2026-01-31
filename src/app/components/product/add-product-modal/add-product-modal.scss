@@ -136,8 +136,7 @@
         letter-spacing: -0.01em;
     }
 
-    input,
-    select {
+    input {
         width: 100%;
         padding: 10px 14px;
         /* Reduced padding */
@@ -167,6 +166,151 @@
             border-color: #6366f1;
             /* Indigo tone */
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+    }
+
+    /* Custom Dropdown Styles */
+    .dropdown-container {
+        position: relative;
+
+        .custom-select-trigger {
+            width: 100%;
+            padding: 12px 16px;
+            /* Slightly more padding */
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            /* Smoother radius */
+            font-size: 0.95rem;
+            /* Slightly larger text */
+            color: #111827;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+
+            i {
+                color: #6b7280;
+                font-size: 1.25rem;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                /* Bouncy transition */
+            }
+
+            &:hover {
+                background-color: #fff;
+                border-color: #d1d5db;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                /* Hover lift */
+            }
+
+            &.active {
+                background-color: #fff;
+                border-color: #6366f1;
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+
+                i {
+                    transform: rotate(180deg);
+                    color: #6366f1;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            /* Gap between trigger and menu */
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            /* Matching smooth radius */
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                0 0 0 1px rgba(0, 0, 0, 0.03);
+            /* Rich layered shadow */
+            z-index: 100;
+            overflow: hidden;
+            animation: dropdownSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: top center;
+
+            /* SCROLLABLE LOGIC */
+            max-height: 200px;
+            /* Approx 4 items (48px per item) */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #d1d5db transparent;
+
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #d1d5db;
+                border-radius: 3px;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 6px;
+                /* Padding inside list for floating feel */
+
+                li {
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                    /* Rounded items */
+                    font-size: 0.95rem;
+                    color: #4b5563;
+                    cursor: pointer;
+                    transition: all 0.15s ease;
+                    margin-bottom: 2px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &:hover {
+                        background-color: #ecfdf5;
+                        /* Light green hover */
+                        color: #047857;
+                        /* Dark green text */
+                    }
+
+                    &.active {
+                        background-color: #d1fae5;
+                        /* Stronger green active */
+                        color: #059669;
+                        font-weight: 600;
+
+                        &::after {
+                            content: "\ec98";
+                            /* 'bx-check' equivalent in boxicons font */
+                            font-family: 'boxicons';
+                            font-size: 1.2rem;
+                            color: #059669;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @keyframes dropdownSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
     }
 }

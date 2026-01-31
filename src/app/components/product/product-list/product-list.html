@@ -9,6 +9,9 @@
                 <button class="btn btn-primary" (click)="openAddModal()">
                     <i class='bx bx-plus'></i> Add New Product
                 </button>
+                <button class="btn btn-outline" (click)="viewProducts()">
+                    <i class='bx bx-grid-alt'></i> View Products
+                </button>
                 <div class="icon-actions">
                     <i class='bx bx-printer'></i>
                     <i class='bx bx-export'></i>
@@ -28,6 +31,7 @@
                         <th>Price</th>
                         <th>Stock</th>
                         <th>Status</th>
+                        <th>Ratings</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -59,6 +63,12 @@
                             </span>
                         </td>
                         <td>
+                            <div class="rating-badge">
+                                <i class='bx bxs-star'></i>
+                                <span>{{ product.rating }}/5</span>
+                            </div>
+                        </td>
+                        <td>
                             <div class="action-buttons">
                                 <button class="btn-icon edit" (click)="openEditModal(product)"><i
                                         class='bx bx-edit'></i></button>
@@ -69,6 +79,139 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Charts Grid (Top Row) -->
+    <div class="charts-grid">
+        <!-- Revenue per Product Chart -->
+        <div class="revenue-chart-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Revenue by Product</h3>
+                    <i class='bx bx-info-circle info-icon'
+                        data-tooltip="Total revenue generated from all product sales."></i>
+                </div>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+                </canvas>
+            </div>
+        </div>
+
+        <!-- Sales Trend Chart -->
+        <div class="sales-trend-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Product Sales Trend</h3>
+                    <i class='bx bx-info-circle info-icon'
+                        data-tooltip="Sales performance over the selected time period."></i>
+                </div>
+                <div class="actions">
+                    <div class="dropdown-container">
+                        <span class="btn-monthly" (click)="toggleTrendDropdown()">
+                            {{ selectedTrendPeriod }} <i class='bx bx-chevron-down'></i>
+                        </span>
+                        <div class="dropdown-menu" *ngIf="showTrendDropdown">
+                            <ul>
+                                <li *ngFor="let option of trendOptions" (click)="updateTrendChart(option)"
+                                    [class.active]="option === selectedTrendPeriod">
+                                    {{ option }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compact Charts Grid (3 Columns) -->
+    <div class="charts-grid-compact">
+        <!-- Top Selling Products Chart -->
+        <div class="top-selling-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Top Selling</h3>
+                    <i class='bx bx-info-circle info-icon' data-tooltip="Top 5 products by quantity sold."></i>
+                </div>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'">
+                </canvas>
+            </div>
+        </div>
+
+        <!-- Availability Chart -->
+        <div class="availability-chart-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Availability</h3>
+                    <i class='bx bx-info-circle info-icon'
+                        data-tooltip="Ratio of Active vs Inactive products in inventory."></i>
+                </div>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+            <app-availability-chart [data]="availabilityData"></app-availability-chart>
+        </div>
+
+
+
+        <!-- Demand Forecast Chart (Line Future Graph) -->
+        <div class="demand-forecast-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Demand Forecast</h3>
+                    <i class='bx bx-info-circle info-icon'
+                        data-tooltip="AI-predicted sales volume for the forecast period."></i>
+                </div>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+            <app-demand-forecast-chart></app-demand-forecast-chart>
+        </div>
+
+        <!-- Category Distribution Chart (Spans 2 columns) -->
+        <div class="category-distribution-container">
+            <div class="chart-header">
+                <div class="title-with-icon">
+                    <h3>Category Distribution</h3>
+                    <i class='bx bx-info-circle info-icon'
+                        data-tooltip="Product count distribution across categories."></i>
+                </div>
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+            <app-category-distribution-chart></app-category-distribution-chart>
         </div>
     </div>
 </div>
@@ -89,6 +232,41 @@
         <div class="delete-actions">
             <button class="btn-cancel" (click)="closeDeleteModal()">Cancel</button>
             <button class="btn-delete" (click)="confirmDelete()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="filter-modal-overlay" [class.open]="isFilterModalOpen" (click)="closeFilterModal()">
+    <div class="filter-modal-container" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Filter Products</h3>
+            <button class="close-btn" (click)="closeFilterModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="filter-group">
+                <label>Stock Status</label>
+                <div class="filter-options">
+                    <div class="filter-option" *ngFor="let opt of stockOptions"
+                        [class.selected]="tempFilterStock === opt" (click)="tempFilterStock = opt">
+                        {{ opt }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Product Status</label>
+                <div class="filter-options">
+                    <div class="filter-option" *ngFor="let opt of statusOptions"
+                        [class.selected]="tempFilterStatus === opt" (click)="tempFilterStatus = opt">
+                        {{ opt }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="closeFilterModal()">Cancel</button>
+            <button class="btn-apply" (click)="applyFilters()">Show Products</button>
         </div>
     </div>
 </div>

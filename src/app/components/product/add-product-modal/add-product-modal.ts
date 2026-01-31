@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-product-modal',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-product-modal.html',
   styleUrl: './add-product-modal.scss',
 })
@@ -27,6 +29,15 @@ export class AddProductModal {
       image: [null]
     });
   }
+
+  showCategoryDropdown = false;
+  categoryOptions = [
+    'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty',
+    'Sports', 'Toys', 'Automotive', 'Books',
+    'Health', 'Grocery', 'Furniture', 'Jewelry',
+    'Pet Supplies', 'Office Products', 'Garden',
+    'Music', 'Video Games'
+  ];
 
   ngOnChanges() {
     if (this.product) {
@@ -52,12 +63,29 @@ export class AddProductModal {
     }
   }
 
+  toggleCategoryDropdown() {
+    this.showCategoryDropdown = !this.showCategoryDropdown;
+  }
+
+  showStockStatusDropdown = false;
+  stockStatusOptions = ['In Stock', 'Low Stock', 'Out of Stock'];
+
+  selectCategory(category: string) {
+    this.productForm.get('category')?.setValue(category);
+    this.showCategoryDropdown = false;
+  }
+
   setStatus(status: string) {
     this.productForm.get('status')?.setValue(status);
   }
 
-  setStockStatus(status: string) {
+  toggleStockStatusDropdown() {
+    this.showStockStatusDropdown = !this.showStockStatusDropdown;
+  }
+
+  selectStockStatus(status: string) {
     this.productForm.get('stockStatus')?.setValue(status);
+    this.showStockStatusDropdown = false;
   }
 
   onFileSelected(event: any) {
@@ -93,5 +121,7 @@ export class AddProductModal {
     this.productForm.get('status')?.setValue('Active');
     this.productForm.get('stockStatus')?.setValue('In Stock');
     this.imagePreview = null;
+    this.showCategoryDropdown = false;
+    this.showStockStatusDropdown = false;
   }
 }
