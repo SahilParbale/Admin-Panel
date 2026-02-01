@@ -27,7 +27,7 @@ export class HeaderComponent {
         } else if (url.includes('/pricing-management')) {
             this.pageTitle = 'Pricing & Offer Management';
         } else if (url.includes('/user-management')) {
-            this.pageTitle = 'User Management';
+            this.pageTitle = 'Users & Rider Management';
         } else if (url.includes('/finance')) {
             this.pageTitle = 'Payment & Finance';
         } else if (url.includes('/analytics')) {

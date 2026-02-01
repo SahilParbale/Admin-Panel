@@ -12,7 +12,7 @@ export class SidebarComponent {
         { label: 'Product Management', icon: 'bx-box', hasSubmenu: false, route: '/product-management' },
         { label: 'Order Management', icon: 'bx-cart', hasSubmenu: false, route: '/order-management' },
         { label: 'Pricing & Offer Management', icon: 'bx-purchase-tag', hasSubmenu: false, route: '/pricing-management' },
-        { label: 'User Management', icon: 'bx-user', hasSubmenu: false, route: '/user-management' },
+        { label: 'Users & Rider Management', icon: 'bx-user', hasSubmenu: false, route: '/user-management' },
         { label: 'Payment & Finance', icon: 'bx-dollar-circle', hasSubmenu: false, route: '/finance' },
         { label: 'Sales & Analytics', icon: 'bx-line-chart', hasSubmenu: false, route: '/analytics' }
     ];
