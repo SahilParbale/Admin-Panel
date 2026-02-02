@@ -1,0 +1,59 @@
+.card-panel {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+
+        .title-group {
+            h3 {
+                font-size: 20px;
+                font-weight: 800;
+                color: #2c3e50;
+                margin: 0 0 4px 0;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                color: #95a5a6;
+                font-weight: 500;
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+
+            .icon-actions {
+                display: flex;
+                gap: 12px;
+                margin-left: 8px;
+                align-items: center;
+
+                i {
+                    font-size: 20px;
+                    color: #9ca3af;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        color: #10b981;
+                        transform: translateY(-1px);
+                    }
+                }
+            }
+        }
+    }
+
+    .chart-container {
+        position: relative;
+        height: 350px;
+        width: 100%;
+    }
+}

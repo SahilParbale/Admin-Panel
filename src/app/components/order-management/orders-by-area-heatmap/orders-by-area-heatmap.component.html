@@ -1,0 +1,25 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Orders by Area</h3>
+            <span class="subtitle">Geographic distribution of order density</span>
+        </div>
+        <div class="heatmap-legend">
+            <div class="legend-item"><span class="box low"></span> Low</div>
+            <div class="legend-item"><span class="box mid"></span> Moderate</div>
+            <div class="legend-item"><span class="box high"></span> High</div>
+            <div class="legend-item"><span class="box critical"></span> Critical</div>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="barChartData" [options]="barChartOptions" type="bar">
+        </canvas>
+    </div>
+</div>

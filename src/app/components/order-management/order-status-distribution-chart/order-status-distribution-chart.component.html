@@ -1,0 +1,19 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Order Status Distribution</h3>
+            <span class="subtitle">Overview of orders across different fulfillment stages</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions" [type]="'doughnut'">
+        </canvas>
+    </div>
+</div>

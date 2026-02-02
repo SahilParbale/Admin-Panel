@@ -1,64 +1,188 @@
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    max-height: 320px;
-    /* Limit height to show ~5 rows (Header + 5 rows) */
-    overflow-y: auto;
+.table-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
 
-    table {
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+
+        .title-group {
+            h3 {
+                font-size: 20px;
+                font-weight: 800;
+                color: #2c3e50;
+                margin: 0 0 4px 0;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                color: #95a5a6;
+                font-weight: 500;
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+
+            .icon-actions {
+                display: flex;
+                gap: 12px;
+                margin-left: 8px;
+                align-items: center;
+
+                i {
+                    font-size: 20px;
+                    color: #9ca3af;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        color: var(--primary-color, #10b981);
+                        transform: translateY(-1px);
+                    }
+                }
+            }
+        }
+    }
+
+    .table-responsive {
         width: 100%;
-        border-collapse: collapse;
+        overflow-x: auto;
+        max-height: 350px;
+        /* Limited to show approx 7-8 rows (Orders, Revenue, Products) */
+        overflow-y: auto;
 
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 13px;
-            color: var(--secondary-color);
-        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
 
-        th {
-            font-weight: 700;
-            /* Bolder */
-            color: var(--secondary-color);
-            /* Darker text */
-            white-space: nowrap;
-            position: sticky;
-            /* Fix header */
-            top: 0;
-            background-color: #fff;
-            /* Opaque background */
-            z-index: 10;
-            /* Above content */
-            box-shadow: 0 1px 0 #f0f0f0;
-            /* Bottom border replacement */
-
-            i {
-                font-size: 12px;
-                margin-left: 4px;
-                vertical-align: middle;
+            th,
+            td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 13px;
+                color: #555;
             }
-        }
 
-        td {
-            font-weight: 500;
-        }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-
-            &.delivered {
-                background-color: rgba(40, 167, 69, 0.1);
-                color: var(--primary-color);
+            th {
+                font-weight: 700;
+                color: #333;
+                background-color: #f8f9fa;
+                white-space: nowrap;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                box-shadow: 0 1px 0 #e0e0e0;
             }
-        }
 
-        input[type="checkbox"] {
-            cursor: pointer;
+            td {
+                font-weight: 500;
+            }
+
+            .category-cell {
+                font-weight: 700;
+                color: var(--primary-color, #007bff);
+                /* Use fallback if var not defined */
+            }
+
+            .kpi-cell {
+                font-weight: 600;
+                color: #333;
+            }
+
+            .trend-indicator {
+                font-size: 16px;
+
+                &.up {
+                    color: #28a745;
+                }
+
+                &.down {
+                    color: #28a745;
+                }
+
+                /* Good if time/late decreases, but need context. For this specific data: Revenue Up=Green, Delivery Time Down=Green. So 'up'/'down' classes might be ambiguous. Let's stick to semantic colors based on the data provided: Up Arrow is Green, Down Arrow is Red usually, but here 'down' for time is good. I will simply use colors based on the context provided in prompt - actually prompting implied 'Green' for 'up' trend on revenue, 'Red' for down on orders. But for Delivery Time 'down' is good. I will treat 'up', 'down' as direction, and color them based on desirability. Wait, simpler to just map to colours: up=green, down=red, warning=orange unless specialized. The prompt says "Trend: Up/Down" arrows. I will style generic 'up' as green and 'down' as red, but for Delivery metrics I might need to override. Or I can just map 'up' to green, 'down' to red/green depending on metric.
+                Actually, simpler: 
+                up -> green
+                down -> red
+                warning -> orange
+                neutral -> grey
+                
+                For "Avg Delivery Time" -> 32 min (Down Arrow, Green?). 
+                The prompt says: "⬇️ Improving speed". 
+                I should assign class 'good' or 'bad' maybe?
+                But the data I put in TS says 'down'. 
+                I will make:
+                up = green
+                down = red
+                warning = orange
+                neutral = gray
+                
+                Wait, for Delivery Time 'down' is GOOD. 
+                I'll stick to 'up' = green, 'down' = red for valid defaults. For specific rows I might need 'down-good' class but I didn't verify data structure for that. 
+                Let's use a simpler approach: 
+                up -> green
+                down -> red
+                warning -> orange
+                neutral -> grey
+                */
+                &.up {
+                    color: #28a745;
+                }
+
+                /* Green */
+                &.down {
+                    color: #dc3545;
+                }
+
+                /* Red - Default */
+
+                /* Override for delivery time if I could. But for now, general rule. */
+
+                &.warning {
+                    color: #ffc107;
+                }
+
+                &.neutral {
+                    color: #6c757d;
+                }
+            }
+
+            .action-badge {
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+                display: inline-block;
+
+                &.up {
+                    background-color: rgba(40, 167, 69, 0.1);
+                    color: #28a745;
+                }
+
+                &.down {
+                    background-color: rgba(220, 53, 69, 0.1);
+                    color: #dc3545;
+                }
+
+                &.warning {
+                    background-color: rgba(255, 193, 7, 0.1);
+                    color: #d39e00;
+                }
+
+                &.neutral {
+                    background-color: rgba(108, 117, 125, 0.1);
+                    color: #6c757d;
+                }
+            }
         }
     }
 }

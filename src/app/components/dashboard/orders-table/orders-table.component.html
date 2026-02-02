@@ -1,28 +1,52 @@
-<div class="table-responsive">
-    <table>
-        <thead>
-            <tr>
-                <th><input type="checkbox"></th>
-                <th>Order ID <i class='bx bx-sort-alt-2'></i></th>
-                <th>Restaurant Name <i class='bx bx-sort-alt-2'></i></th>
-                <th>Customer Name <i class='bx bx-sort-alt-2'></i></th>
-                <th>Date & Time <i class='bx bx-sort-alt-2'></i></th>
-                <th>Total Item <i class='bx bx-sort-alt-2'></i></th>
-                <th>Amount <i class='bx bx-sort-alt-2'></i></th>
-                <th>Status <i class='bx bx-sort-alt-2'></i></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let order of orders">
-                <td><input type="checkbox"></td>
-                <td>{{ order.id }}</td>
-                <td>{{ order.restaurant }}</td>
-                <td>{{ order.customer }}</td>
-                <td>{{ order.date }}</td>
-                <td>{{ order.items }}</td>
-                <td>{{ order.amount }}</td>
-                <td><span class="status-badge delivered">{{ order.status }}</span></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="table-container">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>1. Dashboard Summary (Executive Control)</h3>
+            <span class="subtitle">High-level business performance metrics overview</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Metric Category</th>
+                    <th>KPI</th>
+                    <th>Today</th>
+                    <th>This Week</th>
+                    <th>This Month</th>
+                    <th>Trend</th>
+                    <th>Action Insight</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let metric of dashboardMetrics">
+                    <td>{{ metric.sNo || '' }}</td>
+                    <td [class.category-cell]="metric.category">{{ metric.category }}</td>
+                    <td class="kpi-cell">{{ metric.kpi }}</td>
+                    <td>{{ metric.today }}</td>
+                    <td>{{ metric.thisWeek }}</td>
+                    <td>{{ metric.thisMonth }}</td>
+                    <td>
+                        <span class="trend-indicator" [ngClass]="metric.trend">
+                            <i *ngIf="metric.trend === 'up'" class='bx bx-up-arrow-alt'></i>
+                            <i *ngIf="metric.trend === 'down'" class='bx bx-down-arrow-alt'></i>
+                            <i *ngIf="metric.trend === 'warning'" class='bx bx-error'></i>
+                            <i *ngIf="metric.trend === 'neutral'" class='bx bx-minus'></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="action-badge" [ngClass]="metric.trend">{{ metric.action }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

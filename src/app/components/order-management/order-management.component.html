@@ -1,0 +1,161 @@
+<div class="order-management-container">
+    <div class="card-panel">
+        <div class="panel-header">
+            <div class="title-group">
+                <h3>1. Order Details</h3>
+                <span class="subtitle">Track and manage your customer orders</span>
+            </div>
+            <div class="actions">
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Order ID <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Order Date & Time <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Customer Name <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Delivery Area / Zone <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Total Amount (₹) <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Payment Method <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Order Status <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Delivery Partner <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Estimated Delivery Time <i class='bx bx-sort-alt-2'></i></th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of orders; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="openDetails(order)" class="order-id-link">{{ order.id
+                                }}</a>
+                        </td>
+                        <td>{{ order.date }}</td>
+                        <td>{{ order.customer }}</td>
+                        <td>{{ order.zone }}</td>
+                        <td>{{ order.amount }}</td>
+                        <td>{{ order.paymentMethod }}</td>
+                        <td>
+                            <span class="status-badge" [ngClass]="{
+                                'new': order.status === 'New',
+                                'packed': order.status === 'Packed',
+                                'out-for-delivery': order.status === 'Out for Delivery',
+                                'delivered': order.status === 'Delivered',
+                                'rejected': order.status === 'Rejected'
+                            }">{{ order.status }}</span>
+                        </td>
+                        <td>{{ order.deliveryPartner }}</td>
+                        <td>{{ order.estimatedTime }}</td>
+                        <td>
+                            <button class="btn-invoice" (click)="downloadInvoice(order.id)">
+                                <i class='bx bx-download'></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-panel" style="margin-top: 20px;">
+        <div class="panel-header">
+            <div class="title-group">
+                <h3>2. Cancelled Orders</h3>
+                <span class="subtitle">History of rejected and buyer-cancelled orders</span>
+            </div>
+            <div class="actions">
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Order ID</th>
+                        <th>Reason</th>
+                        <th>Cancelled By</th>
+                        <th>Refund Status</th>
+                        <th>Refund Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of cancelledOrders; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.reason }}</td>
+                        <td>{{ order.cancelledBy }}</td>
+                        <td>
+                            <span class="status-badge" [ngClass]="{
+                                'completed': order.refundStatus === 'Completed',
+                                'pending': order.refundStatus === 'Pending',
+                                'failed': order.refundStatus === 'Failed',
+                                'initiated': order.refundStatus === 'Initiated'
+                            }">{{ order.refundStatus }}</span>
+                        </td>
+                        <td>{{ order.refundAmount }}</td>
+                        <td>
+                            <button class="action-btn download" (click)="downloadInvoice(order.id)"
+                                title="Download Invoice">
+                                <i class='bx bx-download'></i>
+                                <span>Invoice</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <app-orders-by-area-heatmap></app-orders-by-area-heatmap>
+        <app-peak-order-time-heatmap></app-peak-order-time-heatmap>
+    </div>
+
+    <div class="charts-grid-compact">
+        <app-average-order-value-chart></app-average-order-value-chart>
+        <app-order-status-distribution-chart></app-order-status-distribution-chart>
+        <app-payment-method-split-chart></app-payment-method-split-chart>
+        <app-repeat-orders-chart></app-repeat-orders-chart>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal-overlay" *ngIf="selectedOrder" (click)="closeDetails()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Order Items - {{ selectedOrder.id }}</h3>
+                <button class="close-btn" (click)="closeDetails()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of selectedOrder.items">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

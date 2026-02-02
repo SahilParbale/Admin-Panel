@@ -1,0 +1,19 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Payment Method Split</h3>
+            <span class="subtitle">Distribution of orders across different payment gateways</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" type="pie">
+        </canvas>
+    </div>
+</div>

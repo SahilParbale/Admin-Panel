@@ -1,0 +1,41 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Peak Order Time</h3>
+            <span class="subtitle">Order density across 24h & 7 days</span>
+        </div>
+        <div class="intensity-legend">
+            <span>Low</span>
+            <div class="gradient-bar"></div>
+            <span>High</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="heatmap-container">
+        <!-- Legend for Hours -->
+        <div class="hours-row">
+            <div class="spacer"></div>
+            <div class="hour-label" *ngFor="let hour of hours">
+                {{ hour % 4 === 0 ? hour + ':00' : '' }}
+            </div>
+        </div>
+
+        <!-- Density Grid -->
+        <div class="day-row" *ngFor="let day of days">
+            <div class="day-label">{{ day }}</div>
+            <div class="cells">
+                <div class="cell" *ngFor="let hour of hours" [style.backgroundColor]="getCellColor(day, hour)"
+                    [title]="day + ' ' + hour + ':00 - Value: ' + getCellValue(day, hour)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
