@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 
 @Component({
     selector: 'app-finance',
@@ -234,6 +235,266 @@ export class FinanceComponent implements OnInit {
             margin: '23%'
         }
     ];
+
+    // Multi-line Trend Chart Configuration
+    public lineChartData: ChartConfiguration['data'] = {
+        datasets: [
+            {
+                data: [18500, 21200, 19800, 24600, 23500, 26800, 31200],
+                label: 'Gross Revenue (₹)',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderColor: '#3b82f6',
+                pointBackgroundColor: '#3b82f6',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#3b82f6',
+                fill: 'origin',
+                tension: 0.4
+            },
+            {
+                data: [14200, 16800, 15400, 17880, 18200, 21500, 24800],
+                label: 'Net Revenue (₹)',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderColor: '#10b981',
+                pointBackgroundColor: '#10b981',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#10b981',
+                fill: 'origin',
+                tension: 0.4
+            },
+            {
+                data: [3500, 4800, 4100, 4500, 4900, 5800, 7200],
+                label: 'Net Profit (₹)',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                borderColor: '#f59e0b',
+                pointBackgroundColor: '#f59e0b',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#f59e0b',
+                fill: 'origin',
+                tension: 0.4
+            }
+        ],
+        labels: ['28 Jan', '29 Jan', '30 Jan', '31 Jan', '01 Feb', '02 Feb', '03 Feb']
+    };
+
+    public lineChartOptions: ChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                        family: "'Inter', sans-serif",
+                        size: 12,
+                        weight: 600
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: '#1e293b',
+                padding: 12,
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 13 },
+                cornerRadius: 8,
+                displayColors: true
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    display: true,
+                    color: 'rgba(226, 232, 240, 0.4)'
+                },
+                ticks: {
+                    font: { family: "'Inter', sans-serif", size: 11 },
+                    callback: (value) => '₹' + value
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    font: { family: "'Inter', sans-serif", size: 11 }
+                }
+            }
+        }
+    };
+
+    public lineChartType: ChartType = 'line';
+
+    // Stacked Bar Chart Configuration
+    public barChartData: ChartConfiguration['data'] = {
+        datasets: [
+            { data: [3500, 4800, 4100, 4500, 4900, 5800, 7200], label: 'Net Profit', backgroundColor: '#10b981' },
+            { data: [3200, 3500, 3100, 3200, 3400, 3800, 4200], label: 'Rider Payouts', backgroundColor: '#3b82f6' },
+            { data: [520, 600, 550, 520, 580, 650, 720], label: 'Gateway Charges', backgroundColor: '#f59e0b' },
+            { data: [1200, 1400, 1300, 1400, 1450, 1600, 1850], label: 'Taxes', backgroundColor: '#94a3b8' },
+            { data: [2400, 2800, 2200, 2400, 2600, 2900, 3100], label: 'Discounts', backgroundColor: '#ef4444' }
+        ],
+        labels: ['28 Jan', '29 Jan', '30 Jan', '31 Jan', '01 Feb', '02 Feb', '03 Feb']
+    };
+
+    public barChartOptions: ChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: { usePointStyle: true, padding: 20 }
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            }
+        },
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                ticks: { callback: (value) => '₹' + value }
+            }
+        }
+    };
+
+    public barChartType: ChartType = 'bar';
+
+    // Combo Chart Configuration (Operational Finance Efficiency)
+    public comboChartData: ChartConfiguration['data'] = {
+        datasets: [
+            {
+                data: [128, 142, 115, 128, 135, 148, 162],
+                label: 'Order Volume',
+                type: 'bar',
+                backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                borderColor: '#3b82f6',
+                borderWidth: 1,
+                borderRadius: 4,
+                yAxisID: 'y'
+            },
+            {
+                data: [25, 22, 24, 25, 23, 26, 28],
+                label: 'Profit Margin (%)',
+                type: 'line',
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                pointBackgroundColor: '#ef4444',
+                fill: false,
+                tension: 0.4,
+                yAxisID: 'y1'
+            }
+        ],
+        labels: ['28 Jan', '29 Jan', '30 Jan', '31 Jan', '01 Feb', '02 Feb', '03 Feb']
+    };
+
+    public comboChartOptions: ChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: { usePointStyle: true, padding: 20 }
+            }
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                beginAtZero: true,
+                title: { display: true, text: 'Order Volume' }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                beginAtZero: true,
+                grid: { drawOnChartArea: false },
+                title: { display: true, text: 'Profit Margin (%)' },
+                ticks: { callback: (value) => value + '%' }
+            }
+        }
+    };
+
+    public comboChartType: ChartType = 'bar';
+
+    // Waterfall Chart Configuration (Money Flow)
+    public waterfallChartData: ChartConfiguration['data'] = {
+        datasets: [
+            {
+                label: 'Finance Flow',
+                data: [
+                    [0, 635200],      // Gross Revenue
+                    [574200, 635200], // Discounts (61000)
+                    [561800, 574200], // Refunds (12400)
+                    [546000, 561800], // Gateway (15800)
+                    [462000, 546000], // Rider Payouts (84000)
+                    [431000, 462000], // Tax (31000)
+                    [0, 105000]       // Net Profit (Final)
+                ],
+                backgroundColor: [
+                    '#3b82f6', // blue (Initial)
+                    '#ef4444', // red (Deduction)
+                    '#ef4444', // red
+                    '#ef4444', // red
+                    '#ef4444', // red
+                    '#ef4444', // red
+                    '#10b981'  // green (Final)
+                ],
+                borderColor: '#1e293b',
+                borderWidth: 1,
+                borderRadius: 4,
+                borderSkipped: false
+            }
+        ],
+        labels: [
+            'Gross Revenue',
+            'Discounts',
+            'Refunds',
+            'Gateway Charges',
+            'Rider Payouts',
+            'Tax',
+            'Net Profit'
+        ]
+    };
+
+    public waterfallChartOptions: ChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: (context: any) => {
+                        const val = context.raw;
+                        const diff = Math.abs(val[1] - val[0]);
+                        return context.label + ': ₹' + diff.toLocaleString();
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { callback: (value) => '₹' + value.toLocaleString() }
+            },
+            x: {
+                grid: { display: false }
+            }
+        }
+    };
+
+    public waterfallChartType: ChartType = 'bar';
 
     constructor() { }
 

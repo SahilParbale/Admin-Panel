@@ -165,4 +165,44 @@
             }
         }
     }
+
+    .chart-container {
+        height: 400px;
+        width: 100%;
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .charts-grid-finance {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+        margin-bottom: 40px;
+
+        .card-panel {
+            padding: 16px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .panel-header {
+                margin-bottom: 12px;
+
+                .title-group h3 {
+                    font-size: 14px;
+                }
+
+                .subtitle {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+
+    .chart-container-small {
+        height: 320px;
+        width: 100%;
+        position: relative;
+    }
 }
