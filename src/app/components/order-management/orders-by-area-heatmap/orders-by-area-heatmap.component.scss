@@ -1,6 +1,6 @@
 :host {
     display: block;
-    height: 100%;
+    min-height: 100%;
 }
 
 .card-panel {
@@ -9,7 +9,7 @@
     flex-direction: column;
     background: #fff;
     border-radius: 20px;
-    padding: 24px;
+    padding: 24px 24px 12px 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 
     .panel-header {
@@ -113,10 +113,9 @@
     }
 
     .chart-container {
-        position: relative;
-        height: 300px;
+        min-height: 380px;
+        height: auto;
         width: 100%;
-        margin-top: auto;
         flex: 1;
         /* Expand to fill card height */
     }

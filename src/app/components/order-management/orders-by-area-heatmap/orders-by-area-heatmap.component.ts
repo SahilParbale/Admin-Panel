@@ -23,7 +23,9 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
                     return '#e5e7eb'; // Gray-200
                 },
                 borderRadius: 8,
-                barThickness: 12,
+                barThickness: 20,
+                categoryPercentage: 0.8,
+                barPercentage: 0.9,
             }
         ]
     };
@@ -32,6 +34,9 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
         indexAxis: 'y', // Horizontal bars
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+            padding: { bottom: 0 }
+        },
         plugins: {
             legend: { display: false },
             tooltip: {
@@ -53,7 +58,11 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
             },
             y: {
                 grid: { display: false },
-                ticks: { color: '#4b5563', font: { size: 13, weight: 600 } }
+                ticks: {
+                    color: '#4b5563',
+                    padding: 10,
+                    font: { size: 13, weight: 600 }
+                }
             }
         }
     };
