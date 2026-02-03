@@ -1,0 +1,23 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Cancellation Rate Trend</h3>
+            <span class="subtitle">Monthly trend of order cancellations</span>
+        </div>
+        <div class="actions">
+            <!-- Info Icon for tooltip -->
+            <div class="info-icon" title="Percentage of orders cancelled over time">
+                <i class='bx bx-info-circle'></i>
+            </div>
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-export'></i>
+                <i class='bx bx-download'></i>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+        </canvas>
+    </div>
+</div>

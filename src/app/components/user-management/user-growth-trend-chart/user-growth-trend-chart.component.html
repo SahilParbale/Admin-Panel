@@ -1,0 +1,19 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>User Growth Trend</h3>
+            <span class="subtitle">Monthly user registration growth</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+        </canvas>
+    </div>
+</div>

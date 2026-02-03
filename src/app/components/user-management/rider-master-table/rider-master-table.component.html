@@ -1,0 +1,74 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>1. Rider's Master Table</h3>
+            <span class="subtitle">Overview of delivery partners and performance metrics</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Rider ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Assigned Zone</th>
+                    <th>Online Status</th>
+                    <th>Total Deliveries</th>
+                    <th>Rating</th>
+                    <th>On-time %</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rider of riders; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="font-medium">{{ rider.id }}</td>
+                    <td>
+                        <div class="user-cell">
+                            <span class="name">{{ rider.name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ rider.phone }}</td>
+                    <td>{{ rider.vehicleType }}</td>
+                    <td>{{ rider.assignedZone }}</td>
+                    <td>
+                        <span class="status-indicator" [ngClass]="{
+                            'online': rider.onlineStatus === 'Online',
+                            'offline': rider.onlineStatus === 'Offline'
+                        }"></span>
+                        {{ rider.onlineStatus }}
+                    </td>
+                    <td class="text-center font-medium">{{ rider.totalDeliveries }}</td>
+                    <td class="text-center">
+                        <span class="rating">
+                            <i class='bx bxs-star'></i> {{ rider.rating }}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="on-time" [class.good]="rider.onTimeDelivery >= 95"
+                            [class.average]="rider.onTimeDelivery >= 85 && rider.onTimeDelivery < 95"
+                            [class.poor]="rider.onTimeDelivery < 85">
+                            {{ rider.onTimeDelivery }}%
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'active': rider.status === 'Active',
+                            'suspended': rider.status === 'Suspended'
+                        }">{{ rider.status }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

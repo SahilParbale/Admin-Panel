@@ -16,8 +16,13 @@ const routes: Routes = [
   {
     path: 'pricing-management',
     loadChildren: () => import('./components/pricing-management/pricing-management.module').then(m => m.PricingManagementModule)
+  },
+  {
+    path: 'user-management',
+    loadChildren: () => import('./components/user-management/user-management.module').then(m => m.UserManagementModule)
   }
 ];
+// Trigger rebuild
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

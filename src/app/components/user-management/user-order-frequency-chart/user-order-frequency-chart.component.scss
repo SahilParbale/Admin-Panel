@@ -1,0 +1,60 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.chart-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+
+            .icon-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 6px;
+                border-radius: 6px;
+                color: #6b7280;
+                transition: all 0.2s ease;
+
+                i {
+                    font-size: 20px;
+                }
+
+                &:hover {
+                    color: #111827;
+                    background-color: #f3f4f6;
+                }
+            }
+        }
+    }
+
+    .chart-body {
+        position: relative;
+        flex-grow: 1;
+        min-height: 300px;
+        width: 100%;
+    }
+}

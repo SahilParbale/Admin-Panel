@@ -1,0 +1,32 @@
+<div class="user-management-container">
+
+    <div class="header-controls">
+        <h2>{{ activeTab === 'user' ? 'User Management' : 'Rider Management' }}</h2>
+        <div class="management-tabs">
+            <button [class.active]="activeTab === 'user'" (click)="setActiveTab('user')">User Management</button>
+            <button [class.active]="activeTab === 'rider'" (click)="setActiveTab('rider')">Rider Management</button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="activeTab === 'user'">
+        <app-user-master-table></app-user-master-table>
+        <app-user-complaints-table></app-user-complaints-table>
+        <div class="charts-grid">
+            <app-user-growth-trend-chart></app-user-growth-trend-chart>
+            <app-new-vs-returning-ratio-chart></app-new-vs-returning-ratio-chart>
+            <app-user-order-frequency-chart></app-user-order-frequency-chart>
+            <app-customer-lifetime-value-chart></app-customer-lifetime-value-chart>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'rider'">
+        <app-rider-master-table></app-rider-master-table>
+        <app-rider-earnings-table></app-rider-earnings-table>
+        <div class="charts-grid">
+            <app-deliveries-per-rider-chart></app-deliveries-per-rider-chart>
+            <app-rider-performance-score-chart></app-rider-performance-score-chart>
+            <app-rider-status-chart></app-rider-status-chart>
+            <app-average-delivery-time-chart></app-average-delivery-time-chart>
+        </div>
+    </ng-container>
+</div>

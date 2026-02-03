@@ -1,0 +1,53 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>2. Rider Earning & Payout</h3>
+            <span class="subtitle">Detailed breakdown of rider earnings and payout status</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Rider Name</th>
+                    <th>Period</th>
+                    <th>Deliveries Completed</th>
+                    <th>Earnings (₹)</th>
+                    <th>Incentives</th>
+                    <th>Penalties</th>
+                    <th>Net Payout</th>
+                    <th>Payout Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of earningsList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="font-medium">{{ record.riderName }}</td>
+                    <td>
+                        <span class="period-badge">{{ record.period }}</span>
+                    </td>
+                    <td class="text-center">{{ record.deliveriesCompleted }}</td>
+                    <td class="text-center">₹{{ record.earnings }}</td>
+                    <td class="text-center text-success">+₹{{ record.incentives }}</td>
+                    <td class="text-center text-danger">-₹{{ record.penalties }}</td>
+                    <td class="text-center font-medium">₹{{ record.netPayout }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'paid': record.payoutStatus === 'Paid',
+                            'pending': record.payoutStatus === 'Pending',
+                            'processing': record.payoutStatus === 'Processing'
+                        }">{{ record.payoutStatus }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

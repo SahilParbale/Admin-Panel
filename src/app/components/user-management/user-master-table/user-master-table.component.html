@@ -1,0 +1,58 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>1. User's Master Table</h3>
+            <span class="subtitle">Complete list of registered users and their activity</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Reg. Date</th>
+                    <th>Last Active</th>
+                    <th>Total Orders</th>
+                    <th>Total Spend (₹)</th>
+                    <th>Avg Order Value</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="font-medium">{{ user.id }}</td>
+                    <td>
+                        <div class="user-cell">
+                            <span class="name">{{ user.name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ user.phone }}</td>
+                    <td class="text-secondary">{{ user.email }}</td>
+                    <td>{{ user.registrationDate }}</td>
+                    <td>{{ user.lastActive }}</td>
+                    <td class="text-center">{{ user.totalOrders }}</td>
+                    <td class="font-medium">₹{{ user.totalSpend }}</td>
+                    <td>₹{{ user.avgOrderValue }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'active': user.status === 'Active',
+                            'inactive': user.status === 'Inactive'
+                        }">{{ user.status }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

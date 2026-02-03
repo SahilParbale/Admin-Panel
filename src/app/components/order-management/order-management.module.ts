@@ -9,6 +9,7 @@ import { PaymentMethodSplitChartComponent } from './payment-method-split-chart/p
 import { OrdersByAreaHeatmapComponent } from './orders-by-area-heatmap/orders-by-area-heatmap.component';
 import { PeakOrderTimeHeatmapComponent } from './peak-order-time-heatmap/peak-order-time-heatmap.component';
 import { RepeatOrdersChartComponent } from './repeat-orders-chart/repeat-orders-chart.component';
+import { CancellationRateTrendChartComponent } from './cancellation-rate-trend-chart/cancellation-rate-trend-chart.component';
 import { BaseChartDirective } from 'ng2-charts';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { BaseChartDirective } from 'ng2-charts';
         PaymentMethodSplitChartComponent,
         OrdersByAreaHeatmapComponent,
         PeakOrderTimeHeatmapComponent,
-        RepeatOrdersChartComponent
+        RepeatOrdersChartComponent,
+        CancellationRateTrendChartComponent
     ],
     imports: [
         CommonModule,

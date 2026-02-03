@@ -1,0 +1,46 @@
+<div class="card-panel">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>2. User Issues/Complaints</h3>
+            <span class="subtitle">Track and manage user submitted tickets</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Ticket ID</th>
+                    <th>User Name</th>
+                    <th>Issue Type</th>
+                    <th>Order ID</th>
+                    <th>Status</th>
+                    <th>Resolution Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ticket of complaints; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="font-medium">{{ ticket.ticketId }}</td>
+                    <td>{{ ticket.userName }}</td>
+                    <td>{{ ticket.issueType }}</td>
+                    <td class="font-medium text-secondary">{{ ticket.orderId }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'open': ticket.status === 'Open',
+                            'resolved': ticket.status === 'Resolved'
+                        }">{{ ticket.status }}</span>
+                    </td>
+                    <td>{{ ticket.resolutionTime }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
