@@ -1,0 +1,112 @@
+<div class="finance-container">
+    <div class="card-panel">
+        <div class="panel-header">
+            <div class="title-group">
+                <h3>Payments and Finance</h3>
+                <span class="subtitle">Detailed breakdown of transactions and financial metrics</span>
+            </div>
+            <div class="actions">
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Payment Method</th>
+                        <th>Gross Amount (₹)</th>
+                        <th>Discount (₹)</th>
+                        <th>Refund (₹)</th>
+                        <th>Gateway Fee (₹)</th>
+                        <th>Tax (₹)</th>
+                        <th>Rider Payout (₹)</th>
+                        <th>Net Revenue (₹)</th>
+                        <th>Profit (₹)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let txn of transactions">
+                        <td>{{ txn.date }}</td>
+                        <td class="order-id">{{ txn.orderId }}</td>
+                        <td>{{ txn.customer }}</td>
+                        <td>{{ txn.paymentMethod }}</td>
+                        <td>{{ txn.grossAmount }}</td>
+                        <td>{{ txn.discount }}</td>
+                        <td>{{ txn.refund }}</td>
+                        <td>{{ txn.gatewayFee }}</td>
+                        <td>{{ txn.tax }}</td>
+                        <td>{{ txn.riderPayout }}</td>
+                        <td>{{ txn.netRevenue }}</td>
+                        <td>{{ txn.profit }}</td>
+                        <td>
+                            <span class="status-badge" [ngClass]="{
+                                'success': txn.status === 'Success',
+                                'refunded': txn.status === 'Refunded',
+                                'pending': txn.status === 'Pending',
+                                'failed': txn.status === 'Failed'
+                            }">{{ txn.status }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-panel" style="margin-top: 24px;">
+        <div class="panel-header">
+            <div class="title-group">
+                <h3>Financial Summary</h3>
+                <span class="subtitle">Aggregated metrics by time period</span>
+            </div>
+            <div class="actions">
+                <div class="icon-actions">
+                    <i class='bx bx-printer'></i>
+                    <i class='bx bx-export'></i>
+                    <i class='bx bx-download'></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive summary-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>Total Orders</th>
+                        <th>Gross Revenue (₹)</th>
+                        <th>Total Discounts (₹)</th>
+                        <th>Total Refunds (₹)</th>
+                        <th>Gateway Charges (₹)</th>
+                        <th>Rider Payouts (₹)</th>
+                        <th>Net Revenue (₹)</th>
+                        <th>Net Profit (₹)</th>
+                        <th>Profit Margin (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of summaryData">
+                        <td class="period-cell">{{ item.period }}</td>
+                        <td>{{ item.orders }}</td>
+                        <td>{{ item.revenue }}</td>
+                        <td>{{ item.discounts }}</td>
+                        <td>{{ item.refunds }}</td>
+                        <td>{{ item.gatewayCharges }}</td>
+                        <td>{{ item.riderPayouts }}</td>
+                        <td class="highlight-revenue">{{ item.netRevenue }}</td>
+                        <td class="highlight-profit">{{ item.netProfit }}</td>
+                        <td>
+                            <span class="margin-badge">{{ item.margin }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

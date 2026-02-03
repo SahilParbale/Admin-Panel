@@ -20,6 +20,10 @@ const routes: Routes = [
   {
     path: 'user-management',
     loadChildren: () => import('./components/user-management/user-management.module').then(m => m.UserManagementModule)
+  },
+  {
+    path: 'finance',
+    loadChildren: () => import('./components/finance/finance.module').then(m => m.FinanceModule)
   }
 ];
 // Trigger rebuild
