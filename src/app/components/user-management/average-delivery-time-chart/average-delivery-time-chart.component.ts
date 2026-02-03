@@ -18,8 +18,8 @@ export class AverageDeliveryTimeChartComponent implements OnInit {
             {
                 data: [22, 18, 25, 15, 20, 28, 19],
                 label: 'Avg Time (Min)',
-                backgroundColor: '#06b6d4', // Cyan-500
-                hoverBackgroundColor: '#0891b2', // Cyan-600
+                backgroundColor: '#a3e635', // Lime-400
+                hoverBackgroundColor: '#84cc16', // Lime-500
                 borderRadius: 6,
                 barThickness: 35
             }

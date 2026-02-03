@@ -18,12 +18,12 @@ export class RiderStatusChartComponent implements OnInit {
             {
                 data: [185, 45],
                 backgroundColor: [
-                    '#10b981', // Emerald-500 (Active)
-                    '#ef4444'  // Red-500 (Inactive)
+                    '#2dd4bf', // Teal-400
+                    '#f43f5e'  // Rose-500
                 ],
                 hoverBackgroundColor: [
-                    '#059669', // Emerald-600
-                    '#dc2626'  // Red-600
+                    '#14b8a6', // Teal-500
+                    '#e11d48'  // Rose-600
                 ],
                 borderWidth: 0,
                 hoverBorderWidth: 0

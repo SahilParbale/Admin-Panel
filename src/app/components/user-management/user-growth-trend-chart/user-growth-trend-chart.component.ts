@@ -20,12 +20,12 @@ export class UserGrowthTrendChartComponent implements OnInit {
                 label: 'Total Users',
                 fill: true,
                 tension: 0.4,
-                borderColor: '#10b981', // Emerald-500
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                pointBackgroundColor: '#10b981',
+                borderColor: '#6366f1', // Indigo-500
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                pointBackgroundColor: '#6366f1',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#10b981',
+                pointHoverBorderColor: '#6366f1',
                 pointRadius: 4,
                 pointHoverRadius: 6
             }

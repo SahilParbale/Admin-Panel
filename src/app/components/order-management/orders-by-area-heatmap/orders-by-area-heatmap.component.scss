@@ -9,7 +9,7 @@
     flex-direction: column;
     background: #fff;
     border-radius: 20px;
-    padding: 24px 24px 12px 24px;
+    padding: 16px 16px 10px 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 
     .panel-header {
@@ -113,7 +113,7 @@
     }
 
     .chart-container {
-        min-height: 380px;
+        min-height: 240px;
         height: auto;
         width: 100%;
         flex: 1;

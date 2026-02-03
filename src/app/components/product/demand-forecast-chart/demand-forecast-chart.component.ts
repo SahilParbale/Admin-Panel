@@ -18,21 +18,21 @@ export class DemandForecastChartComponent {
                 label: 'Predicted Sales',
                 fill: true,
                 tension: 0.4,
-                borderColor: '#10b981', // App Theme Green
+                borderColor: '#6366f1', // Indigo-500
                 backgroundColor: (context: any) => {
                     const ctx = context.chart.ctx;
                     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                    gradient.addColorStop(0, 'rgba(16, 185, 129, 0.25)'); // Slightly stronger fade
-                    gradient.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.25)'); // Indigo fade
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.05)');
                     return gradient;
                 },
                 borderWidth: 2,
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#10b981',
+                pointBorderColor: '#6366f1',
                 pointBorderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#10b981',
+                pointHoverBackgroundColor: '#6366f1',
                 pointHoverBorderColor: '#fff'
             }
         ]

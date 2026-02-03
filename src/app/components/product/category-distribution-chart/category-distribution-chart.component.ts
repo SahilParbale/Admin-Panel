@@ -16,15 +16,15 @@ export class CategoryDistributionChartComponent {
             {
                 data: [45, 30, 20, 15, 25, 10],
                 label: 'In Stock',
-                backgroundColor: '#10b981', // Green
-                hoverBackgroundColor: '#059669',
+                backgroundColor: '#8b5cf6', // Violet-500
+                hoverBackgroundColor: '#7c3aed',
                 barPercentage: 0.6,
                 categoryPercentage: 0.8
             },
             {
                 data: [5, 8, 4, 3, 2, 1],
                 label: 'Low Stock',
-                backgroundColor: '#f59e0b', // Amber/Orange
+                backgroundColor: '#f59e0b', // Amber-500
                 hoverBackgroundColor: '#d97706',
                 barPercentage: 0.6,
                 categoryPercentage: 0.8
@@ -32,8 +32,8 @@ export class CategoryDistributionChartComponent {
             {
                 data: [2, 1, 0, 5, 0, 0],
                 label: 'Out of Stock',
-                backgroundColor: '#ef4444', // Red
-                hoverBackgroundColor: '#dc2626',
+                backgroundColor: '#f43f5e', // Rose-500
+                hoverBackgroundColor: '#e11d48',
                 barPercentage: 0.6,
                 categoryPercentage: 0.8,
                 borderRadius: {

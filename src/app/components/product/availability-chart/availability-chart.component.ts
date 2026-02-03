@@ -16,8 +16,8 @@ export class AvailabilityChartComponent implements OnChanges {
         labels: ['Active', 'Inactive'],
         datasets: [{
             data: [0, 0],
-            backgroundColor: ['#10b981', '#ef4444'], // Theme Green for Active, Theme Red for Inactive
-            hoverBackgroundColor: ['#059669', '#dc2626'],
+            backgroundColor: ['#14b8a6', '#f43f5e'], // Teal-500 for Active, Rose-500 for Inactive
+            hoverBackgroundColor: ['#0d9488', '#e11d48'],
             borderWidth: 0
         }]
     };

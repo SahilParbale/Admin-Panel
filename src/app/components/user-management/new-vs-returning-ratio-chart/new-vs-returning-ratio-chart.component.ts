@@ -18,12 +18,12 @@ export class NewVsReturningRatioChartComponent implements OnInit {
             {
                 data: [65, 35],
                 backgroundColor: [
-                    '#3b82f6', // Blue-500 (Returning)
-                    '#dbeafe'  // Blue-100 (New)
+                    '#10b981', // Emerald-500
+                    '#f43f5e'  // Rose-500
                 ],
                 hoverBackgroundColor: [
-                    '#2563eb', // Blue-600
-                    '#bfdbfe'  // Blue-200
+                    '#059669', // Emerald-600
+                    '#e11d48'  // Rose-600
                 ],
                 borderWidth: 0,
                 hoverBorderWidth: 0

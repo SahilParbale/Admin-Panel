@@ -18,8 +18,8 @@ export class RiderPerformanceScoreChartComponent implements OnInit {
             {
                 data: [85, 92, 78, 95, 88, 75, 91],
                 label: 'Performance Score',
-                backgroundColor: '#8b5cf6', // Violet-500
-                hoverBackgroundColor: '#7c3aed', // Violet-600
+                backgroundColor: '#f97316', // Orange-500
+                hoverBackgroundColor: '#ea580c', // Orange-600
                 borderRadius: 6,
                 barThickness: 35
             }

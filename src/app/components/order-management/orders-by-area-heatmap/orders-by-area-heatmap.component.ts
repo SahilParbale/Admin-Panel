@@ -22,8 +22,8 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
                     if (value > 200) return '#6b7280'; // Gray-500
                     return '#e5e7eb'; // Gray-200
                 },
-                borderRadius: 8,
-                barThickness: 20,
+                borderRadius: 2,
+                barThickness: 12,
                 categoryPercentage: 0.8,
                 barPercentage: 0.9,
             }

@@ -18,11 +18,11 @@ export class CustomerLifetimeValueChartComponent implements OnInit {
             {
                 data: [500, 520, 550, 580, 620, 650, 700, 750, 800, 850, 900, 950],
                 label: 'Average CLV (₹)',
-                backgroundColor: 'rgba(16, 185, 129, 0.2)', // Emerald-500 with opacity
-                borderColor: '#10b981', // Emerald-500
+                backgroundColor: 'rgba(6, 182, 212, 0.2)', // Cyan-500
+                borderColor: '#06b6d4', // Cyan-500
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#10b981',
-                pointHoverBackgroundColor: '#10b981',
+                pointBorderColor: '#06b6d4',
+                pointHoverBackgroundColor: '#06b6d4',
                 pointHoverBorderColor: '#fff',
                 fill: true,
                 tension: 0.4

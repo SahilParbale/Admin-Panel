@@ -134,8 +134,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     const labels = top5.map(p => p.name);
     const data = top5.map(p => p.sold);
 
-    const backgroundColors = data.map((_, i) => i % 2 === 0 ? '#10b981' : '#111827');
-    const hoverColors = data.map((_, i) => i % 2 === 0 ? '#059669' : '#000000');
+    const backgroundColors = data.map((_, i) => i % 2 === 0 ? '#06b6d4' : '#6366f1'); // Cyan & Indigo
+    const hoverColors = data.map((_, i) => i % 2 === 0 ? '#0891b2' : '#4f46e5');
 
     this.topSellingChartData = {
       labels: labels,
@@ -157,8 +157,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     // Mock Revenue: Price * Random Sales (50-500)
     const data = this.products.map(p => p.price * Math.floor(Math.random() * 450 + 50));
 
-    const backgroundColors = data.map((_, i) => i % 2 === 0 ? '#10b981' : '#111827');
-    const hoverColors = data.map((_, i) => i % 2 === 0 ? '#059669' : '#000000');
+    const backgroundColors = data.map((_, i) => i % 2 === 0 ? '#6366f1' : '#8b5cf6'); // Indigo & Violet
+    const hoverColors = data.map((_, i) => i % 2 === 0 ? '#4f46e5' : '#7c3aed');
 
     this.barChartData = {
       labels: labels,
@@ -521,18 +521,18 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         {
           label: 'Units Sold',
           data: dataSold,
-          borderColor: '#10b981',
+          borderColor: '#06b6d4', // Cyan
           backgroundColor: (context: any) => {
             const ctx = context.chart.ctx;
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.2)');
-            gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.2)');
+            gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
             return gradient;
           },
           borderWidth: 2,
           fill: true,
           pointBackgroundColor: '#fff',
-          pointBorderColor: '#10b981',
+          pointBorderColor: '#06b6d4',
           pointBorderWidth: 2
         }
       ]

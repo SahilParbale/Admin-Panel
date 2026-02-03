@@ -18,8 +18,8 @@ export class DeliveriesPerRiderChartComponent implements OnInit {
             {
                 data: [120, 150, 90, 180, 140, 110, 165],
                 label: 'Total Deliveries',
-                backgroundColor: '#f59e0b', // Amber-500
-                hoverBackgroundColor: '#d97706', // Amber-600
+                backgroundColor: '#8b5cf6', // Violet-500
+                hoverBackgroundColor: '#7c3aed', // Violet-600
                 borderRadius: 6,
                 barThickness: 35
             }

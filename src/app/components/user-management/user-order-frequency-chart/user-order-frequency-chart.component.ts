@@ -18,8 +18,8 @@ export class UserOrderFrequencyChartComponent implements OnInit {
             {
                 data: [450, 300, 150, 80],
                 label: 'Number of Users',
-                backgroundColor: '#6366f1', // Indigo-500
-                hoverBackgroundColor: '#4f46e5', // Indigo-600
+                backgroundColor: '#38bdf8', // Sky-400
+                hoverBackgroundColor: '#0ea5e9', // Sky-500
                 borderRadius: 4,
                 barThickness: 40
             }

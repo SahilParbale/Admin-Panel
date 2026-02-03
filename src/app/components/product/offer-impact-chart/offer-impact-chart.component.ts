@@ -31,17 +31,17 @@ export class OfferImpactChartComponent {
                 label: 'After Discount',
                 fill: true,
                 tension: 0.4,
-                borderColor: '#10b981', // App Theme Green
+                borderColor: '#8b5cf6', // Violet-500
                 backgroundColor: (context: any) => {
                     const ctx = context.chart.ctx;
                     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                    gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
-                    gradient.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+                    gradient.addColorStop(0, 'rgba(139, 92, 246, 0.4)');
+                    gradient.addColorStop(1, 'rgba(139, 92, 246, 0.05)');
                     return gradient;
                 },
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#10b981',
-                pointHoverBackgroundColor: '#10b981',
+                pointBorderColor: '#8b5cf6',
+                pointHoverBackgroundColor: '#8b5cf6',
                 pointHoverBorderColor: '#fff',
             }
         ]
