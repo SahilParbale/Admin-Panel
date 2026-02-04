@@ -18,8 +18,8 @@ export class SidebarComponent {
     ];
 
     otherItems = [
-        { label: 'Marketing', icon: 'bx-target-lock', hasSubmenu: false },
-        { label: 'Support', icon: 'bx-headphone', hasSubmenu: false },
-        { label: 'Settings', icon: 'bx-cog', hasSubmenu: false }
+        { label: 'Marketing', icon: 'bx-target-lock', hasSubmenu: false, route: '/marketing-management' },
+        { label: 'Support', icon: 'bx-headphone', hasSubmenu: false, route: '/support-management' },
+        { label: 'Settings', icon: 'bx-cog', hasSubmenu: false, route: '/settings-management' }
     ];
 }

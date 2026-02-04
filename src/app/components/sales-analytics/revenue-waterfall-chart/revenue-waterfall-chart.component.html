@@ -1,0 +1,20 @@
+<div class="card-panel mt-24">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Revenue to Profit Breakdown</h3>
+            <span class="subtitle">Visual breakdown of revenue deductions and net margin</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer' title="Print Breakdown"></i>
+                <i class='bx bx-trending-up' title="View Analysis"></i>
+                <i class='bx bx-export' title="Export PNG"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'">
+        </canvas>
+    </div>
+</div>

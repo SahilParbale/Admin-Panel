@@ -1,0 +1,20 @@
+<div class="card-panel mt-24">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Zone & Delivery Efficiency</h3>
+            <span class="subtitle">Correlation between delivery speed, success rate, and volume</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer' title="Print Map"></i>
+                <i class='bx bx-trending-up' title="View Efficiency Trends"></i>
+                <i class='bx bx-export' title="Export Data"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bubble'">
+        </canvas>
+    </div>
+</div>

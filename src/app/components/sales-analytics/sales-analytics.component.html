@@ -12,10 +12,20 @@
     <ng-container *ngIf="activeTab === 'sales'">
         <app-sales-performance-master-table></app-sales-performance-master-table>
         <app-sales-financial-summary-table></app-sales-financial-summary-table>
+        <div class="grid-2">
+            <app-sales-order-chart></app-sales-order-chart>
+            <app-category-distribution-chart></app-category-distribution-chart>
+        </div>
     </ng-container>
 
     <ng-container *ngIf="activeTab === 'analytics'">
         <app-financial-performance-analytics-table></app-financial-performance-analytics-table>
+        <app-financial-composition-breakdown></app-financial-composition-breakdown>
+        <div class="grid-3">
+            <app-financial-waterfall-chart></app-financial-waterfall-chart>
+            <app-cost-structure-chart></app-cost-structure-chart>
+            <app-zone-efficiency-chart></app-zone-efficiency-chart>
+        </div>
     </ng-container>
 
 </div>

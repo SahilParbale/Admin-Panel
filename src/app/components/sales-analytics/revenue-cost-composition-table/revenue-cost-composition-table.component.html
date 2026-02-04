@@ -1,0 +1,61 @@
+<div class="card-panel mt-24">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>2. Revenue & Cost Composition Breakdown</h3>
+            <span class="subtitle">Analysis of contribution and profit impact by source and cost type</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer' title="Print Report"></i>
+                <i class='bx bx-trending-up' title="View Analysis"></i>
+                <i class='bx bx-export' title="Export CSV"></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Revenue Source / Cost Type</th>
+                    <th class="text-center">Orders</th>
+                    <th>Amount (₹)</th>
+                    <th>% Contrib.</th>
+                    <th>Avg / Order (₹)</th>
+                    <th class="text-center">Refund %</th>
+                    <th class="text-center">Charge %</th>
+                    <th>Profit Impact (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of compositionData; let i = index">
+                    <td class="text-center font-bold">{{ i + 1 }}</td>
+                    <td>
+                        <div class="item-cell">
+                            <span class="type-badge" [ngClass]="item.type.toLowerCase()">{{ item.type }}</span>
+                            <span class="font-bold">{{ item.item }}</span>
+                        </div>
+                    </td>
+                    <td class="text-center">{{ item.orders > 0 ? (item.orders | number) : '-' }}</td>
+                    <td class="font-medium">₹{{ item.amount | number }}</td>
+                    <td>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" [ngClass]="item.type.toLowerCase()"
+                                [style.width.%]="item.contribution"></div>
+                            <span>{{ item.contribution }}%</span>
+                        </div>
+                    </td>
+                    <td>{{ item.avgValue > 0 ? '₹' + (item.avgValue | number) : '-' }}</td>
+                    <td class="text-center" [class.text-danger]="item.refundRate > 0">{{ item.refundRate > 0 ?
+                        item.refundRate + '%' : '-' }}</td>
+                    <td class="text-center">{{ item.chargeRate > 0 ? item.chargeRate + '%' : '-' }}</td>
+                    <td>
+                        <span class="impact-indicator" [ngClass]="item.profitImpact >= 0 ? 'positive' : 'negative'">
+                            {{ item.profitImpact >= 0 ? '+' : '' }}₹{{ item.profitImpact | number }}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

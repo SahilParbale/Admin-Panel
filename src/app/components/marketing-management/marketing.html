@@ -1,0 +1,649 @@
+<div class="marketing-container">
+    <!-- Header Section -->
+    <div class="marketing-header">
+        <div class="header-info">
+            <h1>Campaign Command Center</h1>
+            <p>Enterprise Growth Control Center</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-primary" (click)="activeTab = 'campaigns'">
+                <i class='bx bx-plus-circle'></i> New Campaign
+            </button>
+        </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="marketing-tabs-wrapper">
+        <div class="marketing-tabs">
+            <button [class.active]="activeTab === 'campaigns'" (click)="setActiveTab('campaigns')">
+                <i class='bx bx-bullseye'></i> Campaigns
+            </button>
+            <button [class.active]="activeTab === 'coupons'" (click)="setActiveTab('coupons')">
+                <i class='bx bx-purchase-tag-alt'></i> Coupons
+            </button>
+            <button [class.active]="activeTab === 'broadcast'" (click)="setActiveTab('broadcast')">
+                <i class='bx bx-broadcast'></i> Broadcast
+            </button>
+            <button [class.active]="activeTab === 'banners'" (click)="setActiveTab('banners')">
+                <i class='bx bx-image'></i> Banners
+            </button>
+            <button [class.active]="activeTab === 'recommendations'" (click)="setActiveTab('recommendations')">
+                <i class='bx bx-magic-wand'></i> Smart Recs
+            </button>
+            <button [class.active]="activeTab === 'loyalty'" (click)="setActiveTab('loyalty')">
+                <i class='bx bx-crown'></i> Loyalty
+            </button>
+            <button [class.active]="activeTab === 'retargeting'" (click)="setActiveTab('retargeting')">
+                <i class='bx bx-refresh'></i> Retargeting
+            </button>
+            <button [class.active]="activeTab === 'bundles'" (click)="setActiveTab('bundles')">
+                <i class='bx bx-package'></i> Bundles
+            </button>
+            <button [class.active]="activeTab === 'flashsale'" (click)="setActiveTab('flashsale')">
+                <i class='bx bx-bolt-circle'></i> Flash Sale
+            </button>
+            <button [class.active]="activeTab === 'affiliate'" (click)="setActiveTab('affiliate')">
+                <i class='bx bx-id-card'></i> Affiliate
+            </button>
+        </div>
+    </div>
+
+    <div class="marketing-content">
+
+        <!-- 1. Campaign Management Center -->
+        <ng-container *ngIf="activeTab === 'campaigns'">
+            <div class="section-grid">
+                <div class="control-card builder-card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-plus'></i> Campaign Builder</h3>
+                    </div>
+                    <div class="builder-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Campaign Name</label>
+                                <input type="text" placeholder="e.g. Summer Mango Festival">
+                            </div>
+                            <div class="form-group">
+                                <label>Campaign Type</label>
+                                <select>
+                                    <option>Festival Sale</option>
+                                    <option>Flash Sale</option>
+                                    <option>Seasonal Offer</option>
+                                    <option>Clearance Sale</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Target Audience</label>
+                                <select>
+                                    <option>All Users</option>
+                                    <option>New Users Only</option>
+                                    <option>High-Value Customers</option>
+                                    <option>Inactive (30+ Days)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Discount Type</label>
+                                <select>
+                                    <option>Percentage (%)</option>
+                                    <option>Flat Amount (₹)</option>
+                                    <option>Free Delivery</option>
+                                    <option>BOGO (Buy 1 Get 1)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Budget Cap (₹)</label>
+                                <input type="number" placeholder="50,000">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority (Homepage)</label>
+                                <select>
+                                    <option>Critical (Rank 1)</option>
+                                    <option>High</option>
+                                    <option>Normal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary full-width">Launch Campaign</button>
+                    </div>
+                </div>
+
+                <div class="control-card list-card">
+                    <div class="card-header">
+                        <h3>Active Campaigns</h3>
+                    </div>
+                    <div class="campaign-list">
+                        <div class="campaign-item-card">
+                            <div class="item-header">
+                                <span class="status-badge active">Active</span>
+                                <div class="item-actions">
+                                    <i class='bx bx-edit-alt' title="Edit"></i>
+                                    <i class='bx bx-pause-circle' title="Pause"></i>
+                                    <i class='bx bx-trash' title="Delete"></i>
+                                </div>
+                            </div>
+                            <h4>Diwali Fruit Basket Blast</h4>
+                            <p>20% OFF on all combos</p>
+                            <div class="item-stats">
+                                <div class="stat">
+                                    <span>Reach</span>
+                                    <strong>12.5k</strong>
+                                </div>
+                                <div class="stat">
+                                    <span>Budget Used</span>
+                                    <strong>₹18,400</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="campaign-item-card">
+                            <div class="item-header">
+                                <span class="status-badge scheduled">Scheduled</span>
+                                <div class="item-actions">
+                                    <i class='bx bx-edit-alt'></i>
+                                    <i class='bx bx-play-circle'></i>
+                                    <i class='bx bx-trash'></i>
+                                </div>
+                            </div>
+                            <h4>Weekend Flash Clearance</h4>
+                            <p>Flat ₹50 OFF on Apple categories</p>
+                            <div class="item-stats">
+                                <div class="stat">
+                                    <span>Starts In</span>
+                                    <strong>2 Days</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 2. Coupons -->
+        <ng-container *ngIf="activeTab === 'coupons'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Coupon Engine</h3>
+                    </div>
+                    <div class="builder-form">
+                        <div class="form-group">
+                            <label>Promo Code</label>
+                            <div class="input-with-action">
+                                <input type="text" value="FRUITFEST50">
+                                <button class="btn-secondary">Auto-Gen</button>
+                            </div>
+                        </div>
+                        <div class="toggle-group">
+                            <label class="switch-label">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                                First Order Only
+                            </label>
+                            <label class="switch-label">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                                Stackable with other offers
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Max Discount Cap</label>
+                                <input type="number" value="150">
+                            </div>
+                            <div class="form-group">
+                                <label>Min Order Value</label>
+                                <input type="number" value="499">
+                            </div>
+                        </div>
+                        <div class="preview-box">
+                            <p>Preview: <strong>Users get ₹150 OFF on orders above ₹499.</strong></p>
+                        </div>
+                        <button class="btn-primary full-width">Activate Coupon</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 3. Broadcast Center -->
+        <ng-container *ngIf="activeTab === 'broadcast'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Omnichannel Broadcast</h3>
+                    </div>
+                    <div class="builder-form">
+                        <div class="channel-selector">
+                            <div class="channel active"><i class='bx bxs-notification'></i> Push</div>
+                            <div class="channel"><i class='bx bxs-message-rounded-dots'></i> SMS</div>
+                            <div class="channel"><i class='bx bxs-envelope'></i> Email</div>
+                            <div class="channel"><i class='bx bxl-whatsapp'></i> WhatsApp</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Notification Title</label>
+                            <input type="text" placeholder="Mangoes are here!">
+                        </div>
+                        <div class="form-group">
+                            <label>Message Content</label>
+                            <textarea rows="3"
+                                placeholder="Get farm fresh Alphonso mangoes delivered in 15 mins..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Deep Link</label>
+                                <select>
+                                    <option>Homepage</option>
+                                    <option>Specific Product</option>
+                                    <option>Offers Page</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Action Button Text</label>
+                                <input type="text" value="Order Now">
+                            </div>
+                        </div>
+                        <div class="broadcast-actions">
+                            <button class="btn-secondary"><i class='bx bx-time'></i> Schedule</button>
+                            <button class="btn-primary"><i class='bx bx-send'></i> Send Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-card preview-card">
+                    <div class="card-header">
+                        <h3>Mobile Preview</h3>
+                    </div>
+                    <div class="phone-mockup">
+                        <div class="notification-bubble">
+                            <div class="notif-header">
+                                <img src="favicon.ico" alt="logo">
+                                <span>FruitApp • Just now</span>
+                            </div>
+                            <div class="notif-body">
+                                <h5>Mangoes are here!</h5>
+                                <p>Get farm fresh Alphonso mangoes delivered in 15 mins...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 4. Banner Manager -->
+        <ng-container *ngIf="activeTab === 'banners'">
+            <div class="control-card">
+                <div class="card-header">
+                    <h3>Homepage Promotion Banners</h3>
+                </div>
+                <div class="banner-manager-grid">
+                    <div class="banner-slot-card active">
+                        <div class="slot-number">01</div>
+                        <div class="banner-preview-img placeholder">
+                            <span>Marketing Banner 1</span>
+                        </div>
+                        <div class="slot-info">
+                            <h5>Summer Splash Sale</h5>
+                            <p>Linked to: Summer Collection</p>
+                            <div class="slot-actions">
+                                <button class="btn-icon"><i class='bx bx-pencil'></i></button>
+                                <button class="btn-icon"><i class='bx bx-move'></i></button>
+                                <button class="btn-icon danger"><i class='bx bx-power-off'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-slot-card empty">
+                        <div class="add-banner">
+                            <i class='bx bx-plus-circle'></i>
+                            <p>Add New Banner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 6. Loyalty -->
+        <ng-container *ngIf="activeTab === 'loyalty'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Tier-Based Membership</h3>
+                    </div>
+                    <div class="tier-config">
+                        <div class="tier-row">
+                            <div class="tier-info">
+                                <i class='bx bx-medal tier-silver'></i>
+                                <div>
+                                    <h5>Silver Tier</h5>
+                                    <span>Base membership</span>
+                                </div>
+                            </div>
+                            <div class="tier-settings">
+                                <span>1 pt / ₹100</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="tier-row">
+                            <div class="tier-info">
+                                <i class='bx bx-medal tier-gold'></i>
+                                <div>
+                                    <h5>Gold Tier</h5>
+                                    <span>Avg spend > ₹5000</span>
+                                </div>
+                            </div>
+                            <div class="tier-settings">
+                                <span>1.5 pts / ₹100</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="tier-row">
+                            <div class="tier-info">
+                                <i class='bx bx-medal tier-platinum'></i>
+                                <div>
+                                    <h5>Platinum Tier</h5>
+                                    <span>VIP Customers</span>
+                                </div>
+                            </div>
+                            <div class="tier-settings">
+                                <span>2 pts / ₹100</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Reward Automation</h3>
+                    </div>
+                    <div class="automation-list">
+                        <div class="auto-item">
+                            <span>Birthday Reward (₹100 Wallet Credit)</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="auto-item">
+                            <span>Referral Bonus (50 pts for both)</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="auto-item">
+                            <span>Points Expiry (12 Months)</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 9. Flash Sale -->
+        <ng-container *ngIf="activeTab === 'flashsale'">
+            <div class="control-card">
+                <div class="card-header danger-header">
+                    <h3><i class='bx bx-bolt-circle'></i> Flash Sale Controller</h3>
+                    <button class="btn-emergency">EMERGENCY STOP</button>
+                </div>
+                <div class="flash-sale-setup">
+                    <div class="setup-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Target Product</label>
+                                <select>
+                                    <option>Alphonso Mango (Grade A)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Flash Price (₹)</label>
+                                <input type="number" value="199">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Max Stock</label>
+                                <input type="number" value="200">
+                            </div>
+                            <div class="form-group">
+                                <label>Duration (Mins)</label>
+                                <input type="number" value="30">
+                            </div>
+                        </div>
+                        <button class="btn-primary">Initialize Flash Sale</button>
+                    </div>
+                    <div class="live-flash-preview">
+                        <div class="countdown-circle">
+                            <span class="time">24:59</span>
+                            <span class="label">REMAINING</span>
+                        </div>
+                        <div class="stock-status">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 65%"></div>
+                            </div>
+                            <span>130/200 Units Sold</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 5. Smart Recommendations -->
+        <ng-container *ngIf="activeTab === 'recommendations'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Automation Rules</h3>
+                    </div>
+                    <div class="automation-list">
+                        <div class="auto-item-complex">
+                            <div class="auto-info">
+                                <h5>Cross-sell Engine</h5>
+                                <p>If Mango added → Suggest Banana / Cream</p>
+                            </div>
+                            <label class="switch-label">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="auto-item-complex">
+                            <div class="auto-info">
+                                <h5>Low Stock Promotion</h5>
+                                <p>Auto-feature products with < 10 units left</p>
+                            </div>
+                            <label class="switch-label">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="auto-item-complex">
+                            <div class="auto-info">
+                                <h5>Trending Pulse</h5>
+                                <p>Auto-rank products with > 50 orders today</p>
+                            </div>
+                            <label class="switch-label">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Rule Priority</h3>
+                    </div>
+                    <div class="priority-list">
+                        <div class="priority-item"><i class='bx bx-menu'></i> 1. Manual Featured Products (Override)
+                        </div>
+                        <div class="priority-item"><i class='bx bx-menu'></i> 2. Seasonal Logic</div>
+                        <div class="priority-item"><i class='bx bx-menu'></i> 3. Trending Products</div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 7. Retargeting -->
+        <ng-container *ngIf="activeTab === 'retargeting'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Retention Automation</h3>
+                    </div>
+                    <div class="auto-trigger-list">
+                        <div class="trigger-card">
+                            <div class="trigger-main">
+                                <i class='bx bx-cart-alt text-warning'></i>
+                                <div>
+                                    <h5>Abandoned Cart Reminder</h5>
+                                    <p>Send after 2 hours of inactivity</p>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">Configure</button>
+                        </div>
+                        <div class="trigger-card">
+                            <div class="trigger-main">
+                                <i class='bx bx-user-x text-danger'></i>
+                                <div>
+                                    <h5>Inactive User Win-back</h5>
+                                    <p>Send special 30% OFF after 7 days</p>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">Configure</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Retargeting Strategy</h3>
+                    </div>
+                    <div class="strategy-selector">
+                        <div class="form-group">
+                            <label>Smart Send-Time Optimization</label>
+                            <select>
+                                <option>Enabled (User Local Time)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Frequency Control</label>
+                            <select>
+                                <option>Max 1 Notif / 24 Hours</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary full-width">Save Strategy</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 8. Bundles -->
+        <ng-container *ngIf="activeTab === 'bundles'">
+            <div class="section-grid">
+                <div class="control-card builder-card">
+                    <div class="card-header">
+                        <h3>Combo Builder</h3>
+                    </div>
+                    <div class="builder-form">
+                        <div class="form-group">
+                            <label>Bundle Name</label>
+                            <input type="text" placeholder="Exotic Breakfast Combo">
+                        </div>
+                        <div class="form-group">
+                            <label>Select Products</label>
+                            <select multiple>
+                                <option>Alphonso Mango</option>
+                                <option>Golden Kiwi</option>
+                                <option>Red Dragon Fruit</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Bundle Price (₹)</label>
+                                <input type="number" placeholder="499">
+                            </div>
+                            <div class="form-group">
+                                <label>Highlight Tag</label>
+                                <input type="text" placeholder="Best Seller">
+                            </div>
+                        </div>
+                        <button class="btn-primary full-width">Create Combo</button>
+                    </div>
+                </div>
+                <div class="control-card preview-card">
+                    <div class="card-header">
+                        <h3>Bundle Preview</h3>
+                    </div>
+                    <div class="bundle-preview-content">
+                        <div class="bundle-visual">
+                            <div class="combo-badge">COMBO</div>
+                            <div class="items">🥭 + 🥝 + 🐉</div>
+                        </div>
+                        <h4>Exotic Breakfast Combo</h4>
+                        <div class="price-row">
+                            <span class="old-price">₹650</span>
+                            <span class="new-price">₹499</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 10. Affiliate -->
+        <ng-container *ngIf="activeTab === 'affiliate'">
+            <div class="section-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Referral Configuration</h3>
+                    </div>
+                    <div class="builder-form">
+                        <div class="form-group">
+                            <label>Referrer Reward</label>
+                            <input type="text" value="₹50 Wallet Credit">
+                        </div>
+                        <div class="form-group">
+                            <label>Referee (New User) Reward</label>
+                            <input type="text" value="Flat 50% OFF (First Order)">
+                        </div>
+                        <div class="toggle-group">
+                            <label class="switch-label">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                                Fraud Prevention (Device ID Mapping)
+                            </label>
+                        </div>
+                        <button class="btn-primary full-width">Update Referral Program</button>
+                    </div>
+                </div>
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Link Generator</h3>
+                    </div>
+                    <div class="link-gen-box">
+                        <div class="form-group">
+                            <label>Select Affiliate Partner</label>
+                            <select>
+                                <option>Influence-Network-01</option>
+                            </select>
+                        </div>
+                        <div class="generated-link">
+                            <code>fruitapp.com/ref/influencer01</code>
+                            <button class="btn-icon"><i class='bx bx-copy'></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

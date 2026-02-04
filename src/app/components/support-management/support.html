@@ -1,0 +1,413 @@
+<div class="support-container">
+    <!-- Header -->
+    <div class="support-header">
+        <div class="header-info">
+            <h1>Support & Resolution Center</h1>
+            <p>Customer Resolution Command Center</p>
+        </div>
+        <div class="header-controls">
+            <div class="status-toggle" [class.offline]="agentStatus === 'Offline'" (click)="toggleAgentStatus()">
+                <div class="dot"></div>
+                <span>{{ agentStatus }}</span>
+            </div>
+            <button class="btn-emergency" (click)="activeTab = 'emergency'">
+                <i class='bx bxs-error-circle'></i> Emergency Control
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="support-tabs-wrapper">
+        <div class="support-tabs">
+            <button [class.active]="activeTab === 'tickets'" (click)="setActiveTab('tickets')">
+                <i class='bx bx-receipt'></i> Tickets
+            </button>
+            <button [class.active]="activeTab === 'chat'" (click)="setActiveTab('chat')">
+                <i class='bx bx-message-square-dots'></i> Live Chat
+            </button>
+            <button [class.active]="activeTab === 'resolution'" (click)="setActiveTab('resolution')">
+                <i class='bx bx-check-shield'></i> Resolution
+            </button>
+            <button [class.active]="activeTab === 'refund'" (click)="setActiveTab('refund')">
+                <i class='bx bx-redo'></i> Refunds
+            </button>
+            <button [class.active]="activeTab === 'agents'" (click)="setActiveTab('agents')">
+                <i class='bx bx-group'></i> Team
+            </button>
+            <button [class.active]="activeTab === 'rules'" (click)="setActiveTab('rules')">
+                <i class='bx bx-list-check'></i> SLA Rules
+            </button>
+            <button [class.active]="activeTab === 'knowledge'" (click)="setActiveTab('knowledge')">
+                <i class='bx bx-library'></i> Knowledge
+            </button>
+            <button [class.active]="activeTab === 'risk'" (click)="setActiveTab('risk')">
+                <i class='bx bx-shield-x'></i> Risk/Abuse
+            </button>
+            <button [class.active]="activeTab === 'ai'" (click)="setActiveTab('ai')">
+                <i class='bx bx-shape-square'></i> Smart AI
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="support-content">
+
+        <!-- 1. Ticket Management Center -->
+        <ng-container *ngIf="activeTab === 'tickets'">
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search Ticket ID, Order, or Customer...">
+                </div>
+                <div class="filter-group">
+                    <select>
+                        <option>Status: All</option>
+                    </select>
+                    <select>
+                        <option>Priority: All</option>
+                    </select>
+                    <select>
+                        <option>Agent: All</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tickets-grid">
+                <div class="ticket-card" *ngFor="let t of tickets" (click)="selectTicket(t)">
+                    <div class="ticket-header">
+                        <span class="ticket-id">{{ t.id }}</span>
+                        <span class="priority-badge" [attr.data-priority]="t.priority">{{ t.priority }}</span>
+                    </div>
+                    <div class="ticket-body">
+                        <div class="info-row">
+                            <span class="label">Order:</span>
+                            <span class="value">{{ t.orderId }}</span>
+                        </div>
+                        <div class="info-row customer">
+                            <span class="label">Customer:</span>
+                            <span class="value">{{ t.customer }}</span>
+                        </div>
+                        <div class="issue-pill">{{ t.issue }}</div>
+                        <div class="meta-grid">
+                            <div class="meta-item">
+                                <i class='bx bx-map'></i>
+                                <span>{{ t.zone }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class='bx bx-user'></i>
+                                <span>{{ t.agent }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ticket-footer">
+                        <div class="time-info">
+                            <span class="ago">{{ t.time }}</span>
+                            <span class="sla-timer" [class.danger]="t.priority === 'Critical'">
+                                <i class='bx bx-timer'></i> {{ t.sla }}
+                            </span>
+                        </div>
+                        <span class="status-badge" [attr.data-status]="t.status">{{ t.status }}</span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 2. Live Chat Management -->
+        <ng-container *ngIf="activeTab === 'chat'">
+            <div class="chat-manager">
+                <div class="chat-list">
+                    <div class="list-header">
+                        <h3>Active Chats (12)</h3>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                            Auto-Assign
+                        </label>
+                    </div>
+                    <div class="chat-items">
+                        <div class="chat-item active">
+                            <div class="user-avatar">MK</div>
+                            <div class="user-meta">
+                                <h5>Manoj Kumar</h5>
+                                <p>Fruit arrived crushed...</p>
+                            </div>
+                            <div class="sentiment neutral"></div>
+                        </div>
+                        <div class="chat-item">
+                            <div class="user-avatar">RS</div>
+                            <div class="user-meta">
+                                <h5>Rita Sahai</h5>
+                                <p>Where is my rider?</p>
+                            </div>
+                            <div class="sentiment negative"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-window">
+                    <div class="window-header">
+                        <div class="user-profile">
+                            <h4>Manoj Kumar <span class="order-tag">ORD-9921</span></h4>
+                            <p>Bandra West • ₹1,200</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-icon"><i class='bx bx-transfer'></i></button>
+                            <button class="btn-icon"><i class='bx bx-shield-chevron'></i></button>
+                            <button class="btn-icon danger"><i class='bx bx-power-off'></i></button>
+                        </div>
+                    </div>
+                    <div class="chat-body">
+                        <div class="message system">Order ORD-9921 was delivered 5m ago.</div>
+                        <div class="message customer">The mangoes are completely crushed! Please see attached photo.
+                        </div>
+                        <div class="message agent">Hello Manoj, really sorry to hear that. I am looking into your order
+                            right now.</div>
+                        <div class="typing-indicator">Manoj is typing...</div>
+                    </div>
+                    <div class="chat-footer">
+                        <div class="quick-replies">
+                            <span>Sorry about that</span>
+                            <span>Refunding now</span>
+                            <span>Rider is nearby</span>
+                        </div>
+                        <div class="input-area">
+                            <button class="btn-icon"><i class='bx bx-paperclip'></i></button>
+                            <input type="text" placeholder="Type message or '/' for commands...">
+                            <button class="btn-send"><i class='bx bxs-send'></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 3. Resolution Panel -->
+        <ng-container *ngIf="activeTab === 'resolution' && selectedTicket">
+            <div class="resolution-panel">
+                <div class="resolution-header">
+                    <button class="btn-back" (click)="activeTab = 'tickets'"><i class='bx bx-chevron-left'></i>
+                        Back</button>
+                    <h3>Resolution command for {{ selectedTicket.id }}</h3>
+                </div>
+                <div class="resolution-grid">
+                    <div class="control-card order-details">
+                        <div class="card-header">
+                            <h4>Order Summary</h4>
+                        </div>
+                        <div class="order-summary-content">
+                            <div class="summary-row"><span>Order ID</span> <strong>{{ selectedTicket.orderId }}</strong>
+                            </div>
+                            <div class="summary-row"><span>Customer</span> <strong>{{ selectedTicket.customer
+                                    }}</strong></div>
+                            <div class="summary-row"><span>Rider</span> <strong>Karan S. (Active)</strong></div>
+                            <div class="summary-row"><span>Total Value</span> <strong>{{ selectedTicket.value
+                                    }}</strong></div>
+                        </div>
+                        <div class="resolution-actions">
+                            <button class="action-btn purple"><i class='bx bx-redo'></i> Full Refund</button>
+                            <button class="action-btn orange"><i class='bx bx-wallet'></i> Store Credit</button>
+                            <button class="action-btn blue"><i class='bx bx-refresh'></i> Re-delivery</button>
+                            <button class="action-btn danger"><i class='bx bx-flag'></i> Flag Risk</button>
+                        </div>
+                    </div>
+                    <div class="control-card history-card">
+                        <div class="card-header">
+                            <h4>Timeline</h4>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="dot active"></div>
+                                <div class="time">12:05 PM</div>
+                                <div class="desc">Ticket Created - Reason: Damaged Item</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="dot"></div>
+                                <div class="time">12:08 PM</div>
+                                <div class="desc">Assigned to Rahul K.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="dot"></div>
+                                <div class="time">12:12 PM</div>
+                                <div class="desc">Escalated to Supervisor (SLA Warning)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 8. Emergency Control -->
+        <ng-container *ngIf="activeTab === 'emergency'">
+            <div class="emergency-grid">
+                <div class="emergency-card danger-zone">
+                    <div class="card-header">
+                        <h3><i class='bx bxs-error-circle'></i> Service Outage Management</h3>
+                    </div>
+                    <p>Alert users about service disturbances or outages.</p>
+                    <div class="emergency-actions">
+                        <button class="btn-emergency full-width">ACTIVATE OUTAGE ALERT</button>
+                        <button class="btn-secondary full-width">Disable Specific Zone</button>
+                    </div>
+                </div>
+                <div class="emergency-card">
+                    <div class="card-header">
+                        <h3>Bulk Resolution</h3>
+                    </div>
+                    <p>Issue refunds for all orders delayed by rain/outage.</p>
+                    <div class="form-group">
+                        <label>Select Affected Zone</label>
+                        <select>
+                            <option>Mumbai South</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary full-width">Bulk Compensation (50 Users)</button>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 4. Refund & Compensation Control -->
+        <ng-container *ngIf="activeTab === 'refund'">
+            <div class="support-grid">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Refund Approval Queue</h3>
+                    </div>
+                    <div class="stat-list">
+                        <div class="stat-item danger">
+                            <div class="info">
+                                <strong>ORD-8821</strong>
+                                <p>₹1,240 • Damaged Items</p>
+                            </div>
+                            <button class="btn-primary-sm">Approve</button>
+                        </div>
+                        <div class="stat-item warning">
+                            <div class="info">
+                                <strong>ORD-8825</strong>
+                                <p>₹450 • Item Not Available</p>
+                            </div>
+                            <span class="badge fraud">Fraud Alert</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>Refund Hierarchy</h3>
+                    </div>
+                    <div class="hierarchy-view">
+                        <div class="h-step active">Agent (Up to ₹500)</div>
+                        <div class="h-step">Manager (Up to ₹2000)</div>
+                        <div class="h-step">Admin (Above ₹2000)</div>
+                    </div>
+                    <button class="btn-secondary full-width mt-4">Configure Limits</button>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 5. Support Agent Management -->
+        <ng-container *ngIf="activeTab === 'agents'">
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="avatar">RK</div>
+                        <div class="meta">
+                            <h4>Rahul Kumar</h4>
+                            <span class="tag">Shift: Morning</span>
+                        </div>
+                    </div>
+                    <div class="agent-stats-grid">
+                        <div class="stat"><span>8</span>
+                            <p>Tickets</p>
+                        </div>
+                        <div class="stat"><span>98%</span>
+                            <p>CSAT</p>
+                        </div>
+                        <div class="stat"><span>4m</span>
+                            <p>FRT</p>
+                        </div>
+                    </div>
+                    <div class="toggle-group">
+                        <span>Available</span>
+                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 6. SLA & Escalation Rules -->
+        <ng-container *ngIf="activeTab === 'rules'">
+            <div class="rules-list">
+                <div class="control-card">
+                    <div class="card-header">
+                        <h3>SLA Policy: Critical</h3>
+                    </div>
+                    <div class="policy-details">
+                        <div class="p-row"><span>First Response</span> <strong>5 Minutes</strong></div>
+                        <div class="p-row"><span>Resolution Time</span> <strong>60 Minutes</strong></div>
+                        <div class="p-row"><span>Escalation Rule</span> <strong>Direct to Supervisor</strong></div>
+                    </div>
+                    <button class="btn-secondary-sm">Edit Policy</button>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 7. Knowledge Base -->
+        <ng-container *ngIf="activeTab === 'knowledge'">
+            <div class="kb-container">
+                <div class="kb-header">
+                    <h3>FAQ & Article Manager</h3>
+                    <button class="btn-primary-sm">+ Add Article</button>
+                </div>
+                <div class="kb-grid">
+                    <div class="kb-item">
+                        <i class='bx bx-file'></i>
+                        <span>Refund Policy 2024</span>
+                        <span class="badge">Draft</span>
+                    </div>
+                    <div class="kb-item">
+                        <i class='bx bx-file'></i>
+                        <span>Rider Misconduct Protocol</span>
+                        <span class="badge active">Published</span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 9. Complaint & Risk Monitoring -->
+        <ng-container *ngIf="activeTab === 'risk'">
+            <div class="risk-section">
+                <div class="risk-card critical">
+                    <div class="r-header">
+                        <h4>Risk Alert: User Sameer K.</h4>
+                        <span class="risk-score">Score: 94/100</span>
+                    </div>
+                    <p>High refund frequency detected (4 refunds in 10 days).</p>
+                    <div class="r-actions">
+                        <button class="btn-danger-sm">Restrict User</button>
+                        <button class="btn-secondary-sm">Investigation Note</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 10. Smart Automation & AI -->
+        <ng-container *ngIf="activeTab === 'ai'">
+            <div class="ai-hub">
+                <div class="control-card ai-brain">
+                    <div class="brain-header">
+                        <i class='bx bxs-brain bx-tada'></i>
+                        <h3>AI Resolution Brain</h3>
+                    </div>
+                    <div class="automation-toggles">
+                        <div class="t-row">
+                            <span>Auto-suggest refund amounts</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="t-row">
+                            <span>Sentiment-based prioritization</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

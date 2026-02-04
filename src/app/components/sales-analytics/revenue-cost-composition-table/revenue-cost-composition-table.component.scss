@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.mt-24 {
+    margin-top: 24px;
+}
+
 .card-panel {
     background: #fff;
     border-radius: 20px;
@@ -52,30 +56,19 @@
     }
 
     .table-responsive {
-        overflow-x: auto; // Enable horizontal scroll for high density
-        overflow-y: hidden;
+        overflow: hidden;
         border-radius: 12px;
         border: 1px solid #f1f5f9;
 
-        &::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 3px;
-        }
-
         table {
             width: 100%;
-            min-width: 1300px; // Ensure space for 16 columns at 13px font
             border-collapse: collapse;
             table-layout: fixed;
 
             th {
                 text-align: left;
-                padding: 14px 8px;
-                font-size: 11px; // Matched with sales table
+                padding: 14px 10px;
+                font-size: 11px;
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
@@ -87,8 +80,8 @@
             }
 
             td {
-                padding: 14px 8px;
-                font-size: 13px; // Matched with sales table
+                padding: 14px 10px;
+                font-size: 13px;
                 color: #334155;
                 border-bottom: 1px solid #f1f5f9;
                 transition: background-color 0.2s;
@@ -98,108 +91,87 @@
                 height: 54px;
             }
 
-            // Specific column widths (Total 1300px)
+            // Specific column widths (Total ~1080px)
             th:nth-child(1),
             td:nth-child(1) {
-                width: 90px;
+                width: 220px;
             }
 
-            // Period
+            // Source/Type
             th:nth-child(2),
             td:nth-child(2) {
-                width: 60px;
+                width: 80px;
                 text-align: center;
             }
 
-            // Ord
+            // Orders
             th:nth-child(3),
             td:nth-child(3) {
-                width: 95px;
+                width: 110px;
             }
 
-            // Gross
+            // Amount
             th:nth-child(4),
             td:nth-child(4) {
-                width: 85px;
+                width: 130px;
             }
 
-            // Disc
+            // Contrib
             th:nth-child(5),
             td:nth-child(5) {
-                width: 85px;
+                width: 120px;
             }
 
-            // Ref
+            // Avg Value
             th:nth-child(6),
             td:nth-child(6) {
                 width: 100px;
+                text-align: center;
             }
 
-            // Net Sales
+            // Refund %
             th:nth-child(7),
             td:nth-child(7) {
-                width: 85px;
+                width: 100px;
+                text-align: center;
             }
 
-            // Tax
+            // Charge %
             th:nth-child(8),
             td:nth-child(8) {
-                width: 85px;
+                width: 140px;
             }
 
-            // GW
-            th:nth-child(9),
-            td:nth-child(9) {
-                width: 95px;
-            }
-
-            // Rider
-            th:nth-child(10),
-            td:nth-child(10) {
-                width: 85px;
-            }
-
-            // Pack
-            th:nth-child(11),
-            td:nth-child(11) {
-                width: 85px;
-            }
-
-            // Ops
-            th:nth-child(12),
-            td:nth-child(12) {
-                width: 100px;
-            }
-
-            // Total Cost
-            th:nth-child(13),
-            td:nth-child(13) {
-                width: 100px;
-            }
-
-            // Net Prof
-            th:nth-child(14),
-            td:nth-child(14) {
-                width: 90px;
-            }
-
-            // Margin
-            th:nth-child(15),
-            td:nth-child(15) {
-                width: 95px;
-            }
-
-            // AOV
-            th:nth-child(16),
-            td:nth-child(16) {
-                width: 80px;
-            }
-
-            // Growth
+            // Impact
 
             tbody tr:hover td {
                 background-color: #f8fafc;
             }
+        }
+    }
+}
+
+.item-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .type-badge {
+        padding: 3px 8px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-radius: 4px;
+        letter-spacing: 0.5px;
+
+        &.revenue {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        &.cost {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
         }
     }
 }
@@ -224,21 +196,24 @@
     color: #10b981;
 }
 
-.text-secondary {
-    color: #64748b;
-}
-
 .progress-bar-container {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     width: 100%;
 
     .progress-bar {
         height: 5px;
-        background: #10b981;
         border-radius: 3px;
         flex: 1;
+
+        &.revenue {
+            background: #10b981;
+        }
+
+        &.cost {
+            background: #ef4444;
+        }
     }
 
     span {
@@ -249,22 +224,19 @@
     }
 }
 
-.growth-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 600;
+.impact-indicator {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
     font-size: 12px;
 
     &.positive {
+        background: rgba(16, 185, 129, 0.1);
         color: #10b981;
     }
 
     &.negative {
+        background: rgba(239, 68, 68, 0.1);
         color: #ef4444;
-    }
-
-    i {
-        font-size: 14px;
     }
 }

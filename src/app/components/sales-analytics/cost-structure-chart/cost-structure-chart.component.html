@@ -1,0 +1,20 @@
+<div class="card-panel mt-24">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Cost Structure Analysis</h3>
+            <span class="subtitle">Trend analysis of stacked operating and fulfillment costs</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer' title="Print Cost Analysis"></i>
+                <i class='bx bx-trending-up' title="View Growth"></i>
+                <i class='bx bx-export' title="Export PNG"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'line'">
+        </canvas>
+    </div>
+</div>

@@ -2,7 +2,7 @@
     <div class="card-panel">
         <div class="panel-header">
             <div class="title-group">
-                <h3>Payments and Finance</h3>
+                <h3>1. Payments and Finance</h3>
                 <span class="subtitle">Detailed breakdown of transactions and financial metrics</span>
             </div>
             <div class="actions">
@@ -17,6 +17,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Sr. No.</th>
                         <th>Date</th>
                         <th>Order ID</th>
                         <th>Customer</th>
@@ -33,7 +34,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let txn of transactions">
+                    <tr *ngFor="let txn of transactions; let i = index">
+                        <td class="s-no">{{ i + 1 }}</td>
                         <td>{{ txn.date }}</td>
                         <td class="order-id">{{ txn.orderId }}</td>
                         <td>{{ txn.customer }}</td>
@@ -63,7 +65,7 @@
     <div class="card-panel" style="margin-top: 24px;">
         <div class="panel-header">
             <div class="title-group">
-                <h3>Financial Summary</h3>
+                <h3>2. Financial Summary</h3>
                 <span class="subtitle">Aggregated metrics by time period</span>
             </div>
             <div class="actions">
@@ -78,6 +80,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Sr. No.</th>
                         <th>Period</th>
                         <th>Total Orders</th>
                         <th>Gross Revenue (₹)</th>
@@ -91,7 +94,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of summaryData">
+                    <tr *ngFor="let item of summaryData; let i = index">
+                        <td class="s-no">{{ i + 1 }}</td>
                         <td class="period-cell">{{ item.period }}</td>
                         <td>{{ item.orders }}</td>
                         <td>{{ item.revenue }}</td>

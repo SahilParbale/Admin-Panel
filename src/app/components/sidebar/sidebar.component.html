@@ -34,8 +34,8 @@
         <div class="section-label">Others</div>
 
         <ul>
-            <li *ngFor="let item of otherItems">
-                <a href="#">
+            <li *ngFor="let item of otherItems" [routerLinkActive]="'active'">
+                <a [routerLink]="item.route || null">
                     <i class='bx' [ngClass]="item.icon"></i>
                     <span>{{ item.label }}</span>
                     <i *ngIf="item.hasSubmenu" class='bx bx-chevron-down ml-auto'></i>

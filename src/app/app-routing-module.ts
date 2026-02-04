@@ -28,6 +28,18 @@ const routes: Routes = [
   {
     path: 'sales-analytics',
     loadChildren: () => import('./components/sales-analytics/sales-analytics.module').then(m => m.SalesAnalyticsModule)
+  },
+  {
+    path: 'marketing-management',
+    loadChildren: () => import('./components/marketing-management/marketing-management.module').then(m => m.MarketingManagementModule)
+  },
+  {
+    path: 'support-management',
+    loadChildren: () => import('./components/support-management/support-management.module').then(m => m.SupportManagementModule)
+  },
+  {
+    path: 'settings-management',
+    loadChildren: () => import('./components/settings-management/settings-management.module').then(m => m.SettingsManagementModule)
   }
 ];
 // Trigger rebuild

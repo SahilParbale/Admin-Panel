@@ -12,10 +12,13 @@ export class HeaderComponent {
     pageTitle: string = 'Dashboard';
 
     constructor(private router: Router) {
+        // Handle initial title
+        this.updateTitle(this.router.url);
+
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-            this.updateTitle(event.url);
+            this.updateTitle(event.urlAfterRedirects || event.url);
         });
     }
 
@@ -30,8 +33,14 @@ export class HeaderComponent {
             this.pageTitle = 'Users & Rider Management';
         } else if (url.includes('/finance')) {
             this.pageTitle = 'Payment & Finance';
-        } else if (url.includes('/analytics')) {
+        } else if (url.includes('/sales-analytics') || url.includes('/analytics')) {
             this.pageTitle = 'Sales & Analytics';
+        } else if (url.includes('/marketing-management')) {
+            this.pageTitle = 'Marketing';
+        } else if (url.includes('/support-management')) {
+            this.pageTitle = 'Support & Resolution Center';
+        } else if (url.includes('/settings-management')) {
+            this.pageTitle = 'System Settings';
         } else {
             this.pageTitle = 'Dashboard';
         }

@@ -1,0 +1,377 @@
+<div class="settings-container">
+    <!-- Sidebar Navigation -->
+    <div class="settings-sidebar">
+        <div class="sidebar-header">
+            <h3>Control Center</h3>
+            <p>System Configuration</p>
+        </div>
+        <nav class="settings-nav">
+            <button *ngFor="let item of settingsMenu" [class.active]="activeCategory === item.id"
+                (click)="setActiveCategory(item.id)">
+                <i class='bx' [ngClass]="item.icon"></i>
+                <span>{{ item.label }}</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="settings-main">
+        <div class="content-header">
+            <h2>{{ activeCategory | titlecase }} Settings</h2>
+            <div class="actions">
+                <button class="btn-reset">Reset to Default</button>
+                <button class="btn-save">Save Changes</button>
+            </div>
+        </div>
+
+        <div class="settings-content">
+            <!-- 1. Business Profile -->
+            <div class="settings-section" *ngIf="activeCategory === 'business'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Identity & Branding</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Business Name</label>
+                            <input type="text" placeholder="e.g. FreshFruit Express">
+                        </div>
+                        <div class="form-group media-upload">
+                            <label>Logo</label>
+                            <div class="upload-placeholder">
+                                <i class='bx bx-cloud-upload'></i>
+                                <span>Upload PNG/SVG</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Support Email</label>
+                            <input type="email" placeholder="support@freshfruit.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Support Phone</label>
+                            <input type="text" placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+                </div>
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Regional Defaults</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select>
+                                <option>INR (₹)</option>
+                                <option>USD ($)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Timezone</label>
+                            <select>
+                                <option>(GMT+05:30) IST</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Payment Configuration -->
+            <div class="settings-section" *ngIf="activeCategory === 'payments'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Payment Gateway</h4>
+                    </div>
+                    <div class="form-group p-4">
+                        <div class="toggle-row">
+                            <div class="info">
+                                <strong>Live Mode</strong>
+                                <p>Enable live transactions on the platform</p>
+                            </div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="form-grid p-4">
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="password" value="sk_test_51Mz9...">
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook Secret</label>
+                            <input type="password" value="whsec_092...">
+                        </div>
+                    </div>
+                </div>
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Payment Methods</h4>
+                    </div>
+                    <div class="toggle-list">
+                        <div class="toggle-row">
+                            <span>UPI Payments</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <span>Credit/Debit Cards</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <span>Cash on Delivery (COD)</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Delivery & Logistics -->
+            <div class="settings-section" *ngIf="activeCategory === 'delivery'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Pricing Rules</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Base Delivery Charge</label>
+                            <input type="number" placeholder="40">
+                        </div>
+                        <div class="form-group">
+                            <label>Free Delivery Threshold</label>
+                            <input type="number" placeholder="499">
+                        </div>
+                    </div>
+                </div>
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Dispatch Automation</h4>
+                    </div>
+                    <div class="toggle-row mb-4">
+                        <div class="info"><strong>Auto-Assign Rider</strong>
+                            <p>System automatically finds nearest rider</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Delivery Radius (KM)</label>
+                        <input type="number" value="10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Tax & Pricing -->
+            <div class="settings-section" *ngIf="activeCategory === 'tax'">
+                <div class="config-card danger-outline">
+                    <div class="card-header">
+                        <h4>Taxation Structure</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>GST Percentage</label>
+                            <input type="number" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Service Charge (%)</label>
+                            <input type="number" value="0">
+                        </div>
+                    </div>
+                    <div class="warning-box">
+                        <i class='bx bx-info-circle'></i>
+                        Changing tax rules will re-render all active receipts.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. User Roles -->
+            <div class="settings-section" *ngIf="activeCategory === 'roles'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>System Permissions</h4>
+                    </div>
+                    <div class="role-list">
+                        <div class="role-item">
+                            <div class="role-info"><i class='bx bx-shield-quarter'></i> <span>Owner</span></div>
+                            <span class="badge full">Full Access</span>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-info"><i class='bx bx-support'></i> <span>Support Agent</span></div>
+                            <button class="btn-edit">Permissions</button>
+                        </div>
+                    </div>
+                    <button class="btn-primary mt-4">+ Create New Role</button>
+                </div>
+            </div>
+
+            <!-- 7. Security -->
+            <div class="settings-section" *ngIf="activeCategory === 'security'">
+                <div class="config-card security-card">
+                    <div class="card-header">
+                        <h4>Access Controls</h4>
+                    </div>
+                    <div class="toggle-list">
+                        <div class="toggle-row">
+                            <div class="info"><strong>Two-Factor Authentication (2FA)</strong>
+                                <p>Mandatory for all admin logins</p>
+                            </div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="info"><strong>IP Restriction</strong>
+                                <p>Only allow login from corporate VPN</p>
+                            </div>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Data Privacy</h4>
+                    </div>
+                    <button class="btn-danger-outline full-width">Purge Activity Logs (Older than 90 days)</button>
+                </div>
+            </div>
+
+            <!-- 12. Maintenance -->
+            <div class="settings-section" *ngIf="activeCategory === 'maintenance'">
+                <div class="maintenance-grid">
+                    <div class="config-card danger-zone">
+                        <div class="card-header">
+                            <h3>Critical Mode</h3>
+                        </div>
+                        <div class="toggle-row mb-4">
+                            <div class="info"><strong>Maintenance Mode</strong>
+                                <p>Take app offline for all users</p>
+                            </div>
+                            <label class="switch"><input type="checkbox" (change)="confirmAction('maintenance')"><span
+                                    class="slider"></span></label>
+                        </div>
+                        <button class="btn-danger full-width" (click)="confirmAction('reset')">HARD RESET
+                            SYSTEM</button>
+                    </div>
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>Updates & Health</h3>
+                        </div>
+                        <div class="health-meta">
+                            <div class="meta-row"><span>App Version</span> <strong>v2.4.0-stable</strong></div>
+                            <div class="meta-row"><span>Last Backup</span> <strong>2h ago</strong></div>
+                        </div>
+                        <div class="btn-group mt-4">
+                            <button class="btn-secondary">Backup DB</button>
+                            <button class="btn-secondary">Clear Cache</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Notifications -->
+            <div class="settings-section" *ngIf="activeCategory === 'notifications'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>System Alerts</h4>
+                    </div>
+                    <div class="toggle-list">
+                        <div class="toggle-row">
+                            <div class="info"><strong>Push Notifications</strong>
+                                <p>Firebase Cloud Messaging (FCM)</p>
+                            </div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="info"><strong>Email Alerts</strong>
+                                <p>Transactional emails via SendGrid</p>
+                            </div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Automation -->
+            <div class="settings-section" *ngIf="activeCategory === 'automation'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Workflow Triggers</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Auto-Cancel Unpaid Orders (Min)</label>
+                            <input type="number" value="15">
+                        </div>
+                        <div class="form-group">
+                            <label>Low Stock Alert</label>
+                            <input type="number" value="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Localization -->
+            <div class="settings-section" *ngIf="activeCategory === 'localization'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Regions & Languages</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Default Language</label>
+                            <select>
+                                <option>English (US)</option>
+                                <option>Hindi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Regional Pricing</label>
+                            <select>
+                                <option>Standard</option>
+                                <option>Region-Based</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Inventory -->
+            <div class="settings-section" *ngIf="activeCategory === 'inventory'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Stock Controls</h4>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="info"><strong>Auto-Disable Out of Stock</strong>
+                            <p>Remove from app at 0 stock</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. Invoices -->
+            <div class="settings-section" *ngIf="activeCategory === 'invoice'">
+                <div class="config-card">
+                    <div class="card-header">
+                        <h4>Customization</h4>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Starting Invoice Number</label>
+                            <input type="number" value="1001">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" *ngIf="showConfirmationModal">
+        <div class="confirm-modal">
+            <i class='bx bx-error-circle'></i>
+            <h3>Confirm Critical Change</h3>
+            <p>You are about to perform a system-level override. This action will affect service availability.</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" (click)="showConfirmationModal = false">Cancel</button>
+                <button class="btn-execute" (click)="executeAction()">Confirm & Execute</button>
+            </div>
+        </div>
+    </div>
+</div>

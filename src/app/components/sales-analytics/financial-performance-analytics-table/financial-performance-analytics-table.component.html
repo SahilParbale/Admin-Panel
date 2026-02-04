@@ -1,14 +1,14 @@
 <div class="card-panel">
     <div class="panel-header">
         <div class="title-group">
-            <h3>Financial Performance Analytics</h3>
+            <h3>1. Financial Performance Analytics</h3>
             <span class="subtitle">Deep dive into costs, taxes, and net profitability metrics</span>
         </div>
         <div class="actions">
             <div class="icon-actions">
-                <i class='bx bx-printer'></i>
-                <i class='bx bx-download'></i>
-                <i class='bx bx-export'></i>
+                <i class='bx bx-printer' title="Print Report"></i>
+                <i class='bx bx-trending-up' title="View Growth Metrics"></i>
+                <i class='bx bx-export' title="Export Data"></i>
             </div>
         </div>
     </div>
@@ -16,6 +16,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Sr. No.</th>
                     <th>Period</th>
                     <th class="text-center">Ord</th>
                     <th>Gross (₹)</th>
@@ -35,7 +36,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of analyticsData">
+                <tr *ngFor="let item of analyticsData; let i = index">
+                    <td class="text-center font-bold">{{ i + 1 }}</td>
                     <td class="font-bold">{{ item.period }}</td>
                     <td class="text-center">{{ item.orders | number }}</td>
                     <td>₹{{ item.grossRevenue | number }}</td>
