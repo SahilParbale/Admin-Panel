@@ -4,12 +4,14 @@ import { SalesAnalyticsComponent } from './sales-analytics.component';
 import { SalesAnalyticsRoutingModule } from './sales-analytics-routing.module';
 import { SalesPerformanceMasterTableComponent } from './sales-performance-master-table/sales-performance-master-table.component';
 import { SalesFinancialSummaryTableComponent } from './sales-financial-summary-table/sales-financial-summary-table.component';
+import { FinancialPerformanceAnalyticsTableComponent } from './financial-performance-analytics-table/financial-performance-analytics-table.component';
 
 @NgModule({
     declarations: [
         SalesAnalyticsComponent,
         SalesPerformanceMasterTableComponent,
-        SalesFinancialSummaryTableComponent
+        SalesFinancialSummaryTableComponent,
+        FinancialPerformanceAnalyticsTableComponent
     ],
     imports: [
         CommonModule,

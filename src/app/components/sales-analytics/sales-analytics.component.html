@@ -1,10 +1,11 @@
 <div class="sales-analytics-container">
 
     <div class="header-controls">
-        <h2>{{ activeTab === 'sales' ? 'Sales Overview' : 'Analytics Dashboard' }}</h2>
+        <h2>Sales & Analytics</h2>
         <div class="management-tabs">
-            <button [class.active]="activeTab === 'sales'" (click)="setActiveTab('sales')">Sales</button>
-            <button [class.active]="activeTab === 'analytics'" (click)="setActiveTab('analytics')">Analytics</button>
+            <button [class.active]="activeTab === 'sales'" (click)="setActiveTab('sales')">Sales Performance</button>
+            <button [class.active]="activeTab === 'analytics'" (click)="setActiveTab('analytics')">Financial
+                Analytics</button>
         </div>
     </div>
 
@@ -14,9 +15,7 @@
     </ng-container>
 
     <ng-container *ngIf="activeTab === 'analytics'">
-        <div class="empty-state">
-            <i class='bx bx-pie-chart-alt-2'></i>
-            <p>Analytics content coming soon...</p>
-        </div>
+        <app-financial-performance-analytics-table></app-financial-performance-analytics-table>
     </ng-container>
+
 </div>
