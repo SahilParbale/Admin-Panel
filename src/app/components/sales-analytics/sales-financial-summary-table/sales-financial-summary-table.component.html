@@ -1,0 +1,63 @@
+<div class="card-panel mt-24">
+    <div class="panel-header">
+        <div class="title-group">
+            <h3>Sales Financial Summary Table</h3>
+            <span class="subtitle">Periodic financial performance and net metrics</span>
+        </div>
+        <div class="actions">
+            <div class="icon-actions">
+                <i class='bx bx-printer'></i>
+                <i class='bx bx-download'></i>
+                <i class='bx bx-export'></i>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th class="text-center">Orders</th>
+                    <th class="text-center">Units</th>
+                    <th>Gross (₹)</th>
+                    <th>Disc. (₹)</th>
+                    <th>Ref. (₹)</th>
+                    <th>GW Chg (₹)</th>
+                    <th>Rider (₹)</th>
+                    <th>Net Rev (₹)</th>
+                    <th>Net Prof (₹)</th>
+                    <th>AOV (₹)</th>
+                    <th>Margin %</th>
+                    <th>Growth %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of summaryData">
+                    <td class="font-bold">{{ item.period }}</td>
+                    <td class="text-center">{{ item.totalOrders | number }}</td>
+                    <td class="text-center">{{ item.unitsSold | number }}</td>
+                    <td class="font-medium">₹{{ item.grossRevenue | number }}</td>
+                    <td class="text-danger">₹{{ item.discounts | number }}</td>
+                    <td class="text-danger">₹{{ item.refunds | number }}</td>
+                    <td class="text-secondary">₹{{ item.gatewayCharges | number }}</td>
+                    <td class="text-secondary">₹{{ item.riderPayout | number }}</td>
+                    <td class="font-bold text-success">₹{{ item.netRevenue | number }}</td>
+                    <td class="font-bold text-success">₹{{ item.netProfit | number }}</td>
+                    <td>₹{{ item.avgOrderValue | number }}</td>
+                    <td>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" [style.width.%]="item.profitMargin"></div>
+                            <span>{{ item.profitMargin }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="growth-indicator" [ngClass]="item.growth >= 0 ? 'positive' : 'negative'">
+                            <i class='bx' [ngClass]="item.growth >= 0 ? 'bx-trending-up' : 'bx-trending-down'"></i>
+                            {{ item.growth }}%
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

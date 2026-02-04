@@ -1,0 +1,246 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.mt-24 {
+    margin-top: 24px;
+}
+
+.card-panel {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .title-group {
+            h3 {
+                font-size: 20px;
+                font-weight: 800;
+                color: #1e293b;
+                margin: 0 0 4px 0;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                color: #64748b;
+                font-weight: 500;
+            }
+        }
+
+        .actions {
+            .icon-actions {
+                display: flex;
+                gap: 12px;
+
+                i {
+                    font-size: 20px;
+                    color: #94a3b8;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        color: #111827;
+                        transform: translateY(-1px);
+                    }
+                }
+            }
+        }
+    }
+
+    .table-responsive {
+        overflow: hidden;
+        border-radius: 12px;
+        border: 1px solid #f1f5f9;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+
+            th {
+                text-align: left;
+                padding: 14px 10px;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #64748b;
+                border-bottom: 2px solid #f1f5f9;
+                background: #f8fafc;
+                white-space: normal;
+                height: 48px;
+            }
+
+            td {
+                padding: 14px 10px;
+                font-size: 13px;
+                color: #334155;
+                border-bottom: 1px solid #f1f5f9;
+                transition: background-color 0.2s;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                height: 54px;
+            }
+
+            // Specific column widths (Total ~1080px)
+            th:nth-child(1),
+            td:nth-child(1) {
+                width: 90px;
+            }
+
+            // Period
+            th:nth-child(2),
+            td:nth-child(2) {
+                width: 65px;
+                text-align: center;
+            }
+
+            // Orders
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 65px;
+                text-align: center;
+            }
+
+            // Units
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 95px;
+            }
+
+            // Gross
+            th:nth-child(5),
+            td:nth-child(5) {
+                width: 85px;
+            }
+
+            // Disc.
+            th:nth-child(6),
+            td:nth-child(6) {
+                width: 85px;
+            }
+
+            // Ref.
+            th:nth-child(7),
+            td:nth-child(7) {
+                width: 100px;
+            }
+
+            // GW Chg
+            th:nth-child(8),
+            td:nth-child(8) {
+                width: 100px;
+            }
+
+            // Rider
+            th:nth-child(9),
+            td:nth-child(9) {
+                width: 105px;
+            }
+
+            // Net Rev
+            th:nth-child(10),
+            td:nth-child(10) {
+                width: 105px;
+            }
+
+            // Net Prof
+            th:nth-child(11),
+            td:nth-child(11) {
+                width: 90px;
+            }
+
+            // AOV
+            th:nth-child(12),
+            td:nth-child(12) {
+                width: 100px;
+            }
+
+            // Margin
+            th:nth-child(13),
+            td:nth-child(13) {
+                width: 75px;
+            }
+
+            // Growth %
+
+            tbody tr:hover td {
+                background-color: #f8fafc;
+            }
+        }
+    }
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-danger {
+    color: #ef4444;
+}
+
+.text-success {
+    color: #10b981;
+}
+
+.text-secondary {
+    color: #64748b;
+}
+
+.progress-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+    .progress-bar {
+        height: 5px;
+        background: #10b981;
+        border-radius: 3px;
+        flex: 1;
+    }
+
+    span {
+        font-size: 11px;
+        font-weight: 600;
+        color: #64748b;
+        min-width: 35px;
+    }
+}
+
+.growth-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 12px;
+
+    &.positive {
+        color: #10b981;
+    }
+
+    &.negative {
+        color: #ef4444;
+    }
+
+    i {
+        font-size: 14px;
+    }
+}

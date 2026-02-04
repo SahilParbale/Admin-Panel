@@ -14,7 +14,7 @@ export class SidebarComponent {
         { label: 'Pricing & Offer Management', icon: 'bx-purchase-tag', hasSubmenu: false, route: '/pricing-management' },
         { label: 'Users & Rider Management', icon: 'bx-user', hasSubmenu: false, route: '/user-management' },
         { label: 'Payment & Finance', icon: 'bx-dollar-circle', hasSubmenu: false, route: '/finance' },
-        { label: 'Sales & Analytics', icon: 'bx-line-chart', hasSubmenu: false, route: '/analytics' }
+        { label: 'Sales & Analytics', icon: 'bx-line-chart', hasSubmenu: false, route: '/sales-analytics' }
     ];
 
     otherItems = [

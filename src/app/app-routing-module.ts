@@ -24,6 +24,10 @@ const routes: Routes = [
   {
     path: 'finance',
     loadChildren: () => import('./components/finance/finance.module').then(m => m.FinanceModule)
+  },
+  {
+    path: 'sales-analytics',
+    loadChildren: () => import('./components/sales-analytics/sales-analytics.module').then(m => m.SalesAnalyticsModule)
   }
 ];
 // Trigger rebuild
