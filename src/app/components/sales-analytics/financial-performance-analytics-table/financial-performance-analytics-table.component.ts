@@ -29,7 +29,7 @@ export class FinancialPerformanceAnalyticsTableComponent implements OnInit {
 
     analyticsData: FinancialAnalytics[] = [
         {
-            period: 'Jan 2026',
+            period: 'Jan\n2026',
             orders: 1250,
             grossRevenue: 8500000,
             discounts: 450000,
@@ -47,7 +47,7 @@ export class FinancialPerformanceAnalyticsTableComponent implements OnInit {
             growth: 12.5
         },
         {
-            period: 'Dec 2025',
+            period: 'Dec\n2025',
             orders: 1480,
             grossRevenue: 9800000,
             discounts: 600000,
@@ -65,7 +65,7 @@ export class FinancialPerformanceAnalyticsTableComponent implements OnInit {
             growth: 18.2
         },
         {
-            period: 'Nov 2025',
+            period: 'Nov\n2025',
             orders: 1100,
             grossRevenue: 7200000,
             discounts: 350000,
@@ -83,7 +83,7 @@ export class FinancialPerformanceAnalyticsTableComponent implements OnInit {
             growth: 5.4
         },
         {
-            period: 'Oct 2025',
+            period: 'Oct\n2025',
             orders: 1050,
             grossRevenue: 6800000,
             discounts: 300000,
@@ -101,7 +101,7 @@ export class FinancialPerformanceAnalyticsTableComponent implements OnInit {
             growth: 2.1
         },
         {
-            period: 'Sep 2025',
+            period: 'Sep\n2025',
             orders: 980,
             grossRevenue: 6200000,
             discounts: 250000,

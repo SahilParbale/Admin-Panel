@@ -91,84 +91,92 @@
                 height: 54px;
             }
 
-            // Specific column widths (Total ~1080px)
+            // Specific column widths (Total 100%)
+            // Sr. No.
             th:nth-child(1),
             td:nth-child(1) {
-                width: 90px;
+                width: 4%;
+                text-align: center;
             }
 
             // Period
             th:nth-child(2),
             td:nth-child(2) {
-                width: 65px;
-                text-align: center;
+                width: 7%;
             }
 
             // Orders
             th:nth-child(3),
             td:nth-child(3) {
-                width: 65px;
+                width: 6%;
                 text-align: center;
             }
 
             // Units
             th:nth-child(4),
             td:nth-child(4) {
-                width: 95px;
+                width: 6%;
+                text-align: center;
             }
 
             // Gross
             th:nth-child(5),
             td:nth-child(5) {
-                width: 85px;
+                width: 8%;
             }
 
             // Disc.
             th:nth-child(6),
             td:nth-child(6) {
-                width: 85px;
+                width: 6%;
             }
 
             // Ref.
             th:nth-child(7),
             td:nth-child(7) {
-                width: 100px;
+                width: 6%;
             }
 
             // GW Chg
             th:nth-child(8),
             td:nth-child(8) {
-                width: 100px;
+                width: 6%;
             }
 
             // Rider
             th:nth-child(9),
             td:nth-child(9) {
-                width: 105px;
+                width: 7%;
             }
 
             // Net Rev
             th:nth-child(10),
             td:nth-child(10) {
-                width: 105px;
+                width: 9%;
             }
 
             // Net Prof
             th:nth-child(11),
             td:nth-child(11) {
-                width: 90px;
+                width: 9%;
             }
 
             // AOV
             th:nth-child(12),
             td:nth-child(12) {
-                width: 100px;
+                width: 8%;
             }
 
             // Margin
             th:nth-child(13),
             td:nth-child(13) {
-                width: 75px;
+                width: 10%;
+            }
+
+            // Growth %
+            th:nth-child(14),
+            td:nth-child(14) {
+                width: 8%;
             }
 
             // Growth %

@@ -52,30 +52,19 @@
     }
 
     .table-responsive {
-        overflow-x: auto; // Enable horizontal scroll for high density
-        overflow-y: hidden;
+        overflow: hidden !important;
         border-radius: 12px;
         border: 1px solid #f1f5f9;
 
-        &::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 3px;
-        }
-
         table {
             width: 100%;
-            min-width: 1300px; // Ensure space for 16 columns at 13px font
             border-collapse: collapse;
             table-layout: fixed;
 
             th {
                 text-align: left;
-                padding: 14px 8px;
-                font-size: 11px; // Matched with sales table
+                padding: 10px 4px;
+                font-size: 10px; // Slightly smaller to fit
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
@@ -87,115 +76,130 @@
             }
 
             td {
-                padding: 14px 8px;
-                font-size: 13px; // Matched with sales table
+                padding: 10px 4px;
+                font-size: 11px; // Slightly smaller to fit
                 color: #334155;
                 border-bottom: 1px solid #f1f5f9;
                 transition: background-color 0.2s;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                height: 54px;
+                height: 50px;
             }
 
-            // Specific column widths (Total 1300px)
+            // Specific column widths (Total 100%)
+            // Sr. No.
             th:nth-child(1),
             td:nth-child(1) {
-                width: 90px;
+                width: 3%;
+                text-align: center;
             }
 
-            // Period
+            // Period (Wrapped)
             th:nth-child(2),
             td:nth-child(2) {
-                width: 60px;
+                width: 4%;
                 text-align: center;
+                white-space: normal;
+
+                .period-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 1.1;
+                    font-size: 10px;
+                }
             }
 
             // Ord
             th:nth-child(3),
             td:nth-child(3) {
-                width: 95px;
+                width: 4%;
+                text-align: center;
             }
 
             // Gross
             th:nth-child(4),
             td:nth-child(4) {
-                width: 85px;
+                width: 6%;
             }
 
             // Disc
             th:nth-child(5),
             td:nth-child(5) {
-                width: 85px;
+                width: 5%;
             }
 
             // Ref
             th:nth-child(6),
             td:nth-child(6) {
-                width: 100px;
+                width: 5%;
             }
 
             // Net Sales
             th:nth-child(7),
             td:nth-child(7) {
-                width: 85px;
+                width: 7%;
             }
 
             // Tax
             th:nth-child(8),
             td:nth-child(8) {
-                width: 85px;
+                width: 5%;
             }
 
             // GW
             th:nth-child(9),
             td:nth-child(9) {
-                width: 95px;
+                width: 5%;
             }
 
             // Rider
             th:nth-child(10),
             td:nth-child(10) {
-                width: 85px;
+                width: 6%;
             }
 
             // Pack
             th:nth-child(11),
             td:nth-child(11) {
-                width: 85px;
+                width: 5%;
             }
 
             // Ops
             th:nth-child(12),
             td:nth-child(12) {
-                width: 100px;
+                width: 6%;
             }
 
             // Total Cost
             th:nth-child(13),
             td:nth-child(13) {
-                width: 100px;
+                width: 8%;
             }
 
             // Net Prof
             th:nth-child(14),
             td:nth-child(14) {
-                width: 90px;
+                width: 8%;
             }
 
             // Margin
             th:nth-child(15),
             td:nth-child(15) {
-                width: 95px;
+                width: 8%;
             }
 
             // AOV
             th:nth-child(16),
             td:nth-child(16) {
-                width: 80px;
+                width: 7%;
             }
 
             // Growth
+            th:nth-child(17),
+            td:nth-child(17) {
+                width: 8%;
+            }
 
             tbody tr:hover td {
                 background-color: #f8fafc;

@@ -92,54 +92,64 @@
             }
 
             // Specific column widths (Total ~1080px)
+            // Specific column widths (Total 100%)
+            // Sr. No.
             th:nth-child(1),
             td:nth-child(1) {
-                width: 220px;
+                width: 5%;
+                text-align: center;
             }
 
-            // Source/Type
+            // Source/Type (Main Item)
             th:nth-child(2),
             td:nth-child(2) {
-                width: 80px;
-                text-align: center;
+                width: 25%;
             }
 
             // Orders
             th:nth-child(3),
             td:nth-child(3) {
-                width: 110px;
+                width: 8%;
             }
 
             // Amount
             th:nth-child(4),
             td:nth-child(4) {
-                width: 130px;
+                width: 10%;
             }
 
-            // Contrib
+            // Contrib (Progress Bar)
             th:nth-child(5),
             td:nth-child(5) {
-                width: 120px;
+                width: 15%;
             }
 
             // Avg Value
             th:nth-child(6),
             td:nth-child(6) {
-                width: 100px;
-                text-align: center;
+                width: 10%;
+                text-align: right;
             }
 
             // Refund %
             th:nth-child(7),
             td:nth-child(7) {
-                width: 100px;
+                width: 7%;
                 text-align: center;
             }
 
             // Charge %
             th:nth-child(8),
             td:nth-child(8) {
-                width: 140px;
+                width: 7%;
+                text-align: center;
+            }
+
+            // Profit Impact
+            th:nth-child(9),
+            td:nth-child(9) {
+                width: 13%;
+                text-align: right;
             }
 
             // Impact

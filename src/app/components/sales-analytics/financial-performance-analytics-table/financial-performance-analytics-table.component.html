@@ -38,7 +38,12 @@
             <tbody>
                 <tr *ngFor="let item of analyticsData; let i = index">
                     <td class="text-center font-bold">{{ i + 1 }}</td>
-                    <td class="font-bold">{{ item.period }}</td>
+                    <td class="font-bold text-center period-cell">
+                        <div class="period-wrapper">
+                            <span>{{ item.period.split('\n')[0] }}</span>
+                            <span>{{ item.period.split('\n')[1] }}</span>
+                        </div>
+                    </td>
                     <td class="text-center">{{ item.orders | number }}</td>
                     <td>₹{{ item.grossRevenue | number }}</td>
                     <td class="text-danger">₹{{ item.discounts | number }}</td>
