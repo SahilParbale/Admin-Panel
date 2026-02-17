@@ -1,0 +1,111 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content">
+        <!-- Header -->
+        <div class="modal-header">
+            <div class="header-left">
+                <h2>{{ title }}</h2>
+                <span class="subtitle">{{ dateRange }} • All Categories</span>
+            </div>
+            <div class="header-right">
+                <button class="btn-export"><i class='bx bx-export'></i> Export</button>
+                <div class="filter-dropdown">
+                    <span>This Month <i class='bx bx-chevron-down'></i></span>
+                </div>
+                <button class="btn-close" (click)="closeModal()"><i class='bx bx-x'></i></button>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <!-- 1. Expanded Charts Row -->
+            <div class="section charts-row">
+                <!-- Trend Chart -->
+                <div class="chart-card trend-chart">
+                    <div class="chart-header">
+                        <h3>Order Volume Trend</h3>
+                        <div class="chart-actions">
+                            <button [class.active]="chartType === 'line'" (click)="setChartType('line')">Line</button>
+                            <button [class.active]="chartType === 'bar'" (click)="setChartType('bar')">Bar</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas *ngIf="isChartVisible" baseChart [data]="lineChartData" [options]="lineChartOptions"
+                            [type]="chartType"></canvas>
+                    </div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="chart-card donut-chart">
+                    <div class="chart-header">
+                        <h3>Status Distribution</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                            type="doughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. KPIs & Table Grid -->
+            <div class="section data-grid">
+                <!-- KPI Cards -->
+                <div class="kpi-row">
+                    <div class="kpi-card" *ngFor="let kpi of kpis">
+                        <div class="kpi-label">{{ kpi.label }}</div>
+                        <div class="kpi-value">{{ kpi.value }}</div>
+                        <div class="kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                            <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                            {{ kpi.change }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights Block (AI) -->
+                <div class="insights-block">
+                    <div class="insight-header">
+                        <i class='bx bxs-magic-wand'></i> AI Insights
+                    </div>
+                    <ul class="insight-list">
+                        <li>Order volume increased by <strong>12%</strong> compared to last period.</li>
+                        <li>High cancellation rate observed on <strong>Jan 26</strong>.</li>
+                        <li><strong>92.5%</strong> completion rate achieved on Jan 30.</li>
+                    </ul>
+                </div>
+
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Completed</th>
+                                <th>Cancelled</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td>{{ row.date }}</td>
+                                <td>{{ row.total }}</td>
+                                <td>{{ row.completed }}</td>
+                                <td>{{ row.cancelled }}</td>
+                                <td>
+                                    <span class="badge" [ngClass]="{
+                                        'success': row.status === 'Excellent' || row.status === 'Good',
+                                        'warning': row.status === 'Average',
+                                        'danger': row.status === 'Warning'
+                                    }">{{ row.status }}</span>
+                                </td>
+                                <td>
+                                    <button class="btn-action"><i class='bx bx-show'></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

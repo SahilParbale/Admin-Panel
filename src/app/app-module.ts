@@ -1,5 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing-module';
@@ -13,6 +14,7 @@ import { PerformanceChartComponent } from './components/dashboard/performance-ch
 import { RevenueChartComponent } from './components/dashboard/revenue-chart/revenue-chart.component';
 import { OrdersTableComponent } from './components/dashboard/orders-table/orders-table.component';
 
+import { AnalyticsDetailsModalComponent } from './components/dashboard/analytics-details-modal/analytics-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +26,12 @@ import { OrdersTableComponent } from './components/dashboard/orders-table/orders
     AnalyticsChartComponent,
     PerformanceChartComponent,
     RevenueChartComponent,
-    OrdersTableComponent
+    OrdersTableComponent,
+    AnalyticsDetailsModalComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BaseChartDirective
   ],

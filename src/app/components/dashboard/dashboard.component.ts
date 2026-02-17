@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -6,7 +7,8 @@ import { Component } from '@angular/core';
     styleUrls: ['./dashboard.component.scss'],
     standalone: false
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+    constructor(private apiService: ApiService) { }
     showPerformanceDropdown = false;
     performanceTimeRange = 'Month';
     performanceOptions = ['15 days', 'Month', '3 Month', '6 Month', 'Year'];
@@ -20,7 +22,7 @@ export class DashboardComponent {
     revenueOptions = ['15 days', 'Month', '3 Month', '6 Month', 'Year'];
 
     // Revenue Data
-    revenueAmount = '$25,843.45';
+    revenueAmount = '₹25,843.45';
     revenueBadge = '+11%';
     revenueBadgeClass = 'badge'; // or 'badge down' for negative
     revenueData = { labels: ['Jan 01', 'Jan 07', 'Jan 14', 'Jan 21', 'Jan 28'], data: [0, 5000, 12000, 25000, 45000] };
@@ -168,16 +170,29 @@ export class DashboardComponent {
         this.analyticsData = data;
     }
 
-    // Initialize with default
+    // Initialize with live data
     ngOnInit() {
         this.updateAnalyticsBaseData('Month');
         this.applyAnalyticsFilter();
+        this.fetchStats();
+    }
+
+    fetchStats() {
+        this.apiService.getStats().subscribe({
+            next: (stats) => {
+                this.revenueAmount = `₹${stats.totalRevenue.toLocaleString()}`;
+                // Update other cards if present in template
+                // Total Orders: stats.totalOrders
+                // Total Users: stats.totalUsers
+            },
+            error: (err) => console.error('Error fetching dashboard stats', err)
+        });
     }
 
     updateRevenueData(option: string) {
         switch (option) {
             case '15 days':
-                this.revenueAmount = '$12,450.00';
+                this.revenueAmount = '₹12,450.00';
                 this.revenueBadge = '+5%';
                 this.revenueData = {
                     labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15'],
@@ -185,7 +200,7 @@ export class DashboardComponent {
                 };
                 break;
             case 'Month':
-                this.revenueAmount = '$25,843.45';
+                this.revenueAmount = '₹25,843.45';
                 this.revenueBadge = '+11%';
                 this.revenueData = {
                     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
@@ -193,7 +208,7 @@ export class DashboardComponent {
                 };
                 break;
             case '3 Month':
-                this.revenueAmount = '$78,200.10';
+                this.revenueAmount = '₹78,200.10';
                 this.revenueBadge = '+18%';
                 this.revenueData = {
                     labels: ['Month 1', 'Month 2', 'Month 3'],
@@ -201,7 +216,7 @@ export class DashboardComponent {
                 };
                 break;
             case '6 Month':
-                this.revenueAmount = '$150,900.50';
+                this.revenueAmount = '₹150,900.50';
                 this.revenueBadge = '+22%';
                 this.revenueData = {
                     labels: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'],
@@ -209,7 +224,7 @@ export class DashboardComponent {
                 };
                 break;
             case 'Year':
-                this.revenueAmount = '$320,500.00';
+                this.revenueAmount = '₹320,500.00';
                 this.revenueBadge = '+30%';
                 this.revenueData = {
                     labels: ['Q1', 'Q2', 'Q3', 'Q4'],
@@ -217,7 +232,7 @@ export class DashboardComponent {
                 };
                 break;
             default:
-                this.revenueAmount = '$25,843.45';
+                this.revenueAmount = '₹25,843.45';
                 this.revenueBadge = '+11%';
                 this.revenueData = { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], data: [5000, 15000, 22000, 25800] };
         }
@@ -244,5 +259,27 @@ export class DashboardComponent {
             default:
                 this.performanceChartData = { completed: 82, return: 10, cancel: 40 };
         }
+    }
+    // Analytics Details Modal
+    showAnalyticsModal = false;
+    activeModalMode: 'orders' | 'performance' | 'revenue' = 'orders';
+
+    openAnalyticsModal() {
+        this.activeModalMode = 'orders';
+        this.showAnalyticsModal = true;
+    }
+
+    openPerformanceModal() {
+        this.activeModalMode = 'performance';
+        this.showAnalyticsModal = true;
+    }
+
+    openRevenueModal() {
+        this.activeModalMode = 'revenue';
+        this.showAnalyticsModal = true;
+    }
+
+    closeAnalyticsModal() {
+        this.showAnalyticsModal = false;
     }
 }

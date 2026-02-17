@@ -5,8 +5,8 @@
         <div class="card-panel stats-merged-card area-stats">
             <div class="stat-item">
                 <div class="stat-content">
-                    <div class="card-title">Total Restaurant</div>
-                    <div class="card-value">10,000</div>
+                    <div class="card-title">Total Earning</div>
+                    <div class="card-value">₹10,000</div>
                 </div>
                 <div class="stat-trend">
                     <span class="trend-badge up">
@@ -20,7 +20,7 @@
             <div class="stat-item">
                 <div class="stat-content">
                     <div class="card-title">Total Revenue</div>
-                    <div class="card-value">$87,363</div>
+                    <div class="card-value">₹87,363</div>
                 </div>
                 <div class="stat-trend">
                     <span class="trend-badge up">
@@ -46,13 +46,13 @@
             </div>
         </div>
 
-        <div class="card-panel area-performance">
+        <div class="card-panel area-performance" (click)="openPerformanceModal()" style="cursor: pointer;">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Order Performance <span class="light">vs {{ performanceTimeRange }}</span></h3>
                 </div>
                 <div class="actions">
-                    <div class="dropdown-container">
+                    <div class="dropdown-container" (click)="$event.stopPropagation()">
                         <span class="btn-monthly" (click)="togglePerformanceDropdown()">
                             {{ performanceTimeRange }} <i class='bx bx-chevron-down'></i>
                         </span>
@@ -71,15 +71,15 @@
             <app-performance-chart [data]="performanceChartData"></app-performance-chart>
         </div>
 
-        <div class="card-panel area-analytics">
+        <div class="card-panel area-analytics" (click)="openAnalyticsModal()" style="cursor: pointer;">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Order Analytics</h3>
-                    <span class="subtitle">Excellent job on your order 👏</span>
                 </div>
                 <div class="actions">
-                    <span class="filter">Vendor: All Vendor <i class='bx bx-chevron-down'></i></span>
-                    <div class="dropdown-container" style="display: inline-block;">
+                    <span class="filter" (click)="$event.stopPropagation()">Vendor: All Vendor <i
+                            class='bx bx-chevron-down'></i></span>
+                    <div class="dropdown-container" style="display: inline-block;" (click)="$event.stopPropagation()">
                         <span class="filter" (click)="toggleAnalyticsStatusDropdown()" style="cursor: pointer;">
                             Status: {{ analyticsStatus }} <i class='bx bx-chevron-down'></i>
                         </span>
@@ -92,7 +92,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="dropdown-container">
+                    <div class="dropdown-container" (click)="$event.stopPropagation()">
                         <span class="btn-monthly" (click)="toggleAnalyticsDropdown()">
                             {{ analyticsTimeRange }} <i class='bx bx-chevron-down'></i>
                         </span>
@@ -120,13 +120,13 @@
             <app-analytics-chart [data]="analyticsData"></app-analytics-chart>
         </div>
 
-        <div class="card-panel area-revenue">
+        <div class="card-panel area-revenue" (click)="openRevenueModal()" style="cursor: pointer;">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Revenue Profile</h3>
                     <div class="revenue-amount">{{ revenueAmount }} <span class="badge">{{ revenueBadge }}</span> <span
                             class="light">/{{ revenueTimeRange }}</span></div>
-                    <span class="subtitle">Your performance is excellent 👏</span>
+
                 </div>
                 <div class="actions">
                     <div class="dropdown-container">
@@ -153,3 +153,6 @@
 
     </div>
 </div>
+
+<app-analytics-details-modal [isOpen]="showAnalyticsModal" [mode]="activeModalMode"
+    (close)="closeAnalyticsModal()"></app-analytics-details-modal>
