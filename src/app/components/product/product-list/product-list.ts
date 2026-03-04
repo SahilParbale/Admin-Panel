@@ -7,6 +7,7 @@ import { AvailabilityChartComponent } from '../availability-chart/availability-c
 import { DemandForecastChartComponent } from '../demand-forecast-chart/demand-forecast-chart.component';
 import { AddProductModal } from '../add-product-modal/add-product-modal';
 import { CategoryDistributionChartComponent } from '../category-distribution-chart/category-distribution-chart.component';
+import { ProductRevenueModalComponent } from '../product-revenue-modal/product-revenue-modal.component';
 
 export interface Product {
   id: string;
@@ -23,7 +24,7 @@ export interface Product {
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, BaseChartDirective, AvailabilityChartComponent, DemandForecastChartComponent, AddProductModal, CategoryDistributionChartComponent],
+  imports: [CommonModule, FormsModule, BaseChartDirective, AvailabilityChartComponent, DemandForecastChartComponent, AddProductModal, CategoryDistributionChartComponent, ProductRevenueModalComponent],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
@@ -206,14 +207,21 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   filterStatusOption = 'All';
 
   // Temporary values for the modal inputs (before applying)
+  tempFilterCategory = 'All';
   tempFilterStock = 'All';
   tempFilterStatus = 'All';
 
+  categoryOptions = ['All', 'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty', 'Sports', 'Toys', 'Automotive', 'Books', 'Health', 'Grocery', 'Furniture', 'Jewelry', 'Pet Supplies', 'Office Products', 'Garden', 'Music', 'Video Games', 'Fruits', 'Exotic', 'Berries'];
   stockOptions = ['All', 'In Stock', 'Low Stock', 'Out of Stock'];
   statusOptions = ['All', 'Active', 'Inactive'];
 
+  // Revenue Modal State
+  isRevenueModalOpen = false;
+  selectedRevenueProduct: any = null;
+
   viewProducts() {
     // Open Filter Modal
+    this.tempFilterCategory = this.categoryFilter;
     this.tempFilterStock = this.filterStockOption;
     this.tempFilterStatus = this.filterStatusOption;
     this.isFilterModalOpen = true;
@@ -233,6 +241,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   applyFilters() {
+    this.categoryFilter = this.tempFilterCategory;
     this.filterStockOption = this.tempFilterStock;
     this.filterStatusOption = this.tempFilterStatus;
     this.filterProducts();
@@ -405,8 +414,36 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         },
         border: { display: false }
       }
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    onHover: (event: any, activeElements: any[]) => {
+      if (event.native && event.native.target) {
+        event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+      }
     }
   };
+
+  onChartClick({ active }: { active?: any[] }): void {
+    if (active && active.length > 0) {
+      const index = active[0].index;
+      const label = this.barChartData.labels?.[index] as string;
+      const value = this.barChartData.datasets[0].data[index] as number;
+      this.openRevenueDetail(label, value);
+    }
+  }
+
+  openRevenueDetail(productName: string, revenue: number) {
+    this.selectedRevenueProduct = { name: productName, revenue: revenue };
+    this.isRevenueModalOpen = true;
+  }
+
+  closeRevenueModal() {
+    this.isRevenueModalOpen = false;
+    this.selectedRevenueProduct = null;
+  }
 
   selectedTrendPeriod: string = 'Week';
   showTrendDropdown = false;

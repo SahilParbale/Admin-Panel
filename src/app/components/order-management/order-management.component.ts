@@ -32,6 +32,7 @@ export class OrderManagementComponent implements OnInit {
                     deliveryPartner: o.rider?.name || 'Pending',
                     items: o.items.map((i: any) => ({
                         name: i.product?.name,
+                        category: i.product?.category || 'General',
                         quantity: i.quantity,
                         price: `₹${i.price}`
                     }))

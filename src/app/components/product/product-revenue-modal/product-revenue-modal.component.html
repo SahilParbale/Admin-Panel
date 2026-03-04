@@ -1,0 +1,85 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect" *ngIf="product">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="product-badge">Performance Insight</div>
+                <h2>{{ product.name }}</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="stats-grid">
+                <div class="stat-card revenue">
+                    <div class="icon-wrap">
+                        <i class='bx bx-rupee'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Net Revenue</span>
+                        <h3 class="value">{{ formatCurrency(product.revenue) }}</h3>
+                    </div>
+                </div>
+                <div class="stat-card units">
+                    <div class="icon-wrap">
+                        <i class='bx bx-cycling'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Total Orders</span>
+                        <h3 class="value">842</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="section-header">
+                    <h4>Hourly Peak Demand</h4>
+                    <span class="trend positive">+18.2% <i class='bx bx-up-arrow-alt'></i></span>
+                </div>
+                <div class="mini-chart">
+                    <canvas baseChart [data]="miniChartData" [options]="miniChartOptions" type="line"></canvas>
+                </div>
+            </div>
+
+            <div class="breakdown-section">
+                <h4>Order Source Split</h4>
+                <div class="progress-container">
+                    <div class="progress-item">
+                        <div class="progress-details">
+                            <span>Direct App Orders</span>
+                            <span>72%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill indigo" style="width: 72%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-details">
+                            <span>Delivery Partners (Swiggy/Zomato)</span>
+                            <span>28%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill violet" style="width: 28%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-insights">
+                <div class="insight-item">
+                    <i class='bx bx-timer'></i>
+                    <span>Avg. Prep Time: <strong>14 min</strong></span>
+                </div>
+                <div class="insight-item">
+                    <i class='bx bx-package'></i>
+                    <span>Packaging Efficiency: <strong>96%</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close Details</button>
+        </div>
+    </div>
+</div>

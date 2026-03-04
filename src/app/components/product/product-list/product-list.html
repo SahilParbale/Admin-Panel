@@ -27,6 +27,7 @@
                         <th>S.No</th>
                         <th>Image</th>
                         <th>Product Name</th>
+                        <th>Category</th>
                         <th>SKU</th>
                         <th>Price</th>
                         <th>Stock</th>
@@ -47,8 +48,10 @@
                         <td>
                             <div class="product-info">
                                 <span class="name">{{ product.name }}</span>
-                                <span class="category">{{ product.category }}</span>
                             </div>
+                        </td>
+                        <td>
+                            <span class="category">{{ product.category }}</span>
                         </td>
                         <td>{{ product.sku }}</td>
                         <td>₹{{ product.price }}</td>
@@ -99,7 +102,8 @@
                 </div>
             </div>
             <div class="chart-wrapper">
-                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"
+                    (chartClick)="onChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -220,6 +224,10 @@
     (save)="onProductSaved($event)">
 </app-add-product-modal>
 
+<app-product-revenue-modal [isOpen]="isRevenueModalOpen" [product]="selectedRevenueProduct"
+    (close)="closeRevenueModal()">
+</app-product-revenue-modal>
+
 <!-- Delete Confirmation Modal -->
 <div class="delete-modal-overlay" [class.open]="isDeleteModalOpen">
     <div class="delete-modal-container">
@@ -244,6 +252,16 @@
             <button class="close-btn" (click)="closeFilterModal()">&times;</button>
         </div>
         <div class="modal-body">
+            <div class="filter-group">
+                <label>Category</label>
+                <div class="filter-options">
+                    <div class="filter-option" *ngFor="let opt of categoryOptions"
+                        [class.selected]="tempFilterCategory === opt" (click)="tempFilterCategory = opt">
+                        {{ opt }}
+                    </div>
+                </div>
+            </div>
+
             <div class="filter-group">
                 <label>Stock Status</label>
                 <div class="filter-options">

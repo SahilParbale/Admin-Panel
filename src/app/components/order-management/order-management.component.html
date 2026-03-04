@@ -143,6 +143,7 @@
                     <thead>
                         <tr>
                             <th>Item Name</th>
+                            <th>Category</th>
                             <th>Quantity</th>
                             <th>Price</th>
                         </tr>
@@ -150,6 +151,7 @@
                     <tbody>
                         <tr *ngFor="let item of selectedOrder.items">
                             <td>{{ item.name }}</td>
+                            <td>{{ item.category }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.price }}</td>
                         </tr>
