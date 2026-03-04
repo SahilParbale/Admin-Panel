@@ -13,7 +13,8 @@
         </div>
     </div>
     <div class="chart-container">
-        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"
+            (chartClick)="onChartClick($event)">
         </canvas>
     </div>
 </div>

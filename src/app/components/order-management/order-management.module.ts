@@ -13,6 +13,7 @@ import { CancellationRateTrendChartComponent } from './cancellation-rate-trend-c
 import { BaseChartDirective } from 'ng2-charts';
 import { OrderAreaModalComponent } from './order-area-modal/order-area-modal.component';
 import { OrderCancellationModalComponent } from './order-cancellation-modal/order-cancellation-modal.component';
+import { OrderAovModalComponent } from './order-aov-modal/order-aov-modal.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { OrderCancellationModalComponent } from './order-cancellation-modal/orde
         OrderManagementRoutingModule,
         BaseChartDirective,
         OrderAreaModalComponent,
-        OrderCancellationModalComponent
+        OrderCancellationModalComponent,
+        OrderAovModalComponent
     ]
 })
 export class OrderManagementModule { }

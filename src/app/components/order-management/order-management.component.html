@@ -135,8 +135,13 @@
         [rate]="selectedCancellationRate" (close)="closeCancellationModal()">
     </app-order-cancellation-modal>
 
+    <!-- AOV Modal -->
+    <app-order-aov-modal [isOpen]="isAovModalOpen" [period]="selectedAovPeriod" [aovValue]="selectedAovValue"
+        (close)="closeAovModal()">
+    </app-order-aov-modal>
+
     <div class="charts-grid-compact">
-        <app-average-order-value-chart></app-average-order-value-chart>
+        <app-average-order-value-chart (chartClick)="onAovChartClick($event)"></app-average-order-value-chart>
         <app-order-status-distribution-chart></app-order-status-distribution-chart>
         <app-payment-method-split-chart></app-payment-method-split-chart>
         <app-repeat-orders-chart></app-repeat-orders-chart>

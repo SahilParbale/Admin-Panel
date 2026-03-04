@@ -24,6 +24,11 @@ export class OrderManagementComponent implements OnInit {
     selectedCancellationPeriod: string = '';
     selectedCancellationRate: number = 0;
 
+    // AOV Modal State
+    isAovModalOpen = false;
+    selectedAovPeriod: string = '';
+    selectedAovValue: number = 0;
+
     ngOnInit() {
         this.fetchOrders();
     }
@@ -92,5 +97,15 @@ export class OrderManagementComponent implements OnInit {
 
     closeCancellationModal() {
         this.isCancellationModalOpen = false;
+    }
+
+    onAovChartClick(event: any): void {
+        this.selectedAovPeriod = event.label;
+        this.selectedAovValue = event.value;
+        this.isAovModalOpen = true;
+    }
+
+    closeAovModal() {
+        this.isAovModalOpen = false;
     }
 }

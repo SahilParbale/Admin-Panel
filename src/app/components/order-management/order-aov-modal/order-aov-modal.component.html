@@ -1,0 +1,71 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="emerald-badge">Efficiency Insight</div>
+                <h2>Average Order Value - {{ period }}</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="aov-hero">
+                <div class="hero-content">
+                    <span class="label">Current AOV</span>
+                    <h3 class="value">₹{{ aovValue.toLocaleString() }}</h3>
+                    <div class="trend positive">
+                        <i class='bx bx-trending-up'></i> {{ revenueImpact }}
+                    </div>
+                </div>
+                <div class="hero-icon">
+                    <i class='bx bx-wallet'></i>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-item">
+                    <div class="item-icon blue">
+                        <i class='bx bx-group'></i>
+                    </div>
+                    <div class="item-meta">
+                        <span class="label">Top Segment</span>
+                        <span class="data">{{ popularSegment }}</span>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="item-icon purple">
+                        <i class='bx bx-analyse'></i>
+                    </div>
+                    <div class="item-meta">
+                        <span class="label">Upsell Conversion</span>
+                        <span class="data">{{ upsellConversion }}</span>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="item-icon orange">
+                        <i class='bx bx-time-five'></i>
+                    </div>
+                    <div class="item-meta">
+                        <span class="label">Peak Efficiency</span>
+                        <span class="data">{{ peakTime }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="strategy-box">
+                <div class="box-header">
+                    <i class='bx bx-target-lock'></i>
+                    <span>Growth Strategy</span>
+                </div>
+                <p>Bulk orders from {{ popularSegment }} are driving high AOV today. Suggesting 5% discount on larger
+                    bundles to increase conversion further.</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close AOV Report</button>
+        </div>
+    </div>
+</div>
