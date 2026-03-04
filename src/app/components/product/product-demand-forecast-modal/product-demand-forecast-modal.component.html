@@ -1,0 +1,66 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="product-badge">AI Prediction</div>
+                <h2>Forecast Details: {{ date }}</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="forecast-insights">
+                <div class="main-prediction">
+                    <div class="chart-container">
+                        <canvas baseChart [data]="confidenceData" [options]="confidenceOptions"
+                            type="doughnut"></canvas>
+                        <div class="chart-label">
+                            <span class="value">92%</span>
+                            <span class="label">Confidence</span>
+                        </div>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Predicted Demand</span>
+                        <h3 class="value">{{ predictedUnits }} <small>Units</small></h3>
+                        <div class="growth positive">
+                            <i class='bx bx-up-arrow-alt'></i>
+                            <span>+8.4% expected increase</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="factors-grid">
+                    <div class="factor-card">
+                        <i class='bx bx-calendar-event'></i>
+                        <div class="details">
+                            <span class="label">Primary Driver</span>
+                            <span class="value">Weekend Surge</span>
+                        </div>
+                    </div>
+                    <div class="factor-card">
+                        <i class='bx bx-cloud-lightning'></i>
+                        <div class="details">
+                            <span class="label">Risk Level</span>
+                            <span class="value low">Very Low</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-box">
+                    <div class="header">
+                        <i class='bx bx-bulb'></i>
+                        <span>Smart Recommendation</span>
+                    </div>
+                    <p>Demand for {{ date }} is projected to peak. We recommend increasing preparation by 10% to ensure
+                        zero stock-outs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Apply Forecast Insights</button>
+        </div>
+    </div>
+</div>

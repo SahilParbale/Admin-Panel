@@ -138,11 +138,14 @@
                 </div>
             </div>
             <div class="chart-wrapper">
-                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"
+                    (chartClick)="onTrendChartClick($event)">
                 </canvas>
             </div>
         </div>
     </div>
+
+
 
     <!-- Compact Charts Grid (3 Columns) -->
     <div class="charts-grid-compact">
@@ -160,7 +163,8 @@
                 </div>
             </div>
             <div class="chart-wrapper">
-                <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'">
+                <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'"
+                    (chartClick)="onTopSellingChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -179,7 +183,8 @@
                     <i class='bx bx-download'></i>
                 </div>
             </div>
-            <app-availability-chart [data]="availabilityData"></app-availability-chart>
+            <app-availability-chart [data]="availabilityData"
+                (chartClick)="onAvailabilityChartClick($event)"></app-availability-chart>
         </div>
 
 
@@ -198,7 +203,7 @@
                     <i class='bx bx-download'></i>
                 </div>
             </div>
-            <app-demand-forecast-chart></app-demand-forecast-chart>
+            <app-demand-forecast-chart (chartClick)="onDemandForecastChartClick($event)"></app-demand-forecast-chart>
         </div>
 
         <!-- Category Distribution Chart (Spans 2 columns) -->
@@ -215,11 +220,13 @@
                     <i class='bx bx-download'></i>
                 </div>
             </div>
-            <app-category-distribution-chart></app-category-distribution-chart>
+            <app-category-distribution-chart
+                (chartClick)="onCategoryChartClick($event)"></app-category-distribution-chart>
         </div>
     </div>
 </div>
 
+<!-- Product Management Modals -->
 <app-add-product-modal [isOpen]="isAddModalOpen" [product]="selectedProduct" (close)="closeAddModal()"
     (save)="onProductSaved($event)">
 </app-add-product-modal>
@@ -227,6 +234,27 @@
 <app-product-revenue-modal [isOpen]="isRevenueModalOpen" [product]="selectedRevenueProduct"
     (close)="closeRevenueModal()">
 </app-product-revenue-modal>
+
+<app-product-sales-modal [isOpen]="isSalesModalOpen" [period]="selectedTrendPeriod" [selectedLabel]="selectedLabel"
+    [data]="selectedSalesTrendData" (close)="closeSalesModal()">
+</app-product-sales-modal>
+
+<app-product-top-selling-modal [isOpen]="isTopSellingModalOpen" [productName]="selectedTopSellingProduct?.name"
+    [quantitySold]="selectedTopSellingProduct?.sold" (close)="closeTopSellingModal()">
+</app-product-top-selling-modal>
+
+<app-product-availability-modal [isOpen]="isAvailabilityModalOpen" [activeCount]="availabilityData.active"
+    [inactiveCount]="availabilityData.inactive" (close)="closeAvailabilityModal()">
+</app-product-availability-modal>
+
+<app-product-demand-forecast-modal [isOpen]="isDemandForecastModalOpen" [date]="selectedForecastDate"
+    [predictedUnits]="selectedForecastValue" (close)="closeDemandForecastModal()">
+</app-product-demand-forecast-modal>
+
+<app-product-category-modal [isOpen]="isCategoryModalOpen" [categoryName]="selectedCategoryName"
+    [inStock]="selectedCategoryInStock" [lowStock]="selectedCategoryLowStock" [outOfStock]="selectedCategoryOutOfStock"
+    (close)="closeCategoryModal()">
+</app-product-category-modal>
 
 <!-- Delete Confirmation Modal -->
 <div class="delete-modal-overlay" [class.open]="isDeleteModalOpen">

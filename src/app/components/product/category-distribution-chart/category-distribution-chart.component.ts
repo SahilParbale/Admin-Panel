@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -10,6 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [BaseChartDirective]
 })
 export class CategoryDistributionChartComponent {
+    @Output() chartClick = new EventEmitter<any>();
     public chartData: ChartConfiguration<'bar'>['data'] = {
         labels: ['Electronics', 'Fashion', 'Home & Kitchen', 'Beauty', 'Sports', 'Toys'],
         datasets: [
@@ -93,6 +94,22 @@ export class CategoryDistributionChartComponent {
             mode: 'nearest',
             axis: 'x',
             intersect: false
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (event.native && event.native.target) {
+                event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+            }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const category = this.chartData.labels?.[index] as string;
+            const inStock = this.chartData.datasets[0].data[index] as number;
+            const lowStock = this.chartData.datasets[1].data[index] as number;
+            const outOfStock = this.chartData.datasets[2].data[index] as number;
+            this.chartClick.emit({ category, inStock, lowStock, outOfStock });
+        }
+    }
 }

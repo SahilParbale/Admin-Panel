@@ -1,0 +1,86 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="product-badge">Sales Performance</div>
+                <h2 *ngIf="selectedLabel">{{ selectedLabel }} Insights</h2>
+                <h2 *ngIf="!selectedLabel">{{ period }}ly Sales Trend</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="stats-grid">
+                <div class="stat-card orders">
+                    <div class="icon-wrap">
+                        <i class='bx bx-shopping-bag'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Orders <span *ngIf="selectedLabel">on {{ selectedLabel }}</span></span>
+                        <h3 class="value">420</h3>
+                    </div>
+                </div>
+                <div class="stat-card growth">
+                    <div class="icon-wrap">
+                        <i class='bx bx-trending-up'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Change (%)</span>
+                        <h3 class="value">+12.5%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="section-header">
+                    <h4>Velocity for {{ selectedLabel || period }}</h4>
+                    <span class="trend positive">Peak reached at 2:00 PM</span>
+                </div>
+                <div class="mini-chart">
+                    <canvas baseChart [data]="miniChartData" [options]="miniChartOptions" type="line"></canvas>
+                </div>
+            </div>
+
+            <div class="breakdown-section">
+                <h4>Demand Split</h4>
+                <div class="progress-container">
+                    <div class="progress-item">
+                        <div class="progress-details">
+                            <span>Main Course</span>
+                            <span>52%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill cyan" style="width: 52%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-details">
+                            <span>Sides & Add-ons</span>
+                            <span>48%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill indigo" style="width: 48%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-insights">
+                <div class="insight-item">
+                    <i class='bx bx-current-location'></i>
+                    <span>Primary Area: <strong>City South</strong></span>
+                </div>
+                <div class="insight-item">
+                    <i class='bx bx-bolt-circle'></i>
+                    <span>Flash Delivery: <strong>18 min</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close {{ selectedLabel || period }} Report</button>
+        </div>
+    </div>
+</div>

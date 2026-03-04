@@ -1,0 +1,73 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="product-badge">Category Report</div>
+                <h2>{{ categoryName }} Distribution</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="stock-analysis">
+                <div class="chart-section">
+                    <div class="chart-container">
+                        <canvas baseChart [data]="stockData" [options]="stockOptions" type="doughnut"></canvas>
+                        <div class="total-label">
+                            <span class="value">{{ inStock + lowStock + outOfStock }}</span>
+                            <span class="label">Total Items</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend-grid">
+                    <div class="legend-item violet">
+                        <div class="dot"></div>
+                        <div class="info">
+                            <span class="label">In Stock</span>
+                            <span class="value">{{ inStock }}</span>
+                        </div>
+                    </div>
+                    <div class="legend-item amber">
+                        <div class="dot"></div>
+                        <div class="info">
+                            <span class="label">Low Stock</span>
+                            <span class="value">{{ lowStock }}</span>
+                        </div>
+                    </div>
+                    <div class="legend-item rose">
+                        <div class="dot"></div>
+                        <div class="info">
+                            <span class="label">Out of Stock</span>
+                            <span class="value">{{ outOfStock }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h4>Stock Health</h4>
+                    <div class="health-card" [class.danger]="outOfStock > 0"
+                        [class.warning]="lowStock > 5 && outOfStock === 0"
+                        [class.success]="outOfStock === 0 && lowStock <= 5">
+                        <div class="status-icon">
+                            <i *ngIf="outOfStock > 0" class='bx bx-error-alt'></i>
+                            <i *ngIf="outOfStock === 0 && lowStock > 5" class='bx bx-error-circle'></i>
+                            <i *ngIf="outOfStock === 0 && lowStock <= 5" class='bx bx-check-shield'></i>
+                        </div>
+                        <div class="status-meta">
+                            <h5>{{ outOfStock > 0 ? 'Urgent Restock Needed' : (lowStock > 5 ? 'Monitoring Required' :
+                                'Category Healthy') }}</h5>
+                            <p>{{ outOfStock }} items are currently disconnected. Check vendor availability.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close {{ categoryName }} Insights</button>
+        </div>
+    </div>
+</div>

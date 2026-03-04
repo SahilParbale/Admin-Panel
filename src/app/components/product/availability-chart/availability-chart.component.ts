@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -11,6 +11,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class AvailabilityChartComponent implements OnChanges {
     @Input() data: { active: number, inactive: number } = { active: 0, inactive: 0 };
+    @Output() chartClick = new EventEmitter<any>();
 
     public pieChartData: ChartConfiguration<'pie'>['data'] = {
         labels: ['Active', 'Inactive'],
@@ -47,8 +48,19 @@ export class AvailabilityChartComponent implements OnChanges {
                 cornerRadius: 4,
                 displayColors: true
             }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (event.native && event.native.target) {
+                event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+            }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            this.chartClick.emit({ active });
+        }
+    }
 
     constructor(private cdr: ChangeDetectorRef) { }
 

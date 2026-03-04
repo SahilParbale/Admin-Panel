@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -10,6 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [BaseChartDirective]
 })
 export class DemandForecastChartComponent {
+    @Output() chartClick = new EventEmitter<any>();
     public chartData: ChartConfiguration<'line'>['data'] = {
         labels: ['Feb 01', 'Feb 02', 'Feb 03', 'Feb 04', 'Feb 05', 'Feb 06', 'Feb 07'],
         datasets: [
@@ -92,6 +93,20 @@ export class DemandForecastChartComponent {
             mode: 'nearest',
             axis: 'x',
             intersect: false
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (event.native && event.native.target) {
+                event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+            }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const label = this.chartData.labels?.[index] as string;
+            const value = this.chartData.datasets[0].data[index] as number;
+            this.chartClick.emit({ label, value });
+        }
+    }
 }

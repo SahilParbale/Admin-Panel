@@ -1,0 +1,72 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="product-badge">Top Selling Item</div>
+                <h2>{{ productName }}</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="stats-grid">
+                <div class="stat-card sales">
+                    <div class="icon-wrap">
+                        <i class='bx bx-cart-alt'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Units Sold</span>
+                        <h3 class="value">{{ quantitySold }}</h3>
+                    </div>
+                </div>
+                <div class="stat-card satisfaction">
+                    <div class="icon-wrap">
+                        <i class='bx bx-star'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Rating</span>
+                        <h3 class="value">4.8 <small>/5</small></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="section-header">
+                    <h4>7-Day Demand Curve</h4>
+                    <span class="trend positive">+15% vs Last Week</span>
+                </div>
+                <div class="mini-chart">
+                    <canvas baseChart [data]="performanceData" [options]="performanceOptions" type="line"></canvas>
+                </div>
+            </div>
+
+            <div class="grid-details">
+                <div class="detail-item">
+                    <span class="label">Return Rate</span>
+                    <div class="value-wrap">
+                        <span class="value">1.2%</span>
+                        <span class="tag low">Low</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Avg. Prep Time</span>
+                    <div class="value-wrap">
+                        <span class="value">12 min</span>
+                        <span class="tag fast">Fast</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-highlight">
+                <p>"Best {{ productName }} in town! Always fresh and perfectly packed."</p>
+                <div class="user">- Sahil P.</div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close Performance Report</button>
+        </div>
+    </div>
+</div>

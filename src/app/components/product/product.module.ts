@@ -12,6 +12,11 @@ import { BaseChartDirective } from 'ng2-charts';
 import { AvailabilityChartComponent } from './availability-chart/availability-chart.component';
 import { OfferImpactChartComponent } from './offer-impact-chart/offer-impact-chart.component';
 import { DemandForecastChartComponent } from './demand-forecast-chart/demand-forecast-chart.component';
+import { ProductSalesModalComponent } from './product-sales-modal/product-sales-modal.component';
+import { ProductTopSellingModalComponent } from './product-top-selling-modal/product-top-selling-modal.component';
+import { ProductAvailabilityModalComponent } from './product-availability-modal/product-availability-modal.component';
+import { ProductDemandForecastModalComponent } from './product-demand-forecast-modal/product-demand-forecast-modal.component';
+import { ProductCategoryModalComponent } from './product-category-modal/product-category-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import { DemandForecastChartComponent } from './demand-forecast-chart/demand-for
     BaseChartDirective,
     AvailabilityChartComponent,
     OfferImpactChartComponent,
-    DemandForecastChartComponent
+    DemandForecastChartComponent,
+    ProductSalesModalComponent,
+    ProductTopSellingModalComponent,
+    ProductAvailabilityModalComponent,
+    ProductDemandForecastModalComponent,
+    ProductCategoryModalComponent
   ]
 })
 export class ProductModule { }

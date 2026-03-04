@@ -8,6 +8,11 @@ import { DemandForecastChartComponent } from '../demand-forecast-chart/demand-fo
 import { AddProductModal } from '../add-product-modal/add-product-modal';
 import { CategoryDistributionChartComponent } from '../category-distribution-chart/category-distribution-chart.component';
 import { ProductRevenueModalComponent } from '../product-revenue-modal/product-revenue-modal.component';
+import { ProductSalesModalComponent } from '../product-sales-modal/product-sales-modal.component';
+import { ProductTopSellingModalComponent } from '../product-top-selling-modal/product-top-selling-modal.component';
+import { ProductAvailabilityModalComponent } from '../product-availability-modal/product-availability-modal.component';
+import { ProductDemandForecastModalComponent } from '../product-demand-forecast-modal/product-demand-forecast-modal.component';
+import { ProductCategoryModalComponent } from '../product-category-modal/product-category-modal.component';
 
 export interface Product {
   id: string;
@@ -24,7 +29,7 @@ export interface Product {
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, BaseChartDirective, AvailabilityChartComponent, DemandForecastChartComponent, AddProductModal, CategoryDistributionChartComponent, ProductRevenueModalComponent],
+  imports: [CommonModule, FormsModule, BaseChartDirective, AvailabilityChartComponent, DemandForecastChartComponent, AddProductModal, CategoryDistributionChartComponent, ProductRevenueModalComponent, ProductSalesModalComponent, ProductTopSellingModalComponent, ProductAvailabilityModalComponent, ProductDemandForecastModalComponent, ProductCategoryModalComponent],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
@@ -101,6 +106,11 @@ export class ProductListComponent implements OnInit, AfterViewInit {
           autoSkip: false
         },
         border: { display: false }
+      }
+    },
+    onHover: (event: any, activeElements: any[]) => {
+      if (event.native && event.native.target) {
+        event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
       }
     }
   };
@@ -218,6 +228,30 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   // Revenue Modal State
   isRevenueModalOpen = false;
   selectedRevenueProduct: any = null;
+
+  // Sales Trend Modal State
+  isSalesModalOpen = false;
+  selectedSalesTrendData: any = null;
+  selectedLabel: string = '';
+
+  // Top Selling Modal State
+  isTopSellingModalOpen = false;
+  selectedTopSellingProduct: any = null;
+
+  // Availability Modal State
+  isAvailabilityModalOpen = false;
+
+  // Demand Forecast Modal State
+  isDemandForecastModalOpen = false;
+  selectedForecastDate: string = '';
+  selectedForecastValue: number = 0;
+
+  // Category Modal State
+  isCategoryModalOpen = false;
+  selectedCategoryName: string = '';
+  selectedCategoryInStock: number = 0;
+  selectedCategoryLowStock: number = 0;
+  selectedCategoryOutOfStock: number = 0;
 
   viewProducts() {
     // Open Filter Modal
@@ -516,8 +550,69 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     elements: {
       line: { tension: 0.4 },
       point: { radius: 0, hoverRadius: 6 }
+    },
+    onHover: (event: any, activeElements: any[]) => {
+      if (event.native && event.native.target) {
+        event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+      }
     }
   };
+
+  onTrendChartClick({ active }: { active?: any[] }): void {
+    if (active && active.length > 0) {
+      const index = active[0].index;
+      this.selectedLabel = this.lineChartData.labels?.[index] as string;
+      this.isSalesModalOpen = true;
+    }
+  }
+
+  closeSalesModal() {
+    this.isSalesModalOpen = false;
+  }
+
+  onTopSellingChartClick({ active }: { active?: any[] }): void {
+    if (active && active.length > 0) {
+      const index = active[0].index;
+      const label = this.topSellingChartData.labels?.[index] as string;
+      const value = this.topSellingChartData.datasets[0].data[index] as number;
+      this.selectedTopSellingProduct = { name: label, sold: value };
+      this.isTopSellingModalOpen = true;
+    }
+  }
+
+  closeTopSellingModal() {
+    this.isTopSellingModalOpen = false;
+  }
+
+  onAvailabilityChartClick(event: any): void {
+    this.isAvailabilityModalOpen = true;
+  }
+
+  closeAvailabilityModal() {
+    this.isAvailabilityModalOpen = false;
+  }
+
+  onDemandForecastChartClick(event: any): void {
+    this.selectedForecastDate = event.label;
+    this.selectedForecastValue = event.value;
+    this.isDemandForecastModalOpen = true;
+  }
+
+  closeDemandForecastModal() {
+    this.isDemandForecastModalOpen = false;
+  }
+
+  onCategoryChartClick(event: any): void {
+    this.selectedCategoryName = event.category;
+    this.selectedCategoryInStock = event.inStock;
+    this.selectedCategoryLowStock = event.lowStock;
+    this.selectedCategoryOutOfStock = event.outOfStock;
+    this.isCategoryModalOpen = true;
+  }
+
+  closeCategoryModal() {
+    this.isCategoryModalOpen = false;
+  }
 
   ngAfterViewInit() {
     // Charts initialized in ngOnInit via data binding
