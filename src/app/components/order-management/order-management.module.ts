@@ -14,6 +14,9 @@ import { BaseChartDirective } from 'ng2-charts';
 import { OrderAreaModalComponent } from './order-area-modal/order-area-modal.component';
 import { OrderCancellationModalComponent } from './order-cancellation-modal/order-cancellation-modal.component';
 import { OrderAovModalComponent } from './order-aov-modal/order-aov-modal.component';
+import { OrderStatusModalComponent } from './order-status-modal/order-status-modal.component';
+import { OrderPaymentModalComponent } from './order-payment-modal/order-payment-modal.component';
+import { OrderRepeatModalComponent } from './order-repeat-modal/order-repeat-modal.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +35,10 @@ import { OrderAovModalComponent } from './order-aov-modal/order-aov-modal.compon
         BaseChartDirective,
         OrderAreaModalComponent,
         OrderCancellationModalComponent,
-        OrderAovModalComponent
+        OrderAovModalComponent,
+        OrderStatusModalComponent,
+        OrderPaymentModalComponent,
+        OrderRepeatModalComponent
     ]
 })
 export class OrderManagementModule { }

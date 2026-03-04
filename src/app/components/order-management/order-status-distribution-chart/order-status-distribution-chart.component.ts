@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -8,6 +8,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
     standalone: false
 })
 export class OrderStatusDistributionChartComponent implements OnInit {
+    @Output() chartClick = new EventEmitter<any>();
     public doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
         labels: ['New', 'Packed', 'Out for Delivery', 'Delivered'],
         datasets: [
@@ -53,8 +54,24 @@ export class OrderStatusDistributionChartComponent implements OnInit {
                 displayColors: true,
                 usePointStyle: true
             }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
+            }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const label = this.doughnutChartData.labels?.[index] as string;
+            const value = this.doughnutChartData.datasets[0].data[index] as number;
+            this.chartClick.emit({ label, value });
+        }
+    }
 
     constructor() { }
 

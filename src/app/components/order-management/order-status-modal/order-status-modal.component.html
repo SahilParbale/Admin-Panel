@@ -1,0 +1,66 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="status-indicator" [style.background-color]="getStatusColor()"></div>
+                <div class="header-text">
+                    <span class="category-label">Operational Status</span>
+                    <h2>{{ statusName }} Overview</h2>
+                </div>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="status-hero" [style.border-left-color]="getStatusColor()">
+                <div class="hero-metric">
+                    <span class="label">Total Orders</span>
+                    <h3 class="value">{{ orderCount }}</h3>
+                </div>
+                <div class="hero-metric">
+                    <span class="label">Avg. Duration</span>
+                    <span class="value duration">{{ avgTimeInStatus }}</span>
+                </div>
+            </div>
+
+            <div class="insights-row">
+                <div class="insight-card">
+                    <div class="card-icon">
+                        <i class='bx bx-tachometer'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Efficiency</span>
+                        <span class="value trend">{{ efficiencyTrend }}</span>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="card-icon">
+                        <i class='bx bx-shield-quarter'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Bottlenecks</span>
+                        <span class="value safe">{{ bottleneckAlert }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="optimization-guide">
+                <div class="guide-header">
+                    <i class='bx bx-support'></i>
+                    <span>SLA Recommendation</span>
+                </div>
+                <div class="guide-content">
+                    <p>{{ recommendation }} Keep monitoring the volume of 'Packed' orders for potential delays.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" [style.background-color]="getStatusColor()" (click)="closeModal()">
+                Close Insights
+            </button>
+        </div>
+    </div>
+</div>

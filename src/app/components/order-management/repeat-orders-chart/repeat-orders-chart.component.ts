@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -8,6 +8,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
     standalone: false
 })
 export class RepeatOrdersChartComponent implements OnInit {
+    @Output() chartClick = new EventEmitter<any>();
     public barChartData: ChartConfiguration<'bar'>['data'] = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [
@@ -49,6 +50,13 @@ export class RepeatOrdersChartComponent implements OnInit {
                 usePointStyle: true
             }
         },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
+            }
+        },
         scales: {
             x: {
                 grid: { display: false },
@@ -61,6 +69,16 @@ export class RepeatOrdersChartComponent implements OnInit {
             }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const label = this.barChartData.labels?.[index] as string;
+            const firstTime = this.barChartData.datasets[0].data[index] as number;
+            const repeat = this.barChartData.datasets[1].data[index] as number;
+            this.chartClick.emit({ label, firstTime, repeat });
+        }
+    }
 
     constructor() { }
 

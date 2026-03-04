@@ -140,11 +140,27 @@
         (close)="closeAovModal()">
     </app-order-aov-modal>
 
+    <!-- Status Modal -->
+    <app-order-status-modal [isOpen]="isStatusModalOpen" [statusName]="selectedStatusName"
+        [orderCount]="selectedStatusCount" (close)="closeStatusModal()">
+    </app-order-status-modal>
+
+    <!-- Payment Modal -->
+    <app-order-payment-modal [isOpen]="isPaymentModalOpen" [paymentMethod]="selectedPaymentMethod"
+        [count]="selectedPaymentCount" (close)="closePaymentModal()">
+    </app-order-payment-modal>
+
+    <!-- Repeat Modal -->
+    <app-order-repeat-modal [isOpen]="isRepeatModalOpen" [month]="selectedMonth"
+        [firstTimeOrders]="selectedFirstTimeCount" [repeatOrders]="selectedRepeatCount" (close)="closeRepeatModal()">
+    </app-order-repeat-modal>
+
     <div class="charts-grid-compact">
         <app-average-order-value-chart (chartClick)="onAovChartClick($event)"></app-average-order-value-chart>
-        <app-order-status-distribution-chart></app-order-status-distribution-chart>
-        <app-payment-method-split-chart></app-payment-method-split-chart>
-        <app-repeat-orders-chart></app-repeat-orders-chart>
+        <app-order-status-distribution-chart
+            (chartClick)="onStatusChartClick($event)"></app-order-status-distribution-chart>
+        <app-payment-method-split-chart (chartClick)="onPaymentChartClick($event)"></app-payment-method-split-chart>
+        <app-repeat-orders-chart (chartClick)="onRepeatChartClick($event)"></app-repeat-orders-chart>
     </div>
 
     <!-- Order Details Modal -->

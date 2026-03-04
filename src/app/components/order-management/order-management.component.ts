@@ -29,6 +29,22 @@ export class OrderManagementComponent implements OnInit {
     selectedAovPeriod: string = '';
     selectedAovValue: number = 0;
 
+    // Status Modal State
+    isStatusModalOpen = false;
+    selectedStatusName: string = '';
+    selectedStatusCount: number = 0;
+
+    // Payment Modal State
+    isPaymentModalOpen = false;
+    selectedPaymentMethod: string = '';
+    selectedPaymentCount: number = 0;
+
+    // Repeat Modal State
+    isRepeatModalOpen = false;
+    selectedMonth: string = '';
+    selectedFirstTimeCount: number = 0;
+    selectedRepeatCount: number = 0;
+
     ngOnInit() {
         this.fetchOrders();
     }
@@ -107,5 +123,36 @@ export class OrderManagementComponent implements OnInit {
 
     closeAovModal() {
         this.isAovModalOpen = false;
+    }
+
+    onStatusChartClick(event: any): void {
+        this.selectedStatusName = event.label;
+        this.selectedStatusCount = event.value;
+        this.isStatusModalOpen = true;
+    }
+
+    closeStatusModal() {
+        this.isStatusModalOpen = false;
+    }
+
+    onPaymentChartClick(event: any): void {
+        this.selectedPaymentMethod = event.label;
+        this.selectedPaymentCount = event.value;
+        this.isPaymentModalOpen = true;
+    }
+
+    closePaymentModal() {
+        this.isPaymentModalOpen = false;
+    }
+
+    onRepeatChartClick(event: any): void {
+        this.selectedMonth = event.label;
+        this.selectedFirstTimeCount = event.firstTime;
+        this.selectedRepeatCount = event.repeat;
+        this.isRepeatModalOpen = true;
+    }
+
+    closeRepeatModal() {
+        this.isRepeatModalOpen = false;
     }
 }

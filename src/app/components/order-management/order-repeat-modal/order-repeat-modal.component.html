@@ -1,0 +1,85 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="loyalty-badge">Loyalty Analysis</div>
+                <h2>{{ month }} Retention Report</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="retention-hero">
+                <div class="hero-left">
+                    <span class="label">Repeat Rate</span>
+                    <h3 class="value">{{ getRepeatPercentage() }}</h3>
+                    <div class="trend positive">
+                        <i class='bx bx-up-arrow-alt'></i> {{ clvGrowth }} CLV
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="split-item first">
+                        <span class="dot"></span>
+                        <div class="info">
+                            <span class="label">First-time</span>
+                            <span class="count">{{ firstTimeOrders }}</span>
+                        </div>
+                    </div>
+                    <div class="split-item repeat">
+                        <span class="dot"></span>
+                        <div class="info">
+                            <span class="label">Repeat</span>
+                            <span class="count">{{ repeatOrders }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loyalty-metrics">
+                <div class="metric-card">
+                    <div class="card-icon churn">
+                        <i class='bx bx-user-minus'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Churn Risk</span>
+                        <span class="value">{{ churnRisk }}</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="card-icon retention">
+                        <i class='bx bx-refresh'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Retention</span>
+                        <span class="value">{{ retentionRate }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-breakdown">
+                <h4>Customer Tier Distribution</h4>
+                <div class="tier-bar">
+                    <div class="tier gold" style="width: 15%"></div>
+                    <div class="tier silver" style="width: 30%"></div>
+                    <div class="tier bronze" style="width: 55%"></div>
+                </div>
+                <p class="tier-legend">{{ loyaltyTierDistribution }}</p>
+            </div>
+
+            <div class="retention-strategy">
+                <div class="strategy-header">
+                    <i class='bx bx-bulb'></i>
+                    <span>Retention Tip</span>
+                </div>
+                <p>Repeat orders are peaking in {{ month }}. High concentration of Silver tier customers. Launching a
+                    "Road to Gold" campaign could boost CLV by another 10%.</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Download retention Report</button>
+        </div>
+    </div>
+</div>

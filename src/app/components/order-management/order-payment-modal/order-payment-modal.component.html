@@ -1,0 +1,71 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="method-badge" [style.background-color]="getThemeColor() + '15'"
+                    [style.color]="getThemeColor()">
+                    <i class='bx' [ngClass]="getIcon()"></i>
+                    <span>Payment Detail</span>
+                </div>
+                <h2>{{ paymentMethod }} Insights</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="payment-stats">
+                <div class="stat-main" [style.border-left-color]="getThemeColor()">
+                    <span class="label">Total Transactions</span>
+                    <h3 class="value" [style.color]="getThemeColor()">{{ count }}</h3>
+                </div>
+                <div class="stat-secondary">
+                    <div class="sec-item">
+                        <span class="label">Success Rate</span>
+                        <span class="data success">{{ successRate }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="card-icon fee">
+                        <i class='bx bx-receipt'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Processing Fee</span>
+                        <span class="value">{{ avgTransactionFee }}</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="card-icon time">
+                        <i class='bx bx-history'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Settlement</span>
+                        <span class="value">{{ settlementTime }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gateway-info">
+                <h4>Primary Infrastructure</h4>
+                <div class="info-box">
+                    <div class="box-head">
+                        <i class='bx bx-server'></i>
+                        <span>{{ topGateway }}</span>
+                    </div>
+                    <p>Highest transaction volume recorded between 8:00 PM and 10:00 PM. Gateway latency is currently
+                        within healthy limits ( < 200ms).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" [style.background-color]="getThemeColor()" (click)="closeModal()">
+                Dismiss Report
+            </button>
+        </div>
+    </div>
+</div>
