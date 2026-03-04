@@ -11,6 +11,8 @@ import { PeakOrderTimeHeatmapComponent } from './peak-order-time-heatmap/peak-or
 import { RepeatOrdersChartComponent } from './repeat-orders-chart/repeat-orders-chart.component';
 import { CancellationRateTrendChartComponent } from './cancellation-rate-trend-chart/cancellation-rate-trend-chart.component';
 import { BaseChartDirective } from 'ng2-charts';
+import { OrderAreaModalComponent } from './order-area-modal/order-area-modal.component';
+import { OrderCancellationModalComponent } from './order-cancellation-modal/order-cancellation-modal.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +28,9 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [
         CommonModule,
         OrderManagementRoutingModule,
-        BaseChartDirective
+        BaseChartDirective,
+        OrderAreaModalComponent,
+        OrderCancellationModalComponent
     ]
 })
 export class OrderManagementModule { }

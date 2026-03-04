@@ -120,9 +120,20 @@
     </div>
 
     <div class="charts-grid">
-        <app-orders-by-area-heatmap></app-orders-by-area-heatmap>
-        <app-cancellation-rate-trend-chart></app-cancellation-rate-trend-chart>
+        <app-orders-by-area-heatmap (chartClick)="onAreaChartClick($event)"></app-orders-by-area-heatmap>
+        <app-cancellation-rate-trend-chart
+            (chartClick)="onCancellationChartClick($event)"></app-cancellation-rate-trend-chart>
     </div>
+
+    <!-- Area Modal -->
+    <app-order-area-modal [isOpen]="isAreaModalOpen" [areaName]="selectedAreaName" [orderCount]="selectedAreaOrderCount"
+        (close)="closeAreaModal()">
+    </app-order-area-modal>
+
+    <!-- Cancellation Modal -->
+    <app-order-cancellation-modal [isOpen]="isCancellationModalOpen" [period]="selectedCancellationPeriod"
+        [rate]="selectedCancellationRate" (close)="closeCancellationModal()">
+    </app-order-cancellation-modal>
 
     <div class="charts-grid-compact">
         <app-average-order-value-chart></app-average-order-value-chart>

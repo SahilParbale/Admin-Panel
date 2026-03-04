@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -8,6 +8,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
     standalone: false
 })
 export class OrdersByAreaHeatmapComponent implements OnInit {
+    @Output() chartClick = new EventEmitter<any>();
     public barChartData: ChartConfiguration<'bar'>['data'] = {
         labels: ['Mumbai', 'Delhi', 'Bangalore', 'Pune', 'Hyderabad', 'Chennai', 'Kolkata', 'Ahmedabad'],
         datasets: [
@@ -64,8 +65,22 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
                     font: { size: 13, weight: 600 }
                 }
             }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (event.native && event.native.target) {
+                event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';
+            }
         }
     };
+
+    onChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const label = this.barChartData.labels?.[index] as string;
+            const value = this.barChartData.datasets[0].data[index] as number;
+            this.chartClick.emit({ label, value });
+        }
+    }
 
     constructor() { }
 

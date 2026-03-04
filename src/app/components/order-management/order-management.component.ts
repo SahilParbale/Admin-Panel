@@ -14,6 +14,16 @@ export class OrderManagementComponent implements OnInit {
     orders: any[] = [];
     cancelledOrders: any[] = []; // Filtered from orders if needed
 
+    // Area Modal State
+    isAreaModalOpen = false;
+    selectedAreaName: string = '';
+    selectedAreaOrderCount: number = 0;
+
+    // Cancellation Modal State
+    isCancellationModalOpen = false;
+    selectedCancellationPeriod: string = '';
+    selectedCancellationRate: number = 0;
+
     ngOnInit() {
         this.fetchOrders();
     }
@@ -62,5 +72,25 @@ export class OrderManagementComponent implements OnInit {
         a.download = `invoice-${orderId.replace('#', '')}.txt`;
         a.click();
         window.URL.revokeObjectURL(url);
+    }
+
+    onAreaChartClick(event: any): void {
+        this.selectedAreaName = event.label;
+        this.selectedAreaOrderCount = event.value;
+        this.isAreaModalOpen = true;
+    }
+
+    closeAreaModal() {
+        this.isAreaModalOpen = false;
+    }
+
+    onCancellationChartClick(event: any): void {
+        this.selectedCancellationPeriod = event.label;
+        this.selectedCancellationRate = event.value;
+        this.isCancellationModalOpen = true;
+    }
+
+    closeCancellationModal() {
+        this.isCancellationModalOpen = false;
     }
 }

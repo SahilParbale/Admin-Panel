@@ -1,0 +1,68 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="area-badge">Geographic Insight</div>
+                <h2>{{ areaName }} Performance</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="performance-grid">
+                <div class="metric-card main">
+                    <div class="icon-wrap">
+                        <i class='bx bx-shopping-bag'></i>
+                    </div>
+                    <div class="meta">
+                        <span class="label">Total Orders</span>
+                        <h3 class="value">{{ orderCount }}</h3>
+                        <span class="trend positive">
+                            <i class='bx bx-trending-up'></i> {{ growthRate }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="details-list">
+                    <div class="detail-item">
+                        <div class="item-icon timer">
+                            <i class='bx bx-timer'></i>
+                        </div>
+                        <div class="item-info">
+                            <span class="label">Avg. Delivery</span>
+                            <span class="value">{{ avgDeliveryTime }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="item-icon riders">
+                            <i class='bx bx-cycling'></i>
+                        </div>
+                        <div class="item-info">
+                            <span class="label">Active Riders</span>
+                            <span class="value">{{ activeRiders }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="area-insights">
+                <h4>Hotspots & Alerts</h4>
+                <div class="insight-box">
+                    <div class="box-icon">
+                        <i class='bx bx-map-pin'></i>
+                    </div>
+                    <div class="box-content">
+                        <h5>Top Performing Hub</h5>
+                        <p>High demand identified near Central Plaza. Deploy 3 more riders to maintain SLA.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" (click)="closeModal()">Close Area Report</button>
+        </div>
+    </div>
+</div>
