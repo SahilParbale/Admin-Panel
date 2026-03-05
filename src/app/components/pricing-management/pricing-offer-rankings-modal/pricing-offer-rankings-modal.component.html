@@ -1,11 +1,13 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
     <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="method-badge" style="background-color: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
-                    <i class='bx bx-award'></i>
-                    <span>Offer Ranking Detail</span>
-                </div>
+
+        <!-- Gradient Header Banner -->
+        <div class="modal-banner">
+            <div class="banner-icon">
+                <i class='bx bx-award'></i>
+            </div>
+            <div class="banner-text">
+                <span class="banner-label">Offer Rankings</span>
                 <h2>{{ offerName }}</h2>
             </div>
             <button class="close-btn" (click)="closeModal()">
@@ -14,38 +16,63 @@
         </div>
 
         <div class="modal-body">
-            <div class="payment-stats">
-                <div class="stat-main" style="border-left-color: #8b5cf6;">
-                    <span class="label">Total Redemptions</span>
-                    <h3 class="value" style="color: #8b5cf6;">{{ formatNumber(redemptions) }}</h3>
+
+            <!-- Main Redemptions card -->
+            <div class="primary-stat-row">
+                <div class="primary-stat">
+                    <div class="primary-icon"><i class='bx bx-gift'></i></div>
+                    <div class="primary-info">
+                        <span class="primary-label">Total Redemptions</span>
+                        <span class="primary-value">{{ formatNumber(redemptions) }}</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="card-icon fee" style="color: #06b6d4; background: rgba(6, 182, 212, 0.1);">
-                        <i class='bx bx-time-five'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Peak Redemption Time</span>
-                        <span class="value">Evening (6PM - 9PM)</span>
+            <!-- KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon new-users"><i class='bx bx-user-plus'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">New Customers</span>
+                        <span class="kpi-value positive">~35%</span>
                     </div>
                 </div>
-                <div class="detail-card">
-                    <div class="card-icon time" style="color: #10b981; background: rgba(16, 185, 129, 0.1);">
-                        <i class='bx bx-user-check'></i>
+                <div class="kpi-card">
+                    <div class="kpi-icon repeat"><i class='bx bx-refresh'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Repeat Users</span>
+                        <span class="kpi-value">~65%</span>
                     </div>
-                    <div class="card-info">
-                        <span class="label">New Customer Acq.</span>
-                        <span class="value">~35%</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon peak"><i class='bx bx-time-five'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Peak Time</span>
+                        <span class="kpi-value">6PM – 9PM</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon revenue"><i class='bx bx-rupee'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Est. Revenue</span>
+                        <span class="kpi-value">₹{{ formatNumber(redemptions * 320) }}</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Insight Bar -->
+            <div class="insight-bar">
+                <i class='bx bx-trophy'></i>
+                <span><strong>{{ offerName }}</strong> is a top-performing offer — it has driven <strong>{{
+                        formatNumber(redemptions) }}</strong> redemptions this period.</span>
+            </div>
+
         </div>
 
         <div class="modal-footer">
-            <button class="btn-primary" style="background-color: #8b5cf6;" (click)="closeModal()">
-                Dismiss Report
+            <button class="btn-secondary" (click)="closeModal()">Close</button>
+            <button class="btn-primary" (click)="closeModal()">
+                <i class='bx bx-download'></i> Export Report
             </button>
         </div>
     </div>

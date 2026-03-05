@@ -1,12 +1,14 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
     <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="method-badge" style="background-color: rgba(59, 130, 246, 0.15); color: #3b82f6;">
-                    <i class='bx bx-bar-chart'></i>
-                    <span>Discount Impact Detail</span>
-                </div>
-                <h2>{{ discountTier }} Tier</h2>
+
+        <!-- Gradient Header Banner -->
+        <div class="modal-banner">
+            <div class="banner-icon">
+                <i class='bx bx-bar-chart-alt-2'></i>
+            </div>
+            <div class="banner-text">
+                <span class="banner-label">Discount Impact</span>
+                <h2>{{ discountTier }}</h2>
             </div>
             <button class="close-btn" (click)="closeModal()">
                 <i class='bx bx-x'></i>
@@ -14,38 +16,63 @@
         </div>
 
         <div class="modal-body">
-            <div class="payment-stats">
-                <div class="stat-main" style="border-left-color: #3b82f6;">
-                    <span class="label">Sales Volume (Units)</span>
-                    <h3 class="value" style="color: #3b82f6;">{{ formatNumber(salesVolume) }}</h3>
+
+            <!-- Main Sales Volume card -->
+            <div class="primary-stat-row">
+                <div class="primary-stat">
+                    <div class="primary-icon"><i class='bx bx-store-alt'></i></div>
+                    <div class="primary-info">
+                        <span class="primary-label">Total Sales Volume</span>
+                        <span class="primary-value">{{ formatNumber(salesVolume) }} units</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="card-icon fee" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
-                        <i class='bx bx-box'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Inventory Depletion Rate</span>
-                        <span class="value">High</span>
+            <!-- KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon revenue"><i class='bx bx-rupee'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Est. Revenue</span>
+                        <span class="kpi-value">₹{{ formatNumber(salesVolume * 450) }}</span>
                     </div>
                 </div>
-                <div class="detail-card">
-                    <div class="card-icon time" style="color: #10b981; background: rgba(16, 185, 129, 0.1);">
-                        <i class='bx bx-trending-up'></i>
+                <div class="kpi-card">
+                    <div class="kpi-icon customers"><i class='bx bx-user-check'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Avg. Order Size</span>
+                        <span class="kpi-value">{{ (salesVolume / 120).toFixed(0) }} units</span>
                     </div>
-                    <div class="card-info">
-                        <span class="label">Conversion Lift</span>
-                        <span class="value">Optimized</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon trend"><i class='bx bx-trending-up'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Discount Uptake</span>
+                        <span class="kpi-value positive">High</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon time"><i class='bx bx-time-five'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Peak Period</span>
+                        <span class="kpi-value">6PM – 9PM</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Insight Bar -->
+            <div class="insight-bar">
+                <i class='bx bx-bulb'></i>
+                <span>The <strong>{{ discountTier }}</strong> tier drove <strong>{{ formatNumber(salesVolume) }}
+                        units</strong> in sales — consider extending this discount window.</span>
+            </div>
+
         </div>
 
         <div class="modal-footer">
-            <button class="btn-primary" style="background-color: #3b82f6;" (click)="closeModal()">
-                Dismiss Report
+            <button class="btn-secondary" (click)="closeModal()">Close</button>
+            <button class="btn-primary" (click)="closeModal()">
+                <i class='bx bx-download'></i> Export Report
             </button>
         </div>
     </div>

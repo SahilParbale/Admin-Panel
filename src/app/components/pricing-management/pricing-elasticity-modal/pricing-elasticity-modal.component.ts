@@ -45,6 +45,14 @@ export class PricingElasticityModalComponent {
         return '#f59e0b';
     }
 
+    get bannerDark(): string {
+        const ratio = Math.abs(this.demandChange / this.priceChange);
+        if (isNaN(ratio) || !isFinite(ratio)) return '#334155';
+        if (ratio > 1) return '#7f1d1d';
+        if (ratio < 1) return '#064e3b';
+        return '#78350f';
+    }
+
     get priceSign(): string {
         return this.priceChange >= 0 ? '+' : '';
     }

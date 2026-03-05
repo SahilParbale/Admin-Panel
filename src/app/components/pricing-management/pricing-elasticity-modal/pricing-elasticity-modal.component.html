@@ -1,13 +1,15 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
     <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="method-badge" [style.background-color]="elasticityColor + '20'"
-                    [style.color]="elasticityColor">
-                    <i class='bx bx-scatter-chart'></i>
-                    <span>Elasticity Detail</span>
-                </div>
-                <h2>Price vs Demand Point</h2>
+
+        <!-- Gradient Header Banner -->
+        <div class="modal-banner"
+            [style.background]="'linear-gradient(135deg, ' + bannerDark + ' 0%, ' + elasticityColor + ' 100%)'">
+            <div class="banner-icon">
+                <i class='bx bx-scatter-chart'></i>
+            </div>
+            <div class="banner-text">
+                <span class="banner-label">Price vs Demand</span>
+                <h2>{{ elasticityType }} Demand</h2>
             </div>
             <button class="close-btn" (click)="closeModal()">
                 <i class='bx bx-x'></i>
@@ -15,42 +17,86 @@
         </div>
 
         <div class="modal-body">
-            <div class="stats-row">
-                <div class="stat-main" style="border-left-color: #ef4444;">
-                    <span class="label">Price Change</span>
-                    <h3 class="value" style="color: #ef4444;">{{ priceSign }}{{ priceChange }}%</h3>
+
+            <!-- Main Stats Row -->
+            <div class="primary-stat-row">
+                <div class="primary-stat" [style.border-color]="elasticityColor + '44'">
+                    <div class="primary-icon" [style.background]="elasticityColor + '22'"
+                        [style.color]="elasticityColor">
+                        <i class='bx bx-trending-down'></i>
+                    </div>
+                    <div class="primary-info">
+                        <span class="primary-label">Price Change</span>
+                        <span class="primary-value" [style.color]="elasticityColor">{{ priceSign }}{{ priceChange
+                            }}%</span>
+                    </div>
                 </div>
-                <div class="stat-main" style="border-left-color: #3b82f6;">
-                    <span class="label">Demand Change</span>
-                    <h3 class="value" style="color: #3b82f6;">{{ demandSign }}{{ demandChange }}%</h3>
+                <div class="primary-stat demand" [style.border-color]="elasticityColor + '44'">
+                    <div class="primary-icon" [style.background]="elasticityColor + '22'"
+                        [style.color]="elasticityColor">
+                        <i class='bx bx-user-voice'></i>
+                    </div>
+                    <div class="primary-info">
+                        <span class="primary-label">Demand Change</span>
+                        <span class="primary-value" [style.color]="elasticityColor">{{ demandSign }}{{ demandChange
+                            }}%</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="card-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
-                        <i class='bx bx-line-chart'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Elasticity Ratio</span>
-                        <span class="value">{{ elasticityRatio }}</span>
+            <!-- KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon ratio"><i class='bx bx-line-chart'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Elasticity Ratio</span>
+                        <span class="kpi-value">{{ elasticityRatio }}</span>
                     </div>
                 </div>
-                <div class="detail-card">
-                    <div class="card-icon" [style.color]="elasticityColor" [style.background]="elasticityColor + '1a'">
+                <div class="kpi-card">
+                    <div class="kpi-icon type" [style.background]="elasticityColor + '22'"
+                        [style.color]="elasticityColor">
                         <i class='bx bx-analyse'></i>
                     </div>
-                    <div class="card-info">
-                        <span class="label">Demand Type</span>
-                        <span class="value" [style.color]="elasticityColor">{{ elasticityType }}</span>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Demand Type</span>
+                        <span class="kpi-value" [style.color]="elasticityColor">{{ elasticityType }}</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon impact"><i class='bx bx-target-lock'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Pricing Power</span>
+                        <span class="kpi-value">{{ elasticityType === 'Inelastic' ? 'Strong' : 'Weak' }}</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon action"><i class='bx bx-bulb'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Recommendation</span>
+                        <span class="kpi-value">{{ elasticityType === 'Inelastic' ? 'Raise price' : 'Hold / reduce'
+                            }}</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Insight Bar -->
+            <div class="insight-bar" [style.background]="elasticityColor + '12'"
+                [style.border-color]="elasticityColor + '44'" [style.color]="elasticityColor">
+                <i class='bx bx-info-circle'></i>
+                <span>A <strong>{{ priceSign }}{{ priceChange }}%</strong> price change led to a <strong>{{ demandSign
+                        }}{{ demandChange }}%</strong> demand shift — elasticity ratio of <strong>{{ elasticityRatio
+                        }}</strong>.</span>
+            </div>
+
         </div>
 
         <div class="modal-footer">
-            <button class="btn-primary" [style.background-color]="elasticityColor" (click)="closeModal()">
-                Dismiss Report
+            <button class="btn-secondary" (click)="closeModal()">Close</button>
+            <button class="btn-primary"
+                [style.background]="'linear-gradient(135deg, ' + bannerDark + ', ' + elasticityColor + ')'"
+                [style.box-shadow]="'0 8px 20px ' + elasticityColor + '44'" (click)="closeModal()">
+                <i class='bx bx-download'></i> Export Report
             </button>
         </div>
     </div>

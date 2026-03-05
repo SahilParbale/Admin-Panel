@@ -1,12 +1,14 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
     <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="method-badge" style="background-color: rgba(16, 185, 129, 0.15); color: #10b981;">
-                    <i class='bx bx-line-chart'></i>
-                    <span>Revenue Detail</span>
-                </div>
-                <h2>{{ month }} Insights</h2>
+
+        <!-- Gradient Header Banner -->
+        <div class="modal-banner">
+            <div class="banner-icon">
+                <i class='bx bx-line-chart'></i>
+            </div>
+            <div class="banner-text">
+                <span class="banner-label">Revenue Analysis</span>
+                <h2>{{ month }}</h2>
             </div>
             <button class="close-btn" (click)="closeModal()">
                 <i class='bx bx-x'></i>
@@ -14,47 +16,77 @@
         </div>
 
         <div class="modal-body">
-            <div class="payment-stats">
-                <div class="stat-main" style="border-left-color: #10b981;">
-                    <span class="label">Revenue Before Discount</span>
-                    <h3 class="value" style="color: #10b981;">{{ formatCurrency(revenueBefore) }}</h3>
+
+            <!-- Net Revenue Row -->
+            <div class="net-revenue-row">
+                <div class="net-card before">
+                    <div class="net-icon"><i class='bx bx-up-arrow-circle'></i></div>
+                    <div class="net-info">
+                        <span class="net-label">Before Discount</span>
+                        <span class="net-value">{{ formatCurrency(revenueBefore) }}</span>
+                    </div>
+                </div>
+                <div class="net-card after">
+                    <div class="net-icon"><i class='bx bx-down-arrow-circle'></i></div>
+                    <div class="net-info">
+                        <span class="net-label">After Discount</span>
+                        <span class="net-value">{{ formatCurrency(revenueAfter) }}</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="payment-stats" style="margin-top: 1rem;">
-                <div class="stat-main" style="border-left-color: #6366f1;">
-                    <span class="label">Revenue After Discount</span>
-                    <h3 class="value" style="color: #6366f1;">{{ formatCurrency(revenueAfter) }}</h3>
+            <!-- KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon loss"><i class='bx bx-tag'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Discount Value</span>
+                        <span class="kpi-value">{{ formatCurrency(revenueBefore - revenueAfter) }}</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon impact"><i class='bx bx-pie-chart-alt-2'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Discount Impact</span>
+                        <span class="kpi-value" *ngIf="revenueBefore > 0">
+                            {{ (((revenueBefore - revenueAfter) / revenueBefore) * 100).toFixed(1) }}%
+                        </span>
+                        <span class="kpi-value" *ngIf="revenueBefore === 0">0%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon net"><i class='bx bx-wallet-alt'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Net Revenue</span>
+                        <span class="kpi-value retained">{{ formatCurrency(revenueAfter) }}</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon trend"><i class='bx bx-trending-up'></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Revenue Retained</span>
+                        <span class="kpi-value retained" *ngIf="revenueBefore > 0">
+                            {{ (((revenueAfter) / revenueBefore) * 100).toFixed(1) }}%
+                        </span>
+                        <span class="kpi-value" *ngIf="revenueBefore === 0">100%</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="card-icon fee" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
-                        <i class='bx bx-purchase-tag-alt'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Total Discount Value</span>
-                        <span class="value">{{ formatCurrency(revenueBefore - revenueAfter) }}</span>
-                    </div>
-                </div>
-                <div class="detail-card">
-                    <div class="card-icon time" style="color: #06b6d4; background: rgba(6, 182, 212, 0.1);">
-                        <i class='bx bx-pie-chart-alt-2'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Discount Impact</span>
-                        <span class="value" *ngIf="revenueBefore > 0">{{ (((revenueBefore - revenueAfter) /
-                            revenueBefore) * 100).toFixed(1) }}%</span>
-                        <span class="value" *ngIf="revenueBefore === 0">0%</span>
-                    </div>
-                </div>
+            <!-- Insight Bar -->
+            <div class="insight-bar">
+                <i class='bx bx-info-circle'></i>
+                <span>Discounts reduced gross revenue by <strong>{{ formatCurrency(revenueBefore - revenueAfter)
+                        }}</strong> this month.</span>
             </div>
+
         </div>
 
         <div class="modal-footer">
-            <button class="btn-primary" style="background-color: #10b981;" (click)="closeModal()">
-                Dismiss Report
+            <button class="btn-secondary" (click)="closeModal()">Close</button>
+            <button class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);"
+                (click)="closeModal()">
+                <i class='bx bx-download'></i> Export Report
             </button>
         </div>
     </div>
