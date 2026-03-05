@@ -8,6 +8,8 @@ import {
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { PricingRevenueModalComponent } from './pricing-revenue-modal/pricing-revenue-modal.component';
 import { PricingDiscountImpactModalComponent } from './pricing-discount-impact-modal/pricing-discount-impact-modal.component';
+import { PricingOfferRankingsModalComponent } from './pricing-offer-rankings-modal/pricing-offer-rankings-modal.component';
+import { PricingElasticityModalComponent } from './pricing-elasticity-modal/pricing-elasticity-modal.component';
 
 interface PricingItem {
     id: number;
@@ -28,7 +30,7 @@ interface PricingItem {
     templateUrl: './pricing-management.component.html',
     styleUrls: ['./pricing-management.component.scss'],
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective, PricingRevenueModalComponent, PricingDiscountImpactModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective, PricingRevenueModalComponent, PricingDiscountImpactModalComponent, PricingOfferRankingsModalComponent, PricingElasticityModalComponent],
     providers: [provideCharts(withDefaultRegisterables())]
 })
 export class PricingManagementComponent implements OnInit {
@@ -52,6 +54,16 @@ export class PricingManagementComponent implements OnInit {
     isDiscountImpactModalOpen = false;
     selectedDiscountTier = '';
     selectedSalesVolume = 0;
+
+    // Offer Rankings Modal State
+    isOfferRankingsModalOpen = false;
+    selectedOfferRankingName = '';
+    selectedRedemptions = 0;
+
+    // Elasticity Modal State
+    isElasticityModalOpen = false;
+    selectedPriceChange = 0;
+    selectedDemandChange = 0;
 
     // Dropdown states
     showProductDropdown = false;
@@ -240,6 +252,13 @@ export class PricingManagementComponent implements OnInit {
                 grid: { display: false },
                 ticks: { color: '#374151', font: { size: 11, weight: 'bold' } }
             }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
+            }
         }
     };
 
@@ -298,6 +317,13 @@ export class PricingManagementComponent implements OnInit {
                 grid: { color: '#f3f4f6' },
                 title: { display: true, text: 'Demand Change (%)', font: { size: 12, weight: 'bold' }, color: '#9ca3af' },
                 ticks: { color: '#6b7280', font: { size: 11 } }
+            }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
             }
         }
     };
@@ -358,6 +384,33 @@ export class PricingManagementComponent implements OnInit {
 
     closeDiscountImpactModal() {
         this.isDiscountImpactModalOpen = false;
+    }
+
+    onPerformanceChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            this.selectedOfferRankingName = this.performanceChartData.labels?.[index] as string;
+            this.selectedRedemptions = this.performanceChartData.datasets[0].data[index] as number;
+            this.isOfferRankingsModalOpen = true;
+        }
+    }
+
+    closeOfferRankingsModal() {
+        this.isOfferRankingsModalOpen = false;
+    }
+
+    onElasticityChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            const point = this.elasticityChartData.datasets[0].data[index] as { x: number; y: number };
+            this.selectedPriceChange = point.x;
+            this.selectedDemandChange = point.y;
+            this.isElasticityModalOpen = true;
+        }
+    }
+
+    closeElasticityModal() {
+        this.isElasticityModalOpen = false;
     }
 
     openUpdateModal() {

@@ -91,9 +91,11 @@
 .modal-body {
     padding: 0 32px 32px;
 
-    .payment-stats {
-        display: flex;
-        flex-direction: column;
+    .stats-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 0;
         animation: fadeSlideIn 0.5s ease-out 0.2s both;
 
         .stat-main {
@@ -107,7 +109,7 @@
             &:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-                background: #eff6ff;
+                background: #f8f8ff;
             }
 
             .label {
@@ -118,7 +120,7 @@
             }
 
             .value {
-                font-size: 28px;
+                font-size: 24px;
                 font-weight: 800;
                 margin: 0;
             }

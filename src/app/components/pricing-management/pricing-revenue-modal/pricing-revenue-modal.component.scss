@@ -35,6 +35,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    animation: fadeSlideIn 0.5s ease-out 0.1s both;
 
     .method-badge {
         padding: 6px 14px;
@@ -47,6 +48,11 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
 
         i {
             font-size: 14px;
@@ -71,12 +77,13 @@
         justify-content: center;
         cursor: pointer;
         color: #64748b;
-        transition: all 0.2s;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
         &:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-            transform: rotate(90deg);
+            background: #fee2e2;
+            color: #ef4444;
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
         }
     }
 }
@@ -87,12 +94,25 @@
     .payment-stats {
         display: flex;
         flex-direction: column;
+        animation: fadeSlideIn 0.5s ease-out 0.2s both;
+
+        .stat-main+.stat-main {
+            margin-top: 0;
+        }
 
         .stat-main {
             background: #f8fafc;
             padding: 20px;
             border-radius: 20px;
             border-left: 6px solid #64748b;
+            cursor: default;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+                background: #f0fdf4;
+            }
 
             .label {
                 font-size: 12px;
@@ -124,6 +144,23 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: default;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeSlideIn 0.5s ease-out both;
+
+            &:nth-child(1) {
+                animation-delay: 0.3s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.4s;
+            }
+
+            &:hover {
+                transform: translateY(-4px) scale(1.02);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+                border-color: #e2e8f0;
+            }
 
             .card-icon {
                 width: 36px;
@@ -133,6 +170,11 @@
                 align-items: center;
                 justify-content: center;
                 font-size: 18px;
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            &:hover .card-icon {
+                transform: scale(1.15) rotate(-5deg);
             }
 
             .card-info {
@@ -154,6 +196,7 @@
 
 .modal-footer {
     padding: 0 32px 32px;
+    animation: fadeSlideIn 0.5s ease-out 0.5s both;
 
     .btn-primary {
         width: 100%;
@@ -163,13 +206,20 @@
         border-radius: 16px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
 
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
-            filter: brightness(1.1);
+            transform: translateY(-3px);
+            box-shadow: 0 18px 36px -10px rgba(0, 0, 0, 0.25);
+            filter: brightness(1.08);
+        }
+
+        &:active {
+            transform: translateY(-1px);
+            filter: brightness(0.95);
         }
     }
 }
@@ -193,5 +243,17 @@
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

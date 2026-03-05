@@ -205,7 +205,8 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" type="bar">
+                <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" type="bar"
+                    (chartClick)="onPerformanceChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -226,7 +227,8 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="elasticityChartData" [options]="elasticityChartOptions" type="scatter">
+                <canvas baseChart [data]="elasticityChartData" [options]="elasticityChartOptions" type="scatter"
+                    (chartClick)="onElasticityChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -337,6 +339,16 @@
 <app-pricing-discount-impact-modal [isOpen]="isDiscountImpactModalOpen" [discountTier]="selectedDiscountTier"
     [salesVolume]="selectedSalesVolume" (close)="closeDiscountImpactModal()">
 </app-pricing-discount-impact-modal>
+
+<!-- Offer Rankings Details Modal -->
+<app-pricing-offer-rankings-modal [isOpen]="isOfferRankingsModalOpen" [offerName]="selectedOfferRankingName"
+    [redemptions]="selectedRedemptions" (close)="closeOfferRankingsModal()">
+</app-pricing-offer-rankings-modal>
+
+<!-- Price vs Demand Elasticity Modal -->
+<app-pricing-elasticity-modal [isOpen]="isElasticityModalOpen" [priceChange]="selectedPriceChange"
+    [demandChange]="selectedDemandChange" (close)="closeElasticityModal()">
+</app-pricing-elasticity-modal>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal-overlay" [class.open]="isDeleteModalOpen" (click)="closeDeleteModal()">
