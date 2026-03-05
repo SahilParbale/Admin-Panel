@@ -1,0 +1,61 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="method-badge" style="background-color: rgba(16, 185, 129, 0.15); color: #10b981;">
+                    <i class='bx bx-line-chart'></i>
+                    <span>Revenue Detail</span>
+                </div>
+                <h2>{{ month }} Insights</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="payment-stats">
+                <div class="stat-main" style="border-left-color: #10b981;">
+                    <span class="label">Revenue Before Discount</span>
+                    <h3 class="value" style="color: #10b981;">{{ formatCurrency(revenueBefore) }}</h3>
+                </div>
+            </div>
+
+            <div class="payment-stats" style="margin-top: 1rem;">
+                <div class="stat-main" style="border-left-color: #6366f1;">
+                    <span class="label">Revenue After Discount</span>
+                    <h3 class="value" style="color: #6366f1;">{{ formatCurrency(revenueAfter) }}</h3>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="card-icon fee" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+                        <i class='bx bx-purchase-tag-alt'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Total Discount Value</span>
+                        <span class="value">{{ formatCurrency(revenueBefore - revenueAfter) }}</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="card-icon time" style="color: #06b6d4; background: rgba(6, 182, 212, 0.1);">
+                        <i class='bx bx-pie-chart-alt-2'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Discount Impact</span>
+                        <span class="value" *ngIf="revenueBefore > 0">{{ (((revenueBefore - revenueAfter) /
+                            revenueBefore) * 100).toFixed(1) }}%</span>
+                        <span class="value" *ngIf="revenueBefore === 0">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" style="background-color: #10b981;" (click)="closeModal()">
+                Dismiss Report
+            </button>
+        </div>
+    </div>
+</div>

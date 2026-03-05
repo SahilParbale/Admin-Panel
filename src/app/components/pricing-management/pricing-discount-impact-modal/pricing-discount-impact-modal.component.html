@@ -1,0 +1,52 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-content glass-effect">
+        <div class="modal-header">
+            <div class="header-main">
+                <div class="method-badge" style="background-color: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+                    <i class='bx bx-bar-chart'></i>
+                    <span>Discount Impact Detail</span>
+                </div>
+                <h2>{{ discountTier }} Tier</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="payment-stats">
+                <div class="stat-main" style="border-left-color: #3b82f6;">
+                    <span class="label">Sales Volume (Units)</span>
+                    <h3 class="value" style="color: #3b82f6;">{{ formatNumber(salesVolume) }}</h3>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="card-icon fee" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
+                        <i class='bx bx-box'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Inventory Depletion Rate</span>
+                        <span class="value">High</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="card-icon time" style="color: #10b981; background: rgba(16, 185, 129, 0.1);">
+                        <i class='bx bx-trending-up'></i>
+                    </div>
+                    <div class="card-info">
+                        <span class="label">Conversion Lift</span>
+                        <span class="value">Optimized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-primary" style="background-color: #3b82f6;" (click)="closeModal()">
+                Dismiss Report
+            </button>
+        </div>
+    </div>
+</div>

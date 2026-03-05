@@ -161,7 +161,8 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="revenueChartData" [options]="revenueChartOptions" type="line">
+                <canvas baseChart [data]="revenueChartData" [options]="revenueChartOptions" type="line"
+                    (chartClick)="onRevenueChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -182,7 +183,8 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="volumeChartData" [options]="volumeChartOptions" type="bar">
+                <canvas baseChart [data]="volumeChartData" [options]="volumeChartOptions" type="bar"
+                    (chartClick)="onVolumeChartClick($event)">
                 </canvas>
             </div>
         </div>
@@ -325,6 +327,16 @@
         </div>
     </div>
 </div>
+
+<!-- Revenue Analysis Details Modal -->
+<app-pricing-revenue-modal [isOpen]="isRevenueModalOpen" [month]="selectedRevenueMonth"
+    [revenueBefore]="selectedRevenueBefore" [revenueAfter]="selectedRevenueAfter" (close)="closeRevenueModal()">
+</app-pricing-revenue-modal>
+
+<!-- Discount Impact Details Modal -->
+<app-pricing-discount-impact-modal [isOpen]="isDiscountImpactModalOpen" [discountTier]="selectedDiscountTier"
+    [salesVolume]="selectedSalesVolume" (close)="closeDiscountImpactModal()">
+</app-pricing-discount-impact-modal>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal-overlay" [class.open]="isDeleteModalOpen" (click)="closeDeleteModal()">

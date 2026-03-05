@@ -6,6 +6,8 @@ import {
     ChartOptions
 } from 'chart.js';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { PricingRevenueModalComponent } from './pricing-revenue-modal/pricing-revenue-modal.component';
+import { PricingDiscountImpactModalComponent } from './pricing-discount-impact-modal/pricing-discount-impact-modal.component';
 
 interface PricingItem {
     id: number;
@@ -26,7 +28,7 @@ interface PricingItem {
     templateUrl: './pricing-management.component.html',
     styleUrls: ['./pricing-management.component.scss'],
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective],
+    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective, PricingRevenueModalComponent, PricingDiscountImpactModalComponent],
     providers: [provideCharts(withDefaultRegisterables())]
 })
 export class PricingManagementComponent implements OnInit {
@@ -39,6 +41,17 @@ export class PricingManagementComponent implements OnInit {
     offerToDeleteId: number | null = null;
     pricingForm!: FormGroup;
     offerForm!: FormGroup;
+
+    // Revenue Modal State
+    isRevenueModalOpen = false;
+    selectedRevenueMonth = '';
+    selectedRevenueBefore = 0;
+    selectedRevenueAfter = 0;
+
+    // Discount Impact Modal State
+    isDiscountImpactModalOpen = false;
+    selectedDiscountTier = '';
+    selectedSalesVolume = 0;
 
     // Dropdown states
     showProductDropdown = false;
@@ -109,6 +122,13 @@ export class PricingManagementComponent implements OnInit {
         interaction: {
             mode: 'index',
             intersect: false,
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
+            }
         }
     };
 
@@ -160,6 +180,13 @@ export class PricingManagementComponent implements OnInit {
                 title: { display: true, text: 'Units Sold', font: { size: 12, weight: 'bold' }, color: '#9ca3af' },
                 ticks: { color: '#6b7280', font: { size: 11 } },
                 beginAtZero: true
+            }
+        },
+        onHover: (event: any, activeElements: any[]) => {
+            if (activeElements.length > 0) {
+                (event.native.target as HTMLElement).style.cursor = 'pointer';
+            } else {
+                (event.native.target as HTMLElement).style.cursor = 'default';
             }
         }
     };
@@ -304,6 +331,33 @@ export class PricingManagementComponent implements OnInit {
             endDateTime: ['', Validators.required],
             usageLimit: ['', [Validators.required, Validators.min(1)]]
         });
+    }
+
+    onRevenueChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            this.selectedRevenueMonth = this.revenueChartData.labels?.[index] as string;
+            this.selectedRevenueBefore = this.revenueChartData.datasets[0].data[index] as number;
+            this.selectedRevenueAfter = this.revenueChartData.datasets[1].data[index] as number;
+            this.isRevenueModalOpen = true;
+        }
+    }
+
+    closeRevenueModal() {
+        this.isRevenueModalOpen = false;
+    }
+
+    onVolumeChartClick({ active }: { active?: any[] }): void {
+        if (active && active.length > 0) {
+            const index = active[0].index;
+            this.selectedDiscountTier = this.volumeChartData.labels?.[index] as string;
+            this.selectedSalesVolume = this.volumeChartData.datasets[0].data[index] as number;
+            this.isDiscountImpactModalOpen = true;
+        }
+    }
+
+    closeDiscountImpactModal() {
+        this.isDiscountImpactModalOpen = false;
     }
 
     openUpdateModal() {
