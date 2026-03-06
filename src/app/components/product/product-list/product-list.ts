@@ -222,6 +222,14 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   tempFilterStatus = 'All';
 
   categoryOptions = ['All', 'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty', 'Sports', 'Toys', 'Automotive', 'Books', 'Health', 'Grocery', 'Furniture', 'Jewelry', 'Pet Supplies', 'Office Products', 'Garden', 'Music', 'Video Games', 'Fruits', 'Exotic', 'Berries'];
+  
+  // Filtered category options for graphs (only fruit-related)
+  get graphCategoryOptions() {
+    return this.categoryOptions.filter(cat => 
+      cat === 'All' || cat === 'Fruits' || cat === 'Exotic' || cat === 'Berries'
+    );
+  }
+  
   stockOptions = ['All', 'In Stock', 'Low Stock', 'Out of Stock'];
   statusOptions = ['All', 'Active', 'Inactive'];
 
@@ -245,6 +253,134 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   isDemandForecastModalOpen = false;
   selectedForecastDate: string = '';
   selectedForecastValue: number = 0;
+
+  // Graph Filter Properties - 2 filters per graph
+  // Revenue Chart Filters
+  revenueCategoryFilter = 'All';
+  revenueStockFilter = 'All';
+  
+  // Sales Trend Chart Filters
+  trendCategoryFilter = 'All';
+  trendStatusFilter = 'All';
+  
+  // Top Selling Chart Filters
+  topSellingCategoryFilter = 'All';
+  topSellingPriceFilter = 'All';
+  
+  // Availability Chart Filters
+  availabilityCategoryFilter = 'All';
+  availabilityRatingFilter = 'All';
+  
+  // Demand Forecast Chart Filters
+  forecastCategoryFilter = 'All';
+  forecastPeriodFilter = '7';
+  
+  // Category Distribution Chart Filters
+  categoryDistStatusFilter = 'All';
+  categoryDistStockFilter = 'All';
+
+  // Update Revenue Chart with filters
+  updateRevenueChart() {
+    const filtered = this.products.filter(product => {
+      const matchesCategory = this.revenueCategoryFilter === 'All' || product.category === this.revenueCategoryFilter;
+      let matchesStock = true;
+      if (this.revenueStockFilter !== 'All') {
+        const status = this.getStockStatus(product.stock);
+        matchesStock = status === this.revenueStockFilter;
+      }
+      return matchesCategory && matchesStock;
+    });
+
+    const labels = filtered.map(p => p.name);
+    const data = filtered.map(p => p.price * p.stock);
+
+    const backgroundColors = data.map((_, i) => i % 2 === 0 ? '#6366f1' : '#8b5cf6');
+    const hoverColors = data.map((_, i) => i % 2 === 0 ? '#4f46e5' : '#7c3aed');
+
+    this.barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          label: 'Revenue',
+          backgroundColor: backgroundColors,
+          hoverBackgroundColor: hoverColors,
+          borderRadius: 4,
+          barThickness: 'flex',
+          maxBarThickness: 30,
+          minBarLength: 5
+        }
+      ]
+    };
+  }
+
+  // Update Top Selling Chart with filters
+  updateTopSellingChart() {
+    let filtered = this.products.filter(product => {
+      const matchesCategory = this.topSellingCategoryFilter === 'All' || product.category === this.topSellingCategoryFilter;
+      let matchesPrice = true;
+      if (this.topSellingPriceFilter !== 'All') {
+        if (this.topSellingPriceFilter === 'low') matchesPrice = product.price < 100;
+        else if (this.topSellingPriceFilter === 'medium') matchesPrice = product.price >= 100 && product.price <= 500;
+        else if (this.topSellingPriceFilter === 'high') matchesPrice = product.price > 500;
+      }
+      return matchesCategory && matchesPrice;
+    });
+
+    // Sort by rating (as proxy for popularity) and take top 5
+    filtered.sort((a, b) => b.rating - a.rating);
+    filtered = filtered.slice(0, 5);
+
+    const labels = filtered.map(p => p.name);
+    const data = filtered.map(p => Math.floor(p.rating * 10));
+
+    this.topSellingChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          label: 'Units Sold',
+          backgroundColor: ['#28a745', '#20c997', '#17a2b8', '#007bff', '#0056b3'],
+          hoverBackgroundColor: ['#218838', '#1ea87a', '#138496', '#0069d9', '#004494'],
+          borderRadius: 4,
+          borderWidth: 0
+        }
+      ]
+    };
+  }
+
+  // Update Availability Chart with filters
+  updateAvailabilityChart() {
+    const filtered = this.products.filter(product => {
+      const matchesCategory = this.availabilityCategoryFilter === 'All' || product.category === this.availabilityCategoryFilter;
+      let matchesRating = true;
+      if (this.availabilityRatingFilter !== 'All') {
+        if (this.availabilityRatingFilter === 'high') matchesRating = product.rating >= 4;
+        else if (this.availabilityRatingFilter === 'medium') matchesRating = product.rating >= 3 && product.rating < 4;
+        else if (this.availabilityRatingFilter === 'low') matchesRating = product.rating < 3;
+      }
+      return matchesCategory && matchesRating;
+    });
+
+    const active = filtered.filter(p => p.status === 'Active').length;
+    const inactive = filtered.filter(p => p.status === 'Inactive').length;
+
+    this.availabilityData = { active, inactive };
+  }
+
+  // Update Forecast Chart with filters (placeholder - would need actual forecast component integration)
+  updateForecastChart() {
+    // This would integrate with the demand-forecast-chart component
+    // For now, just log the filter changes
+    console.log('Forecast filters:', this.forecastCategoryFilter, this.forecastPeriodFilter);
+  }
+
+  // Update Category Chart with filters (placeholder - would need actual category component integration)
+  updateCategoryChart() {
+    // This would integrate with the category-distribution-chart component
+    // For now, just log the filter changes
+    console.log('Category filters:', this.categoryDistStatusFilter, this.categoryDistStockFilter);
+  }
 
   // Category Modal State
   isCategoryModalOpen = false;

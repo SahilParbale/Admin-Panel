@@ -585,6 +585,36 @@
         align-items: center;
         gap: 12px;
 
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            .graph-filter {
+                padding: 8px 14px;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                font-size: 0.85rem;
+                color: #374151;
+                font-weight: 600;
+                background: white;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                outline: none;
+                min-width: 130px;
+
+                &:hover {
+                    border-color: #10b981;
+                    background: #f0fdf4;
+                }
+
+                &:focus {
+                    border-color: #10b981;
+                    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+                }
+            }
+        }
+
         .dropdown-container {
             position: relative;
             display: inline-block;

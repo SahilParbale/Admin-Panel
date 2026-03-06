@@ -95,10 +95,23 @@
                     <i class='bx bx-info-circle info-icon'
                         data-tooltip="Total revenue generated from all product sales."></i>
                 </div>
-                <div class="icon-actions">
-                    <i class='bx bx-printer'></i>
-                    <i class='bx bx-export'></i>
-                    <i class='bx bx-download'></i>
+                <div class="actions">
+                    <div class="filter-group">
+                        <select class="graph-filter" [(ngModel)]="revenueCategoryFilter" (change)="updateRevenueChart()">
+                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
+                        </select>
+                        <select class="graph-filter" [(ngModel)]="revenueStockFilter" (change)="updateRevenueChart()">
+                            <option value="All">All Stock</option>
+                            <option value="In Stock">In Stock</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
                 </div>
             </div>
             <div class="chart-wrapper">
@@ -156,10 +169,23 @@
                     <h3>Top Selling</h3>
                     <i class='bx bx-info-circle info-icon' data-tooltip="Top 5 products by quantity sold."></i>
                 </div>
-                <div class="icon-actions">
-                    <i class='bx bx-printer'></i>
-                    <i class='bx bx-export'></i>
-                    <i class='bx bx-download'></i>
+                <div class="actions">
+                    <div class="filter-group">
+                        <select class="graph-filter" [(ngModel)]="topSellingCategoryFilter" (change)="updateTopSellingChart()">
+                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
+                        </select>
+                        <select class="graph-filter" [(ngModel)]="topSellingPriceFilter" (change)="updateTopSellingChart()">
+                            <option value="All">All Prices</option>
+                            <option value="low">Under ₹100</option>
+                            <option value="medium">₹100-₹500</option>
+                            <option value="high">Above ₹500</option>
+                        </select>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
                 </div>
             </div>
             <div class="chart-wrapper">
@@ -177,10 +203,23 @@
                     <i class='bx bx-info-circle info-icon'
                         data-tooltip="Ratio of Active vs Inactive products in inventory."></i>
                 </div>
-                <div class="icon-actions">
-                    <i class='bx bx-printer'></i>
-                    <i class='bx bx-export'></i>
-                    <i class='bx bx-download'></i>
+                <div class="actions">
+                    <div class="filter-group">
+                        <select class="graph-filter" [(ngModel)]="availabilityCategoryFilter" (change)="updateAvailabilityChart()">
+                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
+                        </select>
+                        <select class="graph-filter" [(ngModel)]="availabilityRatingFilter" (change)="updateAvailabilityChart()">
+                            <option value="All">All Ratings</option>
+                            <option value="high">4+ Stars</option>
+                            <option value="medium">3-4 Stars</option>
+                            <option value="low">Below 3 Stars</option>
+                        </select>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
                 </div>
             </div>
             <app-availability-chart [data]="availabilityData"
@@ -197,10 +236,22 @@
                     <i class='bx bx-info-circle info-icon'
                         data-tooltip="AI-predicted sales volume for the forecast period."></i>
                 </div>
-                <div class="icon-actions">
-                    <i class='bx bx-printer'></i>
-                    <i class='bx bx-export'></i>
-                    <i class='bx bx-download'></i>
+                <div class="actions">
+                    <div class="filter-group">
+                        <select class="graph-filter" [(ngModel)]="forecastCategoryFilter" (change)="updateForecastChart()">
+                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
+                        </select>
+                        <select class="graph-filter" [(ngModel)]="forecastPeriodFilter" (change)="updateForecastChart()">
+                            <option value="7">Next 7 Days</option>
+                            <option value="14">Next 14 Days</option>
+                            <option value="30">Next 30 Days</option>
+                        </select>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
                 </div>
             </div>
             <app-demand-forecast-chart (chartClick)="onDemandForecastChartClick($event)"></app-demand-forecast-chart>
@@ -214,10 +265,25 @@
                     <i class='bx bx-info-circle info-icon'
                         data-tooltip="Product count distribution across categories."></i>
                 </div>
-                <div class="icon-actions">
-                    <i class='bx bx-printer'></i>
-                    <i class='bx bx-export'></i>
-                    <i class='bx bx-download'></i>
+                <div class="actions">
+                    <div class="filter-group">
+                        <select class="graph-filter" [(ngModel)]="categoryDistStatusFilter" (change)="updateCategoryChart()">
+                            <option value="All">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <select class="graph-filter" [(ngModel)]="categoryDistStockFilter" (change)="updateCategoryChart()">
+                            <option value="All">All Stock Levels</option>
+                            <option value="in-stock">In Stock (>10)</option>
+                            <option value="low-stock">Low Stock (1-10)</option>
+                            <option value="out-stock">Out of Stock (0)</option>
+                        </select>
+                    </div>
+                    <div class="icon-actions">
+                        <i class='bx bx-printer'></i>
+                        <i class='bx bx-export'></i>
+                        <i class='bx bx-download'></i>
+                    </div>
                 </div>
             </div>
             <app-category-distribution-chart
