@@ -15,72 +15,400 @@
             </div>
         </div>
 
-        <div class="modal-body">
-            <!-- 1. Expanded Charts Row -->
-            <div class="section charts-row">
-                <!-- Trend Chart -->
-                <div class="chart-card trend-chart">
-                    <div class="chart-header">
-                        <h3>Order Volume Trend</h3>
-                        <div class="chart-actions">
-                            <button [class.active]="chartType === 'line'" (click)="setChartType('line')">Line</button>
-                            <button [class.active]="chartType === 'bar'" (click)="setChartType('bar')">Bar</button>
+        <div class="modal-body" *ngIf="mode === 'revenue'">
+            <!-- Revenue Specific Layout - Different from Orders -->
+            
+            <!-- 1. Hero Revenue Stats with Gradient Cards -->
+            <div class="section revenue-hero-section">
+                <div class="revenue-stats-grid">
+                    <div class="revenue-stat-card primary" *ngFor="let kpi of kpis; let i = index">
+                        <div class="stat-icon" [style]="getGradientForIndex(i)">
+                            <i class='bx {{kpi.icon}}'></i>
                         </div>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas *ngIf="isChartVisible" baseChart [data]="lineChartData" [options]="lineChartOptions"
-                            [type]="chartType"></canvas>
-                    </div>
-                </div>
-
-                <!-- Donut Chart -->
-                <div class="chart-card donut-chart">
-                    <div class="chart-header">
-                        <h3>Status Distribution</h3>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
-                            type="doughnut"></canvas>
+                        <div class="stat-content">
+                            <div class="stat-label">{{ kpi.label }}</div>
+                            <div class="stat-value">{{ kpi.value }}</div>
+                            <div class="stat-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }} vs last month
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. KPIs & Table Grid -->
-            <div class="section data-grid">
-                <!-- KPI Cards -->
-                <div class="kpi-row">
+            <!-- 2. Main Revenue Charts - Side by Side -->
+            <div class="section revenue-charts-section">
+                <div class="revenue-chart-row">
+                    <!-- Large Revenue Trend Chart -->
+                    <div class="revenue-main-chart">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-trending-up'></i> Revenue & Profit Trend Analysis</h3>
+                            <div class="chart-actions">
+                                <span class="legend-badge revenue"><span class="dot"></span> Revenue</span>
+                                <span class="legend-badge profit"><span class="dot"></span> Profit</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper large">
+                            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" type="line"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Breakdown Donut -->
+                    <div class="revenue-side-chart">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-donut-chart'></i> Revenue Sources</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                                type="doughnut"></canvas>
+                        </div>
+                        <div class="revenue-legend-list">
+                            <div class="legend-item" *ngFor="let item of doughnutChartData.labels; let i = index">
+                                <span class="legend-dot" [style.backgroundColor]="getDoughnutColor(i)"></span>
+                                <span class="legend-label">{{ item }}</span>
+                                <span class="legend-value">₹{{ getDoughnutData(i) | number:'1.0-0' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Revenue Performance Metrics (Radar) -->
+            <div class="section revenue-metrics-section">
+                <div class="metrics-container">
+                    <div class="radar-chart-wrapper">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-target-lock'></i> Business Performance Radar</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" type="radar"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Key Insights Box -->
+                    <div class="revenue-insights-box">
+                        <h3 class="insights-title"><i class='bx bxs-lightbulb'></i> Financial Insights</h3>
+                        <div class="insights-content">
+                            <div class="insight-item positive">
+                                <i class='bx bx-up-arrow-circle'></i>
+                                <div>
+                                    <strong>Revenue Growth:</strong>
+                                    <span>18% increase compared to previous month, driven by Exotic fruits category (₹1.29L)</span>
+                                </div>
+                            </div>
+                            <div class="insight-item positive">
+                                <i class='bx bx-up-arrow-circle'></i>
+                                <div>
+                                    <strong>Profit Margin:</strong>
+                                    <span>Improved to 23.9%, highest in 3 months. Net profit ₹92,450</span>
+                                </div>
+                            </div>
+                            <div class="insight-item warning">
+                                <i class='bx bx-error-circle'></i>
+                                <div>
+                                    <strong>Operating Costs:</strong>
+                                    <span>8% increase to ₹1.24L - review logistics and cold storage efficiency</span>
+                                </div>
+                            </div>
+                            <div class="insight-item positive">
+                                <i class='bx bx-up-arrow-circle'></i>
+                                <div>
+                                    <strong>Avg Order Value:</strong>
+                                    <span>₹910 (+8%) - combo packs and premium fruits driving growth</span>
+                                </div>
+                            </div>
+                            <div class="insight-item positive">
+                                <i class='bx bx-up-arrow-circle'></i>
+                                <div>
+                                    <strong>Dry Fruits Category:</strong>
+                                    <span>25% growth with ₹52,200 revenue - highest margin segment</span>
+                                </div>
+                            </div>
+                            <div class="insight-item positive">
+                                <i class='bx bx-up-arrow-circle'></i>
+                                <div>
+                                    <strong>Organic Range:</strong>
+                                    <span>30% growth trend - emerging customer preference for organic options</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Profit Margins & Cost Analysis -->
+            <div class="section profit-analysis-section">
+                <div class="profit-grid">
+                    <!-- Profit Margin Trend -->
+                    <div class="profit-margin-card">
+                        <h3 class="section-title"><i class='bx bx-line-chart'></i> Profit Margin Trend</h3>
+                        <div class="margin-bars">
+                            <div class="margin-row" *ngFor="let margin of profitMargins">
+                                <span class="margin-label">{{ margin.period }}</span>
+                                <div class="margin-track">
+                                    <div class="margin-fill" 
+                                         [style.width.%]="margin.percentage"
+                                         [class.excellent]="margin.percentage >= 25"
+                                         [class.good]="margin.percentage >= 20 && margin.percentage < 25"
+                                         [class.average]="margin.percentage >= 15 && margin.percentage < 20"
+                                         [class.low]="margin.percentage < 15">
+                                    </div>
+                                </div>
+                                <span class="margin-value">{{ margin.percentage }}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cost Breakdown -->
+                    <div class="cost-breakdown-card">
+                        <h3 class="section-title"><i class='bx bx-wallet'></i> Operating Cost Breakdown</h3>
+                        <div class="cost-list">
+                            <div class="cost-item" *ngFor="let cost of costBreakdown; let i = index">
+                                <div class="cost-header">
+                                    <span class="cost-icon" [style]="getCostColor(i)">
+                                        <i class='bx {{cost.icon}}'></i>
+                                    </span>
+                                    <span class="cost-label">{{ cost.label }}</span>
+                                </div>
+                                <div class="cost-details">
+                                    <span class="cost-amount">₹{{ cost.amount | number }}</span>
+                                    <span class="cost-percentage">{{ cost.percentage }}% of total</span>
+                                </div>
+                                <div class="cost-bar">
+                                    <div class="cost-fill" [style.width.%]="(cost.amount / 1240) * 100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Revenue Quality Metrics -->
+            <div class="section revenue-quality-section">
+                <div class="quality-metrics-grid">
+                    <!-- Collection Efficiency -->
+                    <div class="quality-card">
+                        <h3 class="quality-title"><i class='bx bx-shield-quarter'></i> Collection Efficiency</h3>
+                        <div class="efficiency-content">
+                            <div class="efficiency-stat" *ngFor="let stat of collectionStats">
+                                <div class="stat-ring" [style]="getRingGradient(stat.type)">
+                                    <svg viewBox="0 0 36 36" class="circular-chart">
+                                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                        <path class="circle" [attr.stroke-dasharray]="stat.value + ', 100'" [attr.d]="stat.pathD"/>
+                                    </svg>
+                                    <div class="stat-overlay">
+                                        <span class="stat-number">{{ stat.value }}%</span>
+                                        <span class="stat-desc">{{ stat.label }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue at Risk -->
+                    <div class="risk-assessment-card">
+                        <h3 class="section-title"><i class='bx bx-error'></i> Revenue Protection Metrics</h3>
+                        <div class="risk-list">
+                            <div class="risk-item" *ngFor="let risk of revenueRisks">
+                                <div class="risk-icon" [class.high]="risk.severity === 'high'" [class.medium]="risk.severity === 'medium'" [class.low]="risk.severity === 'low'">
+                                    <i class='bx {{risk.icon}}'></i>
+                                </div>
+                                <div class="risk-content">
+                                    <div class="risk-header">
+                                        <strong>{{ risk.title }}</strong>
+                                        <span class="risk-badge" [class]="risk.severity">{{ risk.severity | titlecase }}</span>
+                                    </div>
+                                    <p>{{ risk.description }}</p>
+                                    <div class="risk-metric">
+                                        <span class="metric-label">Impact:</span>
+                                        <span class="metric-value">₹{{ risk.impact | number }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Analytics Layout (Original) -->
+        <div class="modal-body" *ngIf="mode === 'orders' || mode === 'performance'">
+            <div class="section kpi-section">
+                <div class="kpi-grid">
                     <div class="kpi-card" *ngFor="let kpi of kpis">
-                        <div class="kpi-label">{{ kpi.label }}</div>
-                        <div class="kpi-value">{{ kpi.value }}</div>
-                        <div class="kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
-                            <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
-                                [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
-                            {{ kpi.change }}
+                        <div class="kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">{{ kpi.label }}</div>
+                            <div class="kpi-value">{{ kpi.value }}</div>
+                            <div class="kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Advanced Metrics & Charts Grid -->
+            <div class="section metrics-charts-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Advanced KPIs -->
+                    <div class="advanced-metrics">
+                        <h3 class="section-title">Key Insights</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-card" *ngFor="let metric of advancedKpis">
+                                <div class="metric-header">
+                                    <span class="metric-label">{{ metric.label }}</span>
+                                    <span class="metric-value">{{ metric.value }}</span>
+                                </div>
+                                <div class="metric-details" *ngIf="metric.orders">
+                                    <span class="metric-orders">{{ metric.orders }} orders</span>
+                                    <span class="metric-percentage">{{ metric.percentage }}</span>
+                                </div>
+                                <div class="metric-details" *ngIf="metric.trend">
+                                    <span class="metric-trend" [class.good]="metric.status === 'good'">
+                                        {{ metric.trend }}
+                                    </span>
+                                    <span class="metric-status" [class]="metric.status">{{ metric.status }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Trend Chart -->
+                    <div class="chart-container revenue-chart">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-trending-up'></i> Revenue & Profit Trend</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="areaChartData" [options]="areaChartOptions" type="line"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Category Distribution -->
+                    <div class="chart-container category-chart">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-pie-chart-alt-2'></i> Revenue by Fruit Type</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="barChartData" [options]="barChartOptions" type="bar"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- Insights Block (AI) -->
-                <div class="insights-block">
-                    <div class="insight-header">
-                        <i class='bx bxs-magic-wand'></i> AI Insights
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Status Distribution -->
+                    <div class="chart-container donut-chart-card">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-donut-chart'></i> Revenue Breakdown</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                                type="doughnut"></canvas>
+                        </div>
+                        <div class="legend-container">
+                            <div class="legend-item" *ngFor="let item of doughnutChartData.labels; let i = index">
+                                <span class="legend-dot" [style.backgroundColor]="getDoughnutColor(i)"></span>
+                                <span class="legend-label">{{ item }}</span>
+                                <span class="legend-value">₹{{ getDoughnutData(i) | number:'1.0-0' }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="insight-list">
-                        <li>Order volume increased by <strong>12%</strong> compared to last period.</li>
-                        <li>High cancellation rate observed on <strong>Jan 26</strong>.</li>
-                        <li><strong>92.5%</strong> completion rate achieved on Jan 30.</li>
-                    </ul>
-                </div>
 
-                <!-- Data Table -->
+                    <!-- Performance Radar -->
+                    <div class="chart-container radar-chart-card">
+                        <div class="chart-header">
+                            <h3><i class='bx bx-target-lock'></i> Business Performance</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" type="radar"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Heatmap -->
+                    <div class="hourly-distribution">
+                        <h3 class="section-title"><i class='bx bx-time'></i> Peak Hours Analysis</h3>
+                        <div class="heatmap-grid">
+                            <div class="heatmap-item" *ngFor="let item of hourlyDistribution">
+                                <span class="heatmap-hour">{{ item.hour }}</span>
+                                <div class="heatmap-bar">
+                                    <div class="heatmap-fill" [style.width.%]="item.percentage"
+                                        [class.peak]="item.percentage >= 80"
+                                        [class.high]="item.percentage >= 60 && item.percentage < 80"
+                                        [class.medium]="item.percentage >= 40 && item.percentage < 60"
+                                        [class.low]="item.percentage < 40"></div>
+                                </div>
+                                <span class="heatmap-orders">{{ item.orders }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Vendor Performance Table -->
+            <div class="section vendor-section">
+                <h3 class="section-title"><i class='bx bx-category'></i> Revenue by Fruit Categories</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Orders</th>
+                                <th>Revenue</th>
+                                <th>Rating</th>
+                                <th>Growth</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let vendor of vendorPerformance">
+                                <td>
+                                    <div class="vendor-name">
+                                        <div class="vendor-avatar">{{ vendor.vendor.charAt(0) }}</div>
+                                        {{ vendor.vendor }}
+                                    </div>
+                                </td>
+                                <td><strong>{{ vendor.orders | number }}</strong></td>
+                                <td>{{ vendor.revenue }}</td>
+                                <td>
+                                    <div class="rating-stars">
+                                        <i class='bx bxs-star' *ngFor="let star of getStars(vendor.rating)"></i>
+                                        <span class="rating-value">{{ vendor.rating }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="growth-badge positive">{{ vendor.growth }}</span>
+                                </td>
+                                <td>
+                                    <div class="performance-bar">
+                                        <div class="performance-fill" [style.width.%]="(vendor.rating / 5) * 100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Detailed Data Table -->
+            <div class="section table-section">
+                <h3 class="section-title"><i class='bx bx-calendar'></i> Daily Revenue Breakdown</h3>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Total</th>
-                                <th>Completed</th>
-                                <th>Cancelled</th>
+                                <th>Total Revenue</th>
+                                <th>Net Revenue</th>
+                                <th>Refunds</th>
+                                <th>Capture Rate</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -88,9 +416,17 @@
                         <tbody>
                             <tr *ngFor="let row of tableData">
                                 <td>{{ row.date }}</td>
-                                <td>{{ row.total }}</td>
+                                <td><strong>{{ row.total }}</strong></td>
                                 <td>{{ row.completed }}</td>
                                 <td>{{ row.cancelled }}</td>
+                                <td>
+                                    <div class="rate-indicator">
+                                        <div class="rate-bar">
+                                            <div class="rate-fill" [style.width.%]="parseFloat(row.rate)"></div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
                                 <td>
                                     <span class="badge" [ngClass]="{
                                         'success': row.status === 'Excellent' || row.status === 'Good',

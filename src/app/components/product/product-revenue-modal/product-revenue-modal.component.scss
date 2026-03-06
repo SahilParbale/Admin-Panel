@@ -123,10 +123,27 @@
             }
 
             .value {
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: 700;
                 color: #1e293b;
                 margin: 0;
+            }
+
+            .trend {
+                font-size: 11px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                margin-top: 4px;
+
+                &.positive {
+                    color: #10b981;
+                }
+
+                &.negative {
+                    color: #ef4444;
+                }
             }
         }
     }
@@ -147,6 +164,9 @@
                 margin: 0;
                 color: #475569;
                 font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
 
             .trend {
@@ -154,6 +174,7 @@
                 font-weight: 600;
                 display: flex;
                 align-items: center;
+                gap: 4px;
 
                 &.positive {
                     color: #10b981;
@@ -162,7 +183,7 @@
         }
 
         .mini-chart {
-            height: 80px;
+            height: 100px;
         }
     }
 
@@ -171,6 +192,9 @@
             font-size: 14px;
             color: #1e293b;
             margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .progress-container {
@@ -182,29 +206,186 @@
                 .progress-details {
                     display: flex;
                     justify-content: space-between;
+                    align-items: center;
                     font-size: 13px;
                     margin-bottom: 8px;
                     color: #475569;
+
+                    .source-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+
+                        .source-icon {
+                            font-size: 16px;
+                            color: #6366f1;
+                        }
+                    }
+
+                    .percentage {
+                        font-weight: 600;
+                        font-size: 14px;
+                    }
                 }
 
                 .progress-bar {
-                    height: 8px;
+                    height: 10px;
                     background: #f1f5f9;
-                    border-radius: 4px;
+                    border-radius: 5px;
                     overflow: hidden;
 
                     .fill {
                         height: 100%;
-                        border-radius: 4px;
+                        border-radius: 5px;
+                        transition: width 0.6s ease;
 
-                        &.indigo {
-                            background: #6366f1;
+                        &.green {
+                            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
                         }
 
-                        &.violet {
-                            background: #8b5cf6;
+                        &.blue {
+                            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 24px 0;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 16px;
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .metric-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                flex-shrink: 0;
+
+                &.timer {
+                    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+                    color: white;
+                }
+
+                &.package {
+                    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+                    color: white;
+                }
+
+                &.star {
+                    background: linear-gradient(135deg, #6f42c1 0%, #5a3dc1 100%);
+                    color: white;
+                }
+
+                &.repeat {
+                    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                    color: white;
+                }
+            }
+
+            .metric-content {
+                flex: 1;
+
+                .metric-label {
+                    display: block;
+                    font-size: 11px;
+                    color: #64748b;
+                    margin-bottom: 4px;
+                }
+
+                .metric-value {
+                    display: block;
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #1e293b;
+                }
+            }
+        }
+    }
+
+    .quality-indicators {
+        h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .indicator-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+
+            .indicator-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                .indicator-label {
+                    width: 140px;
+                    font-size: 13px;
+                    color: #475569;
+                    font-weight: 500;
+                }
+
+                .indicator-bar {
+                    flex: 1;
+                    height: 8px;
+                    background: #e9ecef;
+                    border-radius: 4px;
+                    overflow: hidden;
+
+                    .indicator-fill {
+                        height: 100%;
+                        border-radius: 4px;
+                        transition: width 0.6s ease;
+
+                        &.excellent {
+                            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+                        }
+
+                        &.good {
+                            background: linear-gradient(90deg, #17a2b8 0%, #138496 100%);
+                        }
+
+                        &.average {
+                            background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+                        }
+                    }
+                }
+
+                .indicator-value {
+                    width: 45px;
+                    text-align: right;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #1e293b;
                 }
             }
         }

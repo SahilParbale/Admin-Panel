@@ -15,18 +15,28 @@ export class ProductRevenueModalComponent {
     @Input() product: any = null;
     @Output() close = new EventEmitter<void>();
 
+    // Enhanced chart data with fruit-specific context
     public miniChartData: ChartConfiguration<'line'>['data'] = {
         labels: ['11AM', '1PM', '3PM', '5PM', '7PM', '9PM', '11PM'],
         datasets: [
             {
                 data: [20, 55, 30, 45, 85, 95, 40],
                 label: 'Live Orders',
-                borderColor: '#6366f1',
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                borderColor: '#28a745',
+                backgroundColor: (ctx: any) => {
+                    const chartCtx = ctx.chart.ctx;
+                    const gradient = chartCtx.createLinearGradient(0, 0, 0, 200);
+                    gradient.addColorStop(0, 'rgba(40, 167, 69, 0.3)');
+                    gradient.addColorStop(1, 'rgba(40, 167, 69, 0.01)');
+                    return gradient;
+                },
                 fill: true,
                 tension: 0.4,
-                pointRadius: 4,
+                pointRadius: 5,
                 pointBackgroundColor: '#fff',
+                pointBorderColor: '#28a745',
+                pointBorderWidth: 2,
+                pointHoverRadius: 7,
                 borderWidth: 3
             }
         ]
@@ -37,11 +47,23 @@ export class ProductRevenueModalComponent {
         maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
-            tooltip: { enabled: true }
+            tooltip: { 
+                enabled: true,
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleFont: { size: 13, weight: 'bold' },
+                bodyFont: { size: 12 },
+                padding: 12,
+                cornerRadius: 8,
+                displayColors: false
+            }
         },
         scales: {
             x: { display: false },
-            y: { display: false }
+            y: { 
+                display: false,
+                min: 0,
+                max: 100
+            }
         }
     };
 
