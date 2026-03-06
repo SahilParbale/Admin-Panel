@@ -20,6 +20,7 @@
                     <div class="meta">
                         <span class="label">Orders <span *ngIf="selectedLabel">on {{ selectedLabel }}</span></span>
                         <h3 class="value">420</h3>
+                        <span class="trend positive">+18.5% <i class='bx bx-up-arrow-alt'></i></span>
                     </div>
                 </div>
                 <div class="stat-card growth">
@@ -27,16 +28,17 @@
                         <i class='bx bx-trending-up'></i>
                     </div>
                     <div class="meta">
-                        <span class="label">Change (%)</span>
+                        <span class="label">Growth Rate</span>
                         <h3 class="value">+12.5%</h3>
+                        <span class="trend positive">vs last period <i class='bx bx-up-arrow-alt'></i></span>
                     </div>
                 </div>
             </div>
 
             <div class="chart-section">
                 <div class="section-header">
-                    <h4>Velocity for {{ selectedLabel || period }}</h4>
-                    <span class="trend positive">Peak reached at 2:00 PM</span>
+                    <h4><i class='bx bx-time-five'></i> Order Velocity for {{ selectedLabel || period }}</h4>
+                    <span class="trend positive">Peak: 8 PM (90 orders) <i class='bx bx-up-arrow-alt'></i></span>
                 </div>
                 <div class="mini-chart">
                     <canvas baseChart [data]="miniChartData" [options]="miniChartOptions" type="line"></canvas>
@@ -44,37 +46,110 @@
             </div>
 
             <div class="breakdown-section">
-                <h4>Demand Split</h4>
+                <h4><i class='bx bx-pie-chart'></i> Category Demand Split</h4>
                 <div class="progress-container">
                     <div class="progress-item">
                         <div class="progress-details">
-                            <span>Main Course</span>
-                            <span>52%</span>
+                            <div class="source-info">
+                                <span class="source-icon"><i class='bx bx-cart'></i></span>
+                                <span>Fresh Fruits</span>
+                            </div>
+                            <span class="percentage">58%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="fill cyan" style="width: 52%"></div>
+                            <div class="fill green" style="width: 58%"></div>
                         </div>
                     </div>
                     <div class="progress-item">
                         <div class="progress-details">
-                            <span>Sides & Add-ons</span>
-                            <span>48%</span>
+                            <div class="source-info">
+                                <span class="source-icon"><i class='bx bx-package'></i></span>
+                                <span>Fruit Combos</span>
+                            </div>
+                            <span class="percentage">28%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="fill indigo" style="width: 48%"></div>
+                            <div class="fill blue" style="width: 28%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-details">
+                            <div class="source-info">
+                                <span class="source-icon"><i class='bx bx-gift'></i></span>
+                                <span>Premium Selection</span>
+                            </div>
+                            <span class="percentage">14%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill purple" style="width: 14%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="delivery-insights">
-                <div class="insight-item">
-                    <i class='bx bx-current-location'></i>
-                    <span>Primary Area: <strong>City South</strong></span>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-icon speed">
+                        <i class='bx bx-current-location'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Top Delivery Area</span>
+                        <strong class="metric-value">City South</strong>
+                    </div>
                 </div>
-                <div class="insight-item">
-                    <i class='bx bx-bolt-circle'></i>
-                    <span>Flash Delivery: <strong>18 min</strong></span>
+                <div class="metric-item">
+                    <div class="metric-icon flash">
+                        <i class='bx bx-bolt-circle'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Flash Delivery Time</span>
+                        <strong class="metric-value">18 min</strong>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon stock">
+                        <i class='bx bx-store'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Stock Turnover</span>
+                        <strong class="metric-value">High</strong>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon repeat">
+                        <i class='bx bx-repurchase'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Repeat Orders</span>
+                        <strong class="metric-value">72%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="performance-indicators">
+                <h4><i class='bx bx-analyse'></i> Performance Metrics</h4>
+                <div class="indicator-list">
+                    <div class="indicator-item">
+                        <span class="indicator-label">Demand Consistency</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill excellent" style="width: 92%"></div>
+                        </div>
+                        <span class="indicator-value">92%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">Peak Hour Efficiency</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill good" style="width: 88%"></div>
+                        </div>
+                        <span class="indicator-value">88%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">Order Fulfillment</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill excellent" style="width: 96%"></div>
+                        </div>
+                        <span class="indicator-value">96%</span>
+                    </div>
                 </div>
             </div>
         </div>

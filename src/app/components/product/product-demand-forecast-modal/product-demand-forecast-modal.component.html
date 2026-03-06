@@ -26,7 +26,46 @@
                         <h3 class="value">{{ predictedUnits }} <small>Units</small></h3>
                         <div class="growth positive">
                             <i class='bx bx-up-arrow-alt'></i>
-                            <span>+8.4% expected increase</span>
+                            <span>+8.4% vs average</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-icon accuracy">
+                            <i class='bx bx-target-lock'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Forecast Accuracy</span>
+                            <strong class="metric-value">94%</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon trend">
+                            <i class='bx bx-trending-up'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Demand Trend</span>
+                            <strong class="metric-value">Rising</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon variance">
+                            <i class='bx bx-analyse'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Variance</span>
+                            <strong class="metric-value">±6%</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon seasonality">
+                            <i class='bx bx-calendar'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Seasonal Factor</span>
+                            <strong class="metric-value">High</strong>
                         </div>
                     </div>
                 </div>
@@ -48,13 +87,53 @@
                     </div>
                 </div>
 
+                <div class="performance-indicators">
+                    <h4><i class='bx bx-bar-chart-alt'></i> Prediction Metrics</h4>
+                    <div class="indicator-list">
+                        <div class="indicator-item">
+                            <span class="indicator-label">Model Confidence</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill excellent" style="width: 92%"></div>
+                            </div>
+                            <span class="indicator-value">92%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">Historical Accuracy</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill excellent" style="width: 94%"></div>
+                            </div>
+                            <span class="indicator-value">94%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">Data Quality Score</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill good" style="width: 89%"></div>
+                            </div>
+                            <span class="indicator-value">89%</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="recommendation-box">
                     <div class="header">
                         <i class='bx bx-bulb'></i>
                         <span>Smart Recommendation</span>
                     </div>
-                    <p>Demand for {{ date }} is projected to peak. We recommend increasing preparation by 10% to ensure
-                        zero stock-outs.</p>
+                    <p>Demand for {{ date }} is projected to peak due to weekend surge. We recommend increasing preparation by 10% and ensuring adequate staff coverage during 2-6 PM peak hours.</p>
+                    <div class="action-items">
+                        <div class="action-tag">
+                            <i class='bx bx-check-circle'></i>
+                            <span>Increase prep by 10%</span>
+                        </div>
+                        <div class="action-tag">
+                            <i class='bx bx-check-circle'></i>
+                            <span>Staff: +2 members</span>
+                        </div>
+                        <div class="action-tag">
+                            <i class='bx bx-check-circle'></i>
+                            <span>Stock buffer: 15%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

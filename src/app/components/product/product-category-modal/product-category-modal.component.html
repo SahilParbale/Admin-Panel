@@ -12,6 +12,45 @@
 
         <div class="modal-body">
             <div class="stock-analysis">
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-icon availability">
+                            <i class='bx bx-store'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Availability Rate</span>
+                            <strong class="metric-value">{{ inStock > 0 ? ((inStock / (inStock + lowStock + outOfStock)) * 100 | number:'1.0-0') : 0 }}%</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon turnover">
+                            <i class='bx bx-cycling'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Turnover Ratio</span>
+                            <strong class="metric-value">4.2x</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon health">
+                            <i class='bx bx-heart'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Stock Health</span>
+                            <strong class="metric-value">Good</strong>
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-icon coverage">
+                            <i class='bx bx-shield-quarter'></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Coverage Days</span>
+                            <strong class="metric-value">18</strong>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="chart-section">
                     <div class="chart-container">
                         <canvas baseChart [data]="stockData" [options]="stockOptions" type="doughnut"></canvas>
@@ -46,8 +85,35 @@
                     </div>
                 </div>
 
+                <div class="performance-indicators">
+                    <h4><i class='bx bx-bar-chart-alt'></i> Inventory Metrics</h4>
+                    <div class="indicator-list">
+                        <div class="indicator-item">
+                            <span class="indicator-label">Stock Availability</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill excellent" [style.width.%]="getAvailabilityRate()"></div>
+                            </div>
+                            <span class="indicator-value">{{ getAvailabilityRate() | number:'1.0-0' }}%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">Alert Coverage</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill good" [style.width.%]="getAlertCoverage()"></div>
+                            </div>
+                            <span class="indicator-value">{{ getAlertCoverage() | number:'1.0-0' }}%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">Critical Gap</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill warning" [style.width.%]="getCriticalGap()"></div>
+                            </div>
+                            <span class="indicator-value">{{ getCriticalGap() | number:'1.0-0' }}%</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="recent-activity">
-                    <h4>Stock Health</h4>
+                    <h4><i class='bx bx-pulse'></i> Stock Health Status</h4>
                     <div class="health-card" [class.danger]="outOfStock > 0"
                         [class.warning]="lowStock > 5 && outOfStock === 0"
                         [class.success]="outOfStock === 0 && lowStock <= 5">
@@ -60,6 +126,16 @@
                             <h5>{{ outOfStock > 0 ? 'Urgent Restock Needed' : (lowStock > 5 ? 'Monitoring Required' :
                                 'Category Healthy') }}</h5>
                             <p>{{ outOfStock }} items are currently disconnected. Check vendor availability.</p>
+                        </div>
+                        <div class="action-buttons" *ngIf="outOfStock > 0 || lowStock > 5">
+                            <button class="action-btn primary">
+                                <i class='bx bx-package'></i>
+                                <span>Restock Now</span>
+                            </button>
+                            <button class="action-btn secondary">
+                                <i class='bx bx-envelope'></i>
+                                <span>Notify Vendor</span>
+                            </button>
                         </div>
                     </div>
                 </div>

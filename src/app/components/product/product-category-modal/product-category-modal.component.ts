@@ -50,6 +50,21 @@ export class ProductCategoryModalComponent {
         }
     }
 
+    getAvailabilityRate(): number {
+        const total = this.inStock + this.lowStock + this.outOfStock;
+        return total > 0 ? (this.inStock / total) * 100 : 0;
+    }
+
+    getAlertCoverage(): number {
+        const total = this.inStock + this.lowStock + this.outOfStock;
+        return total > 0 ? (this.lowStock / total) * 100 : 0;
+    }
+
+    getCriticalGap(): number {
+        const total = this.inStock + this.lowStock + this.outOfStock;
+        return total > 0 ? (this.outOfStock / total) * 100 : 0;
+    }
+
     closeModal() {
         this.close.emit();
     }

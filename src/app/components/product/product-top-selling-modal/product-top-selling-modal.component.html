@@ -19,6 +19,7 @@
                     <div class="meta">
                         <span class="label">Units Sold</span>
                         <h3 class="value">{{ quantitySold }}</h3>
+                        <span class="trend positive">+22.3% <i class='bx bx-up-arrow-alt'></i></span>
                     </div>
                 </div>
                 <div class="stat-card satisfaction">
@@ -26,42 +27,111 @@
                         <i class='bx bx-star'></i>
                     </div>
                     <div class="meta">
-                        <span class="label">Rating</span>
+                        <span class="label">Customer Rating</span>
                         <h3 class="value">4.8 <small>/5</small></h3>
+                        <span class="trend positive">96% recommended <i class='bx bx-up-arrow-alt'></i></span>
                     </div>
                 </div>
             </div>
 
             <div class="chart-section">
                 <div class="section-header">
-                    <h4>7-Day Demand Curve</h4>
-                    <span class="trend positive">+15% vs Last Week</span>
+                    <h4><i class='bx bx-time-five'></i> 7-Day Demand Curve</h4>
+                    <span class="trend positive">Peak: Day 3 (80 units) <i class='bx bx-up-arrow-alt'></i></span>
                 </div>
                 <div class="mini-chart">
                     <canvas baseChart [data]="performanceData" [options]="performanceOptions" type="line"></canvas>
                 </div>
             </div>
 
-            <div class="grid-details">
-                <div class="detail-item">
-                    <span class="label">Return Rate</span>
-                    <div class="value-wrap">
-                        <span class="value">1.2%</span>
-                        <span class="tag low">Low</span>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-icon return">
+                        <i class='bx bx-repurchase'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Return Rate</span>
+                        <strong class="metric-value">1.2%</strong>
+                        <span class="metric-badge low">Low</span>
                     </div>
                 </div>
-                <div class="detail-item">
-                    <span class="label">Avg. Prep Time</span>
-                    <div class="value-wrap">
-                        <span class="value">12 min</span>
-                        <span class="tag fast">Fast</span>
+                <div class="metric-item">
+                    <div class="metric-icon time">
+                        <i class='bx bx-timer'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Avg Prep Time</span>
+                        <strong class="metric-value">12 min</strong>
+                        <span class="metric-badge fast">Fast</span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon stock">
+                        <i class='bx bx-store'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Stock Status</span>
+                        <strong class="metric-value">In Stock</strong>
+                        <span class="metric-badge available">Available</span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon reorder">
+                        <i class='bx bx-package'></i>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Reorder Point</span>
+                        <strong class="metric-value">45 units</strong>
+                        <span class="metric-badge warning">Alert</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="performance-indicators">
+                <h4><i class='bx bx-analyse'></i> Performance Metrics</h4>
+                <div class="indicator-list">
+                    <div class="indicator-item">
+                        <span class="indicator-label">Sales Velocity</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill excellent" style="width: 94%"></div>
+                        </div>
+                        <span class="indicator-value">94%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">Customer Satisfaction</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill excellent" style="width: 96%"></div>
+                        </div>
+                        <span class="indicator-value">96%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">Inventory Turnover</span>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill good" style="width: 88%"></div>
+                        </div>
+                        <span class="indicator-value">88%</span>
                     </div>
                 </div>
             </div>
 
             <div class="feedback-highlight">
-                <p>"Best {{ productName }} in town! Always fresh and perfectly packed."</p>
-                <div class="user">- Sahil P.</div>
+                <div class="quote-icon">
+                    <i class='bx bxs-quote-alt-left'></i>
+                </div>
+                <p class="feedback-text">"Best {{ productName }} in town! Always fresh and perfectly packed. Highly recommend for daily orders."</p>
+                <div class="feedback-footer">
+                    <div class="user-info">
+                        <span class="user-name">Sahil P.</span>
+                        <span class="user-badge">Verified Buyer</span>
+                    </div>
+                    <div class="rating-stars">
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                    </div>
+                </div>
             </div>
         </div>
 

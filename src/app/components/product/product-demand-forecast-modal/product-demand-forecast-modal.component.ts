@@ -16,6 +16,7 @@ export class ProductDemandForecastModalComponent {
     @Input() predictedUnits: number = 0;
     @Output() close = new EventEmitter<void>();
 
+    // Keep donut chart as is (unchanged)
     public confidenceData: ChartConfiguration<'doughnut'>['data'] = {
         labels: ['Confidence', 'Margin'],
         datasets: [{
