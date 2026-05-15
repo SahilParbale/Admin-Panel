@@ -1,148 +1,137 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect" *ngIf="product">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="product-badge">Performance Insight</div>
-                <h2>{{ product.name }}</h2>
-            </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
+    <div class="modal-content perf-modal-content">
 
-        <div class="modal-body">
-            <div class="stats-grid">
-                <div class="stat-card revenue">
-                    <div class="icon-wrap">
-                        <i class='bx bx-rupee'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Net Revenue</span>
-                        <h3 class="value">{{ formatCurrency(product.revenue) }}</h3>
-                        <span class="trend positive">+18.2% <i class='bx bx-up-arrow-alt'></i></span>
-                    </div>
-                </div>
-                <div class="stat-card units">
-                    <div class="icon-wrap">
-                        <i class='bx bx-shopping-bag'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Total Orders</span>
-                        <h3 class="value">842</h3>
-                        <span class="trend positive">+12.5% <i class='bx bx-up-arrow-alt'></i></span>
-                    </div>
-                </div>
+        <!-- Header -->
+        <div class="modal-header perf-modal-header">
+            <div class="header-left">
+                <h2>Revenue by Product</h2>
+                <span class="subtitle">Jan 01 – Jan 31, 2026 &bull; All Categories</span>
             </div>
-
-            <div class="chart-section">
-                <div class="section-header">
-                    <h4><i class='bx bx-time-five'></i> Hourly Peak Demand</h4>
-                    <span class="trend positive">Peak: 7-9 PM <i class='bx bx-up-arrow-alt'></i></span>
-                </div>
-                <div class="mini-chart">
-                    <canvas baseChart [data]="miniChartData" [options]="miniChartOptions" type="line"></canvas>
-                </div>
-            </div>
-
-            <div class="breakdown-section">
-                <h4><i class='bx bx-pie-chart'></i> Order Source Split</h4>
-                <div class="progress-container">
-                    <div class="progress-item">
-                        <div class="progress-details">
-                            <div class="source-info">
-                                <span class="source-icon"><i class='bx bx-mobile'></i></span>
-                                <span>Direct App Orders</span>
-                            </div>
-                            <span class="percentage">72%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="fill green" style="width: 72%"></div>
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-details">
-                            <div class="source-info">
-                                <span class="source-icon"><i class='bx bx-car'></i></span>
-                                <span>Delivery Partners (Swiggy/Zomato)</span>
-                            </div>
-                            <span class="percentage">28%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="fill blue" style="width: 28%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-item">
-                    <div class="metric-icon timer">
-                        <i class='bx bx-timer'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Avg Prep Time</span>
-                        <strong class="metric-value">14 min</strong>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon package">
-                        <i class='bx bx-package'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Packaging Efficiency</span>
-                        <strong class="metric-value">96%</strong>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon star">
-                        <i class='bx bx-star'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Customer Rating</span>
-                        <strong class="metric-value">4.7/5</strong>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon repeat">
-                        <i class='bx bx-repurchase'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Repeat Rate</span>
-                        <strong class="metric-value">68%</strong>
-                    </div>
-                </div>
-            </div>
-
-            <div class="quality-indicators">
-                <h4><i class='bx bx-check-circle'></i> Quality Metrics</h4>
-                <div class="indicator-list">
-                    <div class="indicator-item">
-                        <span class="indicator-label">Freshness Score</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill excellent" style="width: 95%"></div>
-                        </div>
-                        <span class="indicator-value">95%</span>
-                    </div>
-                    <div class="indicator-item">
-                        <span class="indicator-label">On-Time Delivery</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill good" style="width: 92%"></div>
-                        </div>
-                        <span class="indicator-value">92%</span>
-                    </div>
-                    <div class="indicator-item">
-                        <span class="indicator-label">Customer Satisfaction</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill excellent" style="width: 94%"></div>
-                        </div>
-                        <span class="indicator-value">94%</span>
-                    </div>
-                </div>
+            <div class="header-right">
+                <button class="btn-export"><i class='bx bx-export'></i> Export</button>
+                <button class="btn-close" (click)="closeModal()"><i class='bx bx-x'></i></button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close Details</button>
+        <div class="modal-body perf-modal-body">
+
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Revenue by Category -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-category-alt'></i> Revenue by Category</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Orders</th>
+                                <th>Revenue</th>
+                                <th>Rating</th>
+                                <th>Growth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cat of categoryData">
+                                <td data-label="Category"><strong>{{ cat.name }}</strong></td>
+                                <td data-label="Total Orders">{{ cat.orders }}</td>
+                                <td data-label="Revenue" class="text-success"><strong>{{ cat.revenue }}</strong></td>
+                                <td data-label="Rating">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.rating >= 4.7"
+                                        [class.badge-good]="cat.rating >= 4.4 && cat.rating < 4.7"
+                                        [class.badge-avg]="cat.rating < 4.4">
+                                        ★ {{ cat.rating }}
+                                    </span>
+                                </td>
+                                <td data-label="Growth">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.growth.startsWith('+')"
+                                        [class.badge-warn]="!cat.growth.startsWith('+')">
+                                        {{ cat.growth }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Product-Level Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-package'></i> Product-Level Revenue Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Product</th>
+                                <th>Orders</th>
+                                <th>Revenue</th>
+                                <th>Margin</th>
+                                <th>Growth</th>
+                                <th>Stock Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of productData">
+                                <td data-label="Category">{{ p.category }}</td>
+                                <td data-label="Product"><strong>{{ p.product }}</strong></td>
+                                <td data-label="Orders">{{ p.orders }}</td>
+                                <td data-label="Revenue" class="text-success">{{ p.revenue }}</td>
+                                <td data-label="Margin">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="p.margin"
+                                                [class.fill-excellent]="parseMargin(p.margin) >= 30"
+                                                [class.fill-good]="parseMargin(p.margin) >= 20 && parseMargin(p.margin) < 30"
+                                                [class.fill-avg]="parseMargin(p.margin) < 20">
+                                            </div>
+                                        </div>
+                                        <span>{{ p.margin }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Growth">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.growth.startsWith('+')"
+                                        [class.badge-warn]="!p.growth.startsWith('+')">
+                                        {{ p.growth }}
+                                    </span>
+                                </td>
+                                <td data-label="Stock Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.stock === 'In Stock'"
+                                        [class.badge-avg]="p.stock === 'Low Stock'"
+                                        [class.badge-warn]="p.stock === 'Out of Stock'">
+                                        {{ p.stock }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -122,6 +122,20 @@
                     <span class="subtitle">Revenue and Profit Trends</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('finPerf')">
+                                {{ getChartLabel(finPerfPeriod, finPerfOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showFinPerfDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of finPerfOptions" (click)="setChartFilter('finPerfPeriod', opt.value)" [class.active]="opt.value === finPerfPeriod">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -142,6 +156,20 @@
                     <span class="subtitle">Financial Components</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('revBreakdown')">
+                                {{ getChartLabel(revBreakdownPeriod, revBreakdownOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showRevBreakdownDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of revBreakdownOptions" (click)="setChartFilter('revBreakdownPeriod', opt.value)" [class.active]="opt.value === revBreakdownPeriod">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -162,6 +190,20 @@
                     <span class="subtitle">Volume vs Margin</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('opEfficiency')">
+                                {{ getChartLabel(opEfficiencyPeriod, opEfficiencyOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showOpEfficiencyDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of opEfficiencyOptions" (click)="setChartFilter('opEfficiencyPeriod', opt.value)" [class.active]="opt.value === opEfficiencyPeriod">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -182,6 +224,20 @@
                     <span class="subtitle">Revenue to Profit Flow</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('moneyFlow')">
+                                {{ getChartLabel(moneyFlowPeriod, moneyFlowOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showMoneyFlowDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of moneyFlowOptions" (click)="setChartFilter('moneyFlowPeriod', opt.value)" [class.active]="opt.value === moneyFlowPeriod">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>

@@ -77,6 +77,29 @@ export class RiderPerformanceScoreChartComponent implements OnInit {
         }
     };
 
+    // Filter states
+    selectedPeriod = 'This Month';
+    showPeriodDropdown = false;
+    periodOptions = [
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    toggleDropdown(name: string) {
+        this.showPeriodDropdown = name === 'period' ? !this.showPeriodDropdown : false;
+    }
+
+    setFilter(type: string, value: string) {
+        if (type === 'period') this.selectedPeriod = value;
+        console.log(`Rider Performance filter: ${type} = ${value}`);
+        this.showPeriodDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void {

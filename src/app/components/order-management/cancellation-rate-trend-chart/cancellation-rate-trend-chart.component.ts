@@ -80,6 +80,58 @@ export class CancellationRateTrendChartComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedResolution = 'Monthly';
+    selectedReason = 'All Reasons';
+    selectedInitiator = 'All';
+
+    showResolutionDropdown = false;
+    showReasonDropdown = false;
+    showInitiatorDropdown = false;
+
+    // Filter Options
+    resolutionOptions = [
+        { label: 'Daily', value: 'Daily' },
+        { label: 'Weekly', value: 'Weekly' },
+        { label: 'Monthly', value: 'Monthly' }
+    ];
+
+    reasonOptions = [
+        { label: 'All Reasons', value: 'All Reasons' },
+        { label: 'Customer Changed Mind', value: 'Customer Changed Mind' },
+        { label: 'Delayed Delivery', value: 'Delayed Delivery' },
+        { label: 'Out of Stock', value: 'Out of Stock' }
+    ];
+
+    initiatorOptions = [
+        { label: 'All Initiators', value: 'All' },
+        { label: 'Customer', value: 'Customer' },
+        { label: 'Admin/System', value: 'Admin/System' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showResolutionDropdown = dropdownName === 'resolution' ? !this.showResolutionDropdown : false;
+        this.showReasonDropdown = dropdownName === 'reason' ? !this.showReasonDropdown : false;
+        this.showInitiatorDropdown = dropdownName === 'initiator' ? !this.showInitiatorDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'resolution') this.selectedResolution = value;
+        if (filterType === 'reason') this.selectedReason = value;
+        if (filterType === 'initiator') this.selectedInitiator = value;
+        
+        console.log(`Cancellation filter updated: ${filterType} = ${value}`);
+        
+        this.showResolutionDropdown = false;
+        this.showReasonDropdown = false;
+        this.showInitiatorDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

@@ -46,10 +46,11 @@
             </div>
         </div>
 
-        <div class="card-panel area-performance" (click)="openPerformanceModal()" style="cursor: pointer;">
+        <div class="card-panel area-performance interactive-card" (click)="openPerformanceModal()">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Order Performance <span class="light">vs {{ performanceTimeRange }}</span></h3>
+                    <span style="font-size:12px;color:#94a3b8;font-weight:500;">Click to view detailed breakdown</span>
                 </div>
                 <div class="actions">
                     <div class="dropdown-container" (click)="$event.stopPropagation()">
@@ -66,12 +67,15 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="btn-expand-modal" title="View Detailed Analytics">
+                        <i class='bx bx-expand-alt'></i>
+                    </div>
                 </div>
             </div>
             <app-performance-chart [data]="performanceChartData"></app-performance-chart>
         </div>
 
-        <div class="card-panel area-analytics" (click)="openAnalyticsModal()" style="cursor: pointer;">
+        <div class="card-panel area-analytics interactive-card" (click)="openAnalyticsModal()">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Order Analytics</h3>
@@ -105,6 +109,9 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="btn-expand-modal" title="View Detailed Analytics">
+                        <i class='bx bx-expand-alt'></i>
+                    </div>
                 </div>
             </div>
             <div class="chart-legend">
@@ -120,7 +127,7 @@
             <app-analytics-chart [data]="analyticsData"></app-analytics-chart>
         </div>
 
-        <div class="card-panel area-revenue" (click)="openRevenueModal()" style="cursor: pointer;">
+        <div class="card-panel area-revenue interactive-card" (click)="openRevenueModal()">
             <div class="panel-header">
                 <div class="title-group">
                     <h3>Revenue Profile</h3>
@@ -141,6 +148,9 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="btn-expand-modal" title="View Detailed Analytics">
+                        <i class='bx bx-expand-alt'></i>
                     </div>
                 </div>
             </div>

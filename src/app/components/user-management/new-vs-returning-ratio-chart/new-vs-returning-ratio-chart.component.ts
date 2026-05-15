@@ -70,6 +70,29 @@ export class NewVsReturningRatioChartComponent implements OnInit {
         cutout: '70%' // Makes it look like a modern donut
     };
 
+    // Filter states
+    selectedPeriod = 'Last 30 Days';
+    showPeriodDropdown = false;
+    periodOptions = [
+        { label: 'Last 7 Days', value: 'Last 7 Days' },
+        { label: 'Last 30 Days', value: 'Last 30 Days' },
+        { label: 'Last 3 Months', value: 'Last 3 Months' }
+    ];
+
+    toggleDropdown(name: string) {
+        this.showPeriodDropdown = name === 'period' ? !this.showPeriodDropdown : false;
+    }
+
+    setFilter(type: string, value: string) {
+        if (type === 'period') this.selectedPeriod = value;
+        console.log(`New vs Returning filter: ${type} = ${value}`);
+        this.showPeriodDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void {

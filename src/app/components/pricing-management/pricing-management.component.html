@@ -142,8 +142,7 @@
     </div>
 
     <!-- Charts Grid Row -->
-    <div class="charts-grid-container"
-        style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 24px; width: 100%; overflow-x: auto;">
+    <div class="charts-grid-container">
 
         <!-- Revenue Chart -->
         <div class="card-panel">
@@ -153,6 +152,20 @@
                     <span class="subtitle">Revenue Before vs After Discount</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('revenuePeriod')">
+                                {{ getChartLabel(revenuePeriod, revenuePeriodOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showRevenuePeriodDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of revenuePeriodOptions" (click)="setChartFilter('revenuePeriod', opt.value)" [class.active]="opt.value === revenuePeriod">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -161,8 +174,7 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="revenueChartData" [options]="revenueChartOptions" type="line"
-                    (chartClick)="onRevenueChartClick($event)">
+                <canvas baseChart [data]="revenueChartData" [options]="revenueChartOptions" type="line">
                 </canvas>
             </div>
         </div>
@@ -175,6 +187,20 @@
                     <span class="subtitle">Sales vs Discount %</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('discountCategory')">
+                                {{ getChartLabel(discountCategory, discountCategoryOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showDiscountCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of discountCategoryOptions" (click)="setChartFilter('discountCategory', opt.value)" [class.active]="opt.value === discountCategory">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -183,8 +209,7 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="volumeChartData" [options]="volumeChartOptions" type="bar"
-                    (chartClick)="onVolumeChartClick($event)">
+                <canvas baseChart [data]="volumeChartData" [options]="volumeChartOptions" type="bar">
                 </canvas>
             </div>
         </div>
@@ -197,6 +222,20 @@
                     <span class="subtitle">Top Performing Offers</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('rankingMetric')">
+                                {{ getChartLabel(rankingMetric, rankingMetricOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showRankingMetricDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of rankingMetricOptions" (click)="setChartFilter('rankingMetric', opt.value)" [class.active]="opt.value === rankingMetric">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -205,8 +244,7 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" type="bar"
-                    (chartClick)="onPerformanceChartClick($event)">
+                <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" type="bar">
                 </canvas>
             </div>
         </div>
@@ -219,6 +257,20 @@
                     <span class="subtitle">Elasticity Analysis</span>
                 </div>
                 <div class="actions">
+                    <div class="filter-group">
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleChartDropdown('elasticityCategory')">
+                                {{ getChartLabel(elasticityCategory, elasticityCategoryOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showElasticityCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of elasticityCategoryOptions" (click)="setChartFilter('elasticityCategory', opt.value)" [class.active]="opt.value === elasticityCategory">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -227,8 +279,7 @@
                 </div>
             </div>
             <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
-                <canvas baseChart [data]="elasticityChartData" [options]="elasticityChartOptions" type="scatter"
-                    (chartClick)="onElasticityChartClick($event)">
+                <canvas baseChart [data]="elasticityChartData" [options]="elasticityChartOptions" type="scatter">
                 </canvas>
             </div>
         </div>

@@ -16,7 +16,7 @@
     .modal-content {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         width: 100%;
-        max-width: 1400px;
+        max-width: 1200px;
         max-height: 90vh;
         border-radius: 24px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
@@ -418,6 +418,9 @@
                     padding: 25px;
                     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
                     border: 1px solid rgba(0, 0, 0, 0.05);
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
 
                     .chart-header {
                         margin-bottom: 20px;
@@ -439,7 +442,11 @@
 
                     .chart-wrapper {
                         position: relative;
-                        height: 250px;
+                        flex: 1;
+                        min-height: 250px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
 
@@ -1800,6 +1807,279 @@
             }
 
             grid-template-columns: 1fr;
+        }
+    }
+}
+
+// ============================================================
+//  ORDER PERFORMANCE MODAL — Table-only Layout
+// ============================================================
+
+.perf-modal-body {
+    padding: 32px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background: #f8fafc;
+}
+
+.perf-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+// KPI Summary Cards
+.perf-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    .perf-kpi-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        transition: all 0.2s;
+
+        &:hover {
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .perf-kpi-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .perf-kpi-body {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .perf-kpi-label {
+                font-size: 12px;
+                font-weight: 600;
+                color: #64748b;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .perf-kpi-value {
+                font-size: 26px;
+                font-weight: 800;
+                color: #0f172a;
+                line-height: 1;
+            }
+
+            .perf-kpi-change {
+                font-size: 12px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                padding: 4px 8px;
+                border-radius: 6px;
+                width: fit-content;
+
+                &.positive { background: #dcfce7; color: #166534; }
+                &.negative { background: #fee2e2; color: #991b1b; }
+            }
+        }
+    }
+}
+
+// Section Title
+.perf-section-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+        font-size: 20px;
+        color: #6366f1;
+    }
+}
+
+// Table Wrapper
+.perf-table-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+// Shared Table Styles
+.perf-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: #f1f5f9;
+
+        th {
+            padding: 13px 16px;
+            text-align: left;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+
+            &:last-child { border-bottom: none; }
+            &:hover td { background: #fafbff; }
+        }
+
+        td {
+            padding: 13px 16px;
+            font-size: 14px;
+            color: #334155;
+            vertical-align: middle;
+        }
+    }
+
+    .text-success { color: #16a34a; font-weight: 600; }
+    .text-danger  { color: #dc2626; font-weight: 600; }
+}
+
+// Mini Progress Bar inside table cells
+.perf-rate-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    span {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+        min-width: 44px;
+    }
+
+    .perf-mini-bar {
+        flex: 1;
+        height: 7px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 100px;
+
+        .perf-mini-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+
+            &.fill-excellent { background: linear-gradient(90deg, #22c55e, #16a34a); }
+            &.fill-good      { background: linear-gradient(90deg, #6366f1, #4f46e5); }
+            &.fill-avg       { background: linear-gradient(90deg, #f59e0b, #d97706); }
+        }
+    }
+}
+
+// Status Badge
+.perf-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+
+    &.badge-excellent { background: #dcfce7; color: #166534; }
+    &.badge-good      { background: #eef2ff; color: #4338ca; }
+    &.badge-avg       { background: #fef9c3; color: #854d0e; }
+    &.badge-warn      { background: #fee2e2; color: #991b1b; }
+}
+
+// Load Intensity Pill
+.load-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+
+    &.load-peak   { background: #fee2e2; color: #991b1b; }
+    &.load-high   { background: #ffedd5; color: #9a3412; }
+    &.load-medium { background: #fef9c3; color: #854d0e; }
+    &.load-low    { background: #dcfce7; color: #166534; }
+}
+
+// Star Rating
+.star-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    color: #1e293b;
+
+    i { color: #f59e0b; font-size: 15px; }
+}
+
+// Insights Panel
+.perf-insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .perf-insight-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 18px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+
+        i {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        &.insight-positive {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            color: #14532d;
+
+            i { color: #16a34a; }
+        }
+
+        &.insight-warning {
+            background: #fff7ed;
+            border-left: 4px solid #f59e0b;
+            color: #78350f;
+
+            i { color: #d97706; }
         }
     }
 }

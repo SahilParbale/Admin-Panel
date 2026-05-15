@@ -2,6 +2,18 @@
     <div class="chart-header">
         <h3>New vs Returning Users</h3>
         <div class="header-actions">
+            <div class="dropdown-container">
+                <span class="btn-monthly" (click)="toggleDropdown('period')">
+                    {{ getLabel(selectedPeriod, periodOptions) }} <i class='bx bx-chevron-down'></i>
+                </span>
+                <div class="dropdown-menu" *ngIf="showPeriodDropdown">
+                    <ul>
+                        <li *ngFor="let opt of periodOptions" (click)="setFilter('period', opt.value)" [class.active]="opt.value === selectedPeriod">
+                            {{ opt.label }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <button class="icon-btn" title="Print"><i class='bx bx-printer'></i></button>
             <button class="icon-btn" title="Download"><i class='bx bx-download'></i></button>
             <button class="icon-btn" title="Export"><i class='bx bx-export'></i></button>

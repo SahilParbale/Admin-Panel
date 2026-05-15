@@ -73,6 +73,46 @@ export class OrderStatusDistributionChartComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedTimeFrame = 'Today';
+    selectedPartner = 'All Partners';
+
+    showTimeFrameDropdown = false;
+    showPartnerDropdown = false;
+
+    // Filter Options
+    timeFrameOptions = [
+        { label: 'Today', value: 'Today' },
+        { label: 'Yesterday', value: 'Yesterday' },
+        { label: 'Last 7 Days', value: 'Last 7 Days' }
+    ];
+
+    partnerOptions = [
+        { label: 'All Partners', value: 'All Partners' },
+        { label: 'Partner A', value: 'Partner A' },
+        { label: 'Partner B', value: 'Partner B' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showTimeFrameDropdown = dropdownName === 'timeFrame' ? !this.showTimeFrameDropdown : false;
+        this.showPartnerDropdown = dropdownName === 'partner' ? !this.showPartnerDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'timeFrame') this.selectedTimeFrame = value;
+        if (filterType === 'partner') this.selectedPartner = value;
+        
+        console.log(`Status filter updated: ${filterType} = ${value}`);
+        
+        this.showTimeFrameDropdown = false;
+        this.showPartnerDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

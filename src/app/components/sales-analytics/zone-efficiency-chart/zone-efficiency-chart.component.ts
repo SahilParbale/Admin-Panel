@@ -120,6 +120,31 @@ export class ZoneEfficiencyChartComponent implements OnInit {
         }
     };
 
+    // Filter states
+    selectedZone = 'All Zones';
+    showZoneDropdown = false;
+    zoneOptions = [
+        { label: 'All Zones', value: 'All Zones' },
+        { label: 'North', value: 'North' },
+        { label: 'South', value: 'South' },
+        { label: 'East', value: 'East' },
+        { label: 'West', value: 'West' }
+    ];
+
+    toggleDropdown(name: string) {
+        this.showZoneDropdown = name === 'zone' ? !this.showZoneDropdown : false;
+    }
+
+    setFilter(type: string, value: string) {
+        if (type === 'zone') this.selectedZone = value;
+        console.log(`Zone Efficiency filter: ${type} = ${value}`);
+        this.showZoneDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void {

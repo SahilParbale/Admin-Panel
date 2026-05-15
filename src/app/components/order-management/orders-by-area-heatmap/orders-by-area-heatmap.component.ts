@@ -82,6 +82,59 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedPeriod = 'Last 7 Days';
+    selectedMetric = 'Order Volume';
+    selectedZone = 'All Zones';
+
+    showPeriodDropdown = false;
+    showMetricDropdown = false;
+    showZoneDropdown = false;
+
+    // Filter Options
+    periodOptions = [
+        { label: 'Today', value: 'Today' },
+        { label: 'Last 7 Days', value: 'Last 7 Days' },
+        { label: 'Last 30 Days', value: 'Last 30 Days' },
+        { label: 'This Month', value: 'This Month' }
+    ];
+
+    metricOptions = [
+        { label: 'Order Volume', value: 'Order Volume' },
+        { label: 'Revenue', value: 'Revenue' }
+    ];
+
+    zoneOptions = [
+        { label: 'All Zones', value: 'All Zones' },
+        { label: 'North', value: 'North' },
+        { label: 'South', value: 'South' },
+        { label: 'East', value: 'East' },
+        { label: 'West', value: 'West' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showPeriodDropdown = dropdownName === 'period' ? !this.showPeriodDropdown : false;
+        this.showMetricDropdown = dropdownName === 'metric' ? !this.showMetricDropdown : false;
+        this.showZoneDropdown = dropdownName === 'zone' ? !this.showZoneDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'period') this.selectedPeriod = value;
+        if (filterType === 'metric') this.selectedMetric = value;
+        if (filterType === 'zone') this.selectedZone = value;
+        
+        console.log(`Heatmap filter updated: ${filterType} = ${value}`);
+        
+        this.showPeriodDropdown = false;
+        this.showMetricDropdown = false;
+        this.showZoneDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

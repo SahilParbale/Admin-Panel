@@ -5,7 +5,44 @@
             <span class="subtitle">Monthly trend of order cancellations</span>
         </div>
         <div class="actions">
-            <!-- Info Icon for tooltip -->
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('resolution')">
+                        {{ getLabel(selectedResolution, resolutionOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showResolutionDropdown">
+                        <ul>
+                            <li *ngFor="let opt of resolutionOptions" (click)="setFilter('resolution', opt.value)" [class.active]="opt.value === selectedResolution">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('reason')">
+                        {{ getLabel(selectedReason, reasonOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showReasonDropdown">
+                        <ul>
+                            <li *ngFor="let opt of reasonOptions" (click)="setFilter('reason', opt.value)" [class.active]="opt.value === selectedReason">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('initiator')">
+                        {{ getLabel(selectedInitiator, initiatorOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showInitiatorDropdown">
+                        <ul>
+                            <li *ngFor="let opt of initiatorOptions" (click)="setFilter('initiator', opt.value)" [class.active]="opt.value === selectedInitiator">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="info-icon" title="Percentage of orders cancelled over time">
                 <i class='bx bx-info-circle'></i>
             </div>

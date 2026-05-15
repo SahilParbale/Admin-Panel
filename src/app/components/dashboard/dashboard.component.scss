@@ -112,11 +112,30 @@
 .card-panel {
     background: #fff;
     border-radius: 20px;
-    /* More rounded */
     padding: 15px 20px;
-    /* Reduced padding */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    /* Softer, deeper shadow */
+
+    &.interactive-card {
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+
+            .btn-expand-modal {
+                background-color: #fff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                color: var(--secondary-color, #333);
+                border-color: #ddd;
+
+                i {
+                    color: var(--primary-color, #28a745);
+                    transform: scale(1.15);
+                }
+            }
+        }
+    }
 
     .panel-header {
         display: flex;
@@ -278,6 +297,33 @@
                     &:hover {
                         color: var(--primary-color);
                     }
+                }
+            }
+
+            .btn-expand-modal {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                background-color: #f8f9fa;
+                border: 1px solid #eee;
+                color: #888;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-left: 5px;
+
+                i {
+                    margin: 0;
+                    font-size: 18px;
+                    transition: all 0.3s ease;
+                }
+
+                &:hover {
+                    background-color: #fff;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                    color: var(--secondary-color);
                 }
             }
         }

@@ -5,6 +5,32 @@
             <span class="subtitle">Distribution of orders across different payment gateways</span>
         </div>
         <div class="actions">
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('period')">
+                        {{ getLabel(selectedPeriod, periodOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showPeriodDropdown">
+                        <ul>
+                            <li *ngFor="let opt of periodOptions" (click)="setFilter('period', opt.value)" [class.active]="opt.value === selectedPeriod">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('orderValue')">
+                        {{ getLabel(selectedOrderValue, valueOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showOrderValueDropdown">
+                        <ul>
+                            <li *ngFor="let opt of valueOptions" (click)="setFilter('orderValue', opt.value)" [class.active]="opt.value === selectedOrderValue">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="icon-actions">
                 <i class='bx bx-printer'></i>
                 <i class='bx bx-export'></i>

@@ -5,6 +5,20 @@
             <span class="subtitle">Correlation between delivery speed, success rate, and volume</span>
         </div>
         <div class="actions">
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('zone')">
+                        {{ getLabel(selectedZone, zoneOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showZoneDropdown">
+                        <ul>
+                            <li *ngFor="let opt of zoneOptions" (click)="setFilter('zone', opt.value)" [class.active]="opt.value === selectedZone">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="icon-actions">
                 <i class='bx bx-printer' title="Print Map"></i>
                 <i class='bx bx-trending-up' title="View Efficiency Trends"></i>

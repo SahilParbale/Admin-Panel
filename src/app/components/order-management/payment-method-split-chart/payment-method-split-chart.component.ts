@@ -80,6 +80,45 @@ export class PaymentMethodSplitChartComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedPeriod = 'Last 7 Days';
+    selectedOrderValue = 'All Values';
+
+    showPeriodDropdown = false;
+    showOrderValueDropdown = false;
+
+    // Filter Options
+    periodOptions = [
+        { label: 'Last 7 Days', value: 'Last 7 Days' },
+        { label: 'Last 30 Days', value: 'Last 30 Days' }
+    ];
+
+    valueOptions = [
+        { label: 'All Values', value: 'All Values' },
+        { label: 'High Value (₹1000+)', value: 'High Value' },
+        { label: 'Low Value (<₹500)', value: 'Low Value' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showPeriodDropdown = dropdownName === 'period' ? !this.showPeriodDropdown : false;
+        this.showOrderValueDropdown = dropdownName === 'orderValue' ? !this.showOrderValueDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'period') this.selectedPeriod = value;
+        if (filterType === 'orderValue') this.selectedOrderValue = value;
+        
+        console.log(`Payment filter updated: ${filterType} = ${value}`);
+        
+        this.showPeriodDropdown = false;
+        this.showOrderValueDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

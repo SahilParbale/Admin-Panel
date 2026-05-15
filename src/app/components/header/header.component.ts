@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
     selector: 'app-header',
@@ -11,7 +12,7 @@ import { filter } from 'rxjs/operators';
 export class HeaderComponent {
     pageTitle: string = 'Dashboard';
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private sidebarService: SidebarService) {
         // Handle initial title
         this.updateTitle(this.router.url);
 
@@ -20,6 +21,10 @@ export class HeaderComponent {
         ).subscribe((event: any) => {
             this.updateTitle(event.urlAfterRedirects || event.url);
         });
+    }
+
+    toggleSidebar() {
+        this.sidebarService.toggle();
     }
 
     private updateTitle(url: string) {

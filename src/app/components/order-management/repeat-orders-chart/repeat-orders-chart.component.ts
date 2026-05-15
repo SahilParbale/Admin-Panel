@@ -80,6 +80,46 @@ export class RepeatOrdersChartComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedResolution = 'Monthly';
+    selectedCategory = 'All Categories';
+
+    showResolutionDropdown = false;
+    showCategoryDropdown = false;
+
+    // Filter Options
+    resolutionOptions = [
+        { label: 'Monthly', value: 'Monthly' },
+        { label: 'Quarterly', value: 'Quarterly' }
+    ];
+
+    categoryOptions = [
+        { label: 'All Categories', value: 'All Categories' },
+        { label: 'Fruits', value: 'Fruits' },
+        { label: 'Exotic', value: 'Exotic' },
+        { label: 'Berries', value: 'Berries' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showResolutionDropdown = dropdownName === 'resolution' ? !this.showResolutionDropdown : false;
+        this.showCategoryDropdown = dropdownName === 'category' ? !this.showCategoryDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'resolution') this.selectedResolution = value;
+        if (filterType === 'category') this.selectedCategory = value;
+        
+        console.log(`Repeat Orders filter updated: ${filterType} = ${value}`);
+        
+        this.showResolutionDropdown = false;
+        this.showCategoryDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

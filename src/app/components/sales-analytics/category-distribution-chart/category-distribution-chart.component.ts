@@ -109,6 +109,29 @@ export class CategoryDistributionChartComponent implements OnInit {
         }
     };
 
+    // Filter states
+    selectedPeriod = 'This Year';
+    showPeriodDropdown = false;
+    periodOptions = [
+        { label: 'This Year', value: 'This Year' },
+        { label: 'Last 6 Months', value: 'Last 6 Months' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    toggleDropdown(name: string) {
+        this.showPeriodDropdown = name === 'period' ? !this.showPeriodDropdown : false;
+    }
+
+    setFilter(type: string, value: string) {
+        if (type === 'period') this.selectedPeriod = value;
+        console.log(`Category Distribution filter: ${type} = ${value}`);
+        this.showPeriodDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void {

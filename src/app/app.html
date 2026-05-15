@@ -1,7 +1,15 @@
-<app-sidebar></app-sidebar>
-<div class="main-content">
-  <app-header></app-header>
-  <div class="content-wrapper">
-    <router-outlet></router-outlet>
+<div class="app-container" [class.is-mobile]="isMobile" [class.sidebar-open]="isOpen">
+  <!-- Sidebar -->
+  <app-sidebar class="app-sidebar" [class.open]="isOpen"></app-sidebar>
+  
+  <!-- Mobile Overlay -->
+  <div class="sidebar-overlay" *ngIf="isMobile && isOpen" (click)="closeSidebar()"></div>
+  
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <app-header></app-header>
+    <main class="content-wrapper">
+      <router-outlet></router-outlet>
+    </main>
   </div>
 </div>

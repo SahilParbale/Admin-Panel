@@ -496,6 +496,63 @@ export class FinanceComponent implements OnInit {
 
     public waterfallChartType: ChartType = 'bar';
 
+    // Chart Filter States
+    // Financial Performance
+    finPerfPeriod = 'This Year';
+    showFinPerfDropdown = false;
+    finPerfOptions = [
+        { label: 'This Year', value: 'This Year' },
+        { label: 'Last 6 Months', value: 'Last 6 Months' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    // Revenue Breakdown
+    revBreakdownPeriod = 'This Month';
+    showRevBreakdownDropdown = false;
+    revBreakdownOptions = [
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    // Operational Efficiency
+    opEfficiencyPeriod = 'This Month';
+    showOpEfficiencyDropdown = false;
+    opEfficiencyOptions = [
+        { label: 'This Month', value: 'This Month' },
+        { label: 'Last Quarter', value: 'Last Quarter' },
+        { label: 'This Year', value: 'This Year' }
+    ];
+
+    // Money Flow
+    moneyFlowPeriod = 'This Month';
+    showMoneyFlowDropdown = false;
+    moneyFlowOptions = [
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    toggleChartDropdown(dropdownName: string) {
+        this.showFinPerfDropdown = dropdownName === 'finPerf' ? !this.showFinPerfDropdown : false;
+        this.showRevBreakdownDropdown = dropdownName === 'revBreakdown' ? !this.showRevBreakdownDropdown : false;
+        this.showOpEfficiencyDropdown = dropdownName === 'opEfficiency' ? !this.showOpEfficiencyDropdown : false;
+        this.showMoneyFlowDropdown = dropdownName === 'moneyFlow' ? !this.showMoneyFlowDropdown : false;
+    }
+
+    setChartFilter(filterName: string, value: string) {
+        (this as any)[filterName] = value;
+        console.log(`Finance chart filter: ${filterName} = ${value}`);
+        this.showFinPerfDropdown = false;
+        this.showRevBreakdownDropdown = false;
+        this.showOpEfficiencyDropdown = false;
+        this.showMoneyFlowDropdown = false;
+    }
+
+    getChartLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

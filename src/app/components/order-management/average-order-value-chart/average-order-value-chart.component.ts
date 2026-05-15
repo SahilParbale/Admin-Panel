@@ -80,6 +80,35 @@ export class AverageOrderValueChartComponent implements OnInit {
         }
     }
 
+    // Filter states
+    selectedPeriod = 'Last 7 Days';
+
+    showPeriodDropdown = false;
+
+    // Filter Options
+    periodOptions = [
+        { label: 'Last 7 Days', value: 'Last 7 Days' },
+        { label: 'Last 30 Days', value: 'Last 30 Days' },
+        { label: 'This Quarter', value: 'This Quarter' }
+    ];
+
+    toggleDropdown(dropdownName: string) {
+        this.showPeriodDropdown = dropdownName === 'period' ? !this.showPeriodDropdown : false;
+    }
+
+    setFilter(filterType: string, value: string) {
+        if (filterType === 'period') this.selectedPeriod = value;
+        
+        console.log(`AOV filter updated: ${filterType} = ${value}`);
+        
+        this.showPeriodDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     constructor() { }
 
     ngOnInit(): void { }

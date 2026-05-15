@@ -279,6 +279,98 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   categoryDistStatusFilter = 'All';
   categoryDistStockFilter = 'All';
 
+  // Dropdown States
+  showRevenueCategoryDropdown = false;
+  showRevenueStockDropdown = false;
+  showTopSellingCategoryDropdown = false;
+  showTopSellingPriceDropdown = false;
+  showAvailabilityCategoryDropdown = false;
+  showAvailabilityRatingDropdown = false;
+  showForecastCategoryDropdown = false;
+  showForecastPeriodDropdown = false;
+  showCategoryDistStatusDropdown = false;
+  showCategoryDistStockDropdown = false;
+
+  // Options Arrays
+  stockFilterOptions = [
+    {label: 'All Stock', value: 'All'}, 
+    {label: 'In Stock', value: 'In Stock'}, 
+    {label: 'Low Stock', value: 'Low Stock'}, 
+    {label: 'Out of Stock', value: 'Out of Stock'}
+  ];
+  
+  statusFilterOptions = [
+    {label: 'All Status', value: 'All'}, 
+    {label: 'Active', value: 'Active'}, 
+    {label: 'Inactive', value: 'Inactive'}
+  ];
+  
+  categoryStockFilterOptions = [
+    {label: 'All Stock Levels', value: 'All'}, 
+    {label: 'In Stock (>10)', value: 'in-stock'}, 
+    {label: 'Low Stock (1-10)', value: 'low-stock'}, 
+    {label: 'Out of Stock (0)', value: 'out-stock'}
+  ];
+  
+  priceFilterOptions = [
+    {label: 'All Prices', value: 'All'}, 
+    {label: 'Under ₹100', value: 'low'}, 
+    {label: '₹100-₹500', value: 'medium'}, 
+    {label: 'Above ₹500', value: 'high'}
+  ];
+  
+  ratingFilterOptions = [
+    {label: 'All Ratings', value: 'All'}, 
+    {label: '4+ Stars', value: 'high'}, 
+    {label: '3-4 Stars', value: 'medium'}, 
+    {label: 'Below 3 Stars', value: 'low'}
+  ];
+  
+  periodFilterOptions = [
+    {label: 'Next 7 Days', value: '7'}, 
+    {label: 'Next 14 Days', value: '14'}, 
+    {label: 'Next 30 Days', value: '30'}
+  ];
+
+  toggleDropdown(dropdownName: string) {
+    this.showRevenueCategoryDropdown = dropdownName === 'revenueCategory' ? !this.showRevenueCategoryDropdown : false;
+    this.showRevenueStockDropdown = dropdownName === 'revenueStock' ? !this.showRevenueStockDropdown : false;
+    this.showTopSellingCategoryDropdown = dropdownName === 'topSellingCategory' ? !this.showTopSellingCategoryDropdown : false;
+    this.showTopSellingPriceDropdown = dropdownName === 'topSellingPrice' ? !this.showTopSellingPriceDropdown : false;
+    this.showAvailabilityCategoryDropdown = dropdownName === 'availabilityCategory' ? !this.showAvailabilityCategoryDropdown : false;
+    this.showAvailabilityRatingDropdown = dropdownName === 'availabilityRating' ? !this.showAvailabilityRatingDropdown : false;
+    this.showForecastCategoryDropdown = dropdownName === 'forecastCategory' ? !this.showForecastCategoryDropdown : false;
+    this.showForecastPeriodDropdown = dropdownName === 'forecastPeriod' ? !this.showForecastPeriodDropdown : false;
+    this.showCategoryDistStatusDropdown = dropdownName === 'categoryDistStatus' ? !this.showCategoryDistStatusDropdown : false;
+    this.showCategoryDistStockDropdown = dropdownName === 'categoryDistStock' ? !this.showCategoryDistStockDropdown : false;
+    this.showTrendDropdown = dropdownName === 'trend' ? !this.showTrendDropdown : false;
+  }
+
+  getLabel(value: string, options: any[]): string {
+    const option = options.find(o => o.value === value);
+    return option ? option.label : value;
+  }
+
+  setFilter(filterName: string, value: string) {
+    (this as any)[filterName] = value;
+    if (filterName.startsWith('revenue')) this.updateRevenueChart();
+    if (filterName.startsWith('topSelling')) this.updateTopSellingChart();
+    if (filterName.startsWith('availability')) this.updateAvailabilityChart();
+    if (filterName.startsWith('forecast')) this.updateForecastChart();
+    if (filterName.startsWith('categoryDist')) this.updateCategoryChart();
+    
+    this.showRevenueCategoryDropdown = false;
+    this.showRevenueStockDropdown = false;
+    this.showTopSellingCategoryDropdown = false;
+    this.showTopSellingPriceDropdown = false;
+    this.showAvailabilityCategoryDropdown = false;
+    this.showAvailabilityRatingDropdown = false;
+    this.showForecastCategoryDropdown = false;
+    this.showForecastPeriodDropdown = false;
+    this.showCategoryDistStatusDropdown = false;
+    this.showCategoryDistStockDropdown = false;
+  }
+
   // Update Revenue Chart with filters
   updateRevenueChart() {
     const filtered = this.products.filter(product => {

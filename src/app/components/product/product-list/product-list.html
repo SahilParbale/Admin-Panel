@@ -97,16 +97,34 @@
                 </div>
                 <div class="actions">
                     <div class="filter-group">
-                        <select class="graph-filter" [(ngModel)]="revenueCategoryFilter" (change)="updateRevenueChart()">
-                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
-                        </select>
-                        <select class="graph-filter" [(ngModel)]="revenueStockFilter" (change)="updateRevenueChart()">
-                            <option value="All">All Stock</option>
-                            <option value="In Stock">In Stock</option>
-                            <option value="Low Stock">Low Stock</option>
-                            <option value="Out of Stock">Out of Stock</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('revenueCategory')">
+                                {{ revenueCategoryFilter }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showRevenueCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let cat of graphCategoryOptions" (click)="setFilter('revenueCategoryFilter', cat)" [class.active]="cat === revenueCategoryFilter">
+                                        {{ cat }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('revenueStock')">
+                                {{ getLabel(revenueStockFilter, stockFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showRevenueStockDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of stockFilterOptions" (click)="setFilter('revenueStockFilter', opt.value)" [class.active]="opt.value === revenueStockFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+                    <button class="btn-view-details" (click)="openRevenueDetail('All Products', 0)">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -120,6 +138,7 @@
                 </canvas>
             </div>
         </div>
+
 
         <!-- Sales Trend Chart -->
         <div class="sales-trend-container">
@@ -151,8 +170,7 @@
                 </div>
             </div>
             <div class="chart-wrapper">
-                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"
-                    (chartClick)="onTrendChartClick($event)">
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
                 </canvas>
             </div>
         </div>
@@ -171,15 +189,30 @@
                 </div>
                 <div class="actions">
                     <div class="filter-group">
-                        <select class="graph-filter" [(ngModel)]="topSellingCategoryFilter" (change)="updateTopSellingChart()">
-                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
-                        </select>
-                        <select class="graph-filter" [(ngModel)]="topSellingPriceFilter" (change)="updateTopSellingChart()">
-                            <option value="All">All Prices</option>
-                            <option value="low">Under ₹100</option>
-                            <option value="medium">₹100-₹500</option>
-                            <option value="high">Above ₹500</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('topSellingCategory')">
+                                {{ topSellingCategoryFilter }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showTopSellingCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let cat of graphCategoryOptions" (click)="setFilter('topSellingCategoryFilter', cat)" [class.active]="cat === topSellingCategoryFilter">
+                                        {{ cat }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('topSellingPrice')">
+                                {{ getLabel(topSellingPriceFilter, priceFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showTopSellingPriceDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of priceFilterOptions" (click)="setFilter('topSellingPriceFilter', opt.value)" [class.active]="opt.value === topSellingPriceFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
@@ -189,8 +222,7 @@
                 </div>
             </div>
             <div class="chart-wrapper">
-                <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'"
-                    (chartClick)="onTopSellingChartClick($event)">
+                <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'">
                 </canvas>
             </div>
         </div>
@@ -205,15 +237,30 @@
                 </div>
                 <div class="actions">
                     <div class="filter-group">
-                        <select class="graph-filter" [(ngModel)]="availabilityCategoryFilter" (change)="updateAvailabilityChart()">
-                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
-                        </select>
-                        <select class="graph-filter" [(ngModel)]="availabilityRatingFilter" (change)="updateAvailabilityChart()">
-                            <option value="All">All Ratings</option>
-                            <option value="high">4+ Stars</option>
-                            <option value="medium">3-4 Stars</option>
-                            <option value="low">Below 3 Stars</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('availabilityCategory')">
+                                {{ availabilityCategoryFilter }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showAvailabilityCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let cat of graphCategoryOptions" (click)="setFilter('availabilityCategoryFilter', cat)" [class.active]="cat === availabilityCategoryFilter">
+                                        {{ cat }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('availabilityRating')">
+                                {{ getLabel(availabilityRatingFilter, ratingFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showAvailabilityRatingDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of ratingFilterOptions" (click)="setFilter('availabilityRatingFilter', opt.value)" [class.active]="opt.value === availabilityRatingFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
@@ -222,8 +269,7 @@
                     </div>
                 </div>
             </div>
-            <app-availability-chart [data]="availabilityData"
-                (chartClick)="onAvailabilityChartClick($event)"></app-availability-chart>
+            <app-availability-chart [data]="availabilityData"></app-availability-chart>
         </div>
 
 
@@ -238,14 +284,30 @@
                 </div>
                 <div class="actions">
                     <div class="filter-group">
-                        <select class="graph-filter" [(ngModel)]="forecastCategoryFilter" (change)="updateForecastChart()">
-                            <option *ngFor="let cat of graphCategoryOptions" [value]="cat">{{ cat }}</option>
-                        </select>
-                        <select class="graph-filter" [(ngModel)]="forecastPeriodFilter" (change)="updateForecastChart()">
-                            <option value="7">Next 7 Days</option>
-                            <option value="14">Next 14 Days</option>
-                            <option value="30">Next 30 Days</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('forecastCategory')">
+                                {{ forecastCategoryFilter }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showForecastCategoryDropdown">
+                                <ul>
+                                    <li *ngFor="let cat of graphCategoryOptions" (click)="setFilter('forecastCategoryFilter', cat)" [class.active]="cat === forecastCategoryFilter">
+                                        {{ cat }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('forecastPeriod')">
+                                {{ getLabel(forecastPeriodFilter, periodFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showForecastPeriodDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of periodFilterOptions" (click)="setFilter('forecastPeriodFilter', opt.value)" [class.active]="opt.value === forecastPeriodFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
@@ -254,7 +316,7 @@
                     </div>
                 </div>
             </div>
-            <app-demand-forecast-chart (chartClick)="onDemandForecastChartClick($event)"></app-demand-forecast-chart>
+            <app-demand-forecast-chart></app-demand-forecast-chart>
         </div>
 
         <!-- Category Distribution Chart (Spans 2 columns) -->
@@ -267,17 +329,30 @@
                 </div>
                 <div class="actions">
                     <div class="filter-group">
-                        <select class="graph-filter" [(ngModel)]="categoryDistStatusFilter" (change)="updateCategoryChart()">
-                            <option value="All">All Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <select class="graph-filter" [(ngModel)]="categoryDistStockFilter" (change)="updateCategoryChart()">
-                            <option value="All">All Stock Levels</option>
-                            <option value="in-stock">In Stock (>10)</option>
-                            <option value="low-stock">Low Stock (1-10)</option>
-                            <option value="out-stock">Out of Stock (0)</option>
-                        </select>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('categoryDistStatus')">
+                                {{ getLabel(categoryDistStatusFilter, statusFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showCategoryDistStatusDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of statusFilterOptions" (click)="setFilter('categoryDistStatusFilter', opt.value)" [class.active]="opt.value === categoryDistStatusFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <span class="btn-monthly" (click)="toggleDropdown('categoryDistStock')">
+                                {{ getLabel(categoryDistStockFilter, categoryStockFilterOptions) }} <i class='bx bx-chevron-down'></i>
+                            </span>
+                            <div class="dropdown-menu" *ngIf="showCategoryDistStockDropdown">
+                                <ul>
+                                    <li *ngFor="let opt of categoryStockFilterOptions" (click)="setFilter('categoryDistStockFilter', opt.value)" [class.active]="opt.value === categoryDistStockFilter">
+                                        {{ opt.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
@@ -286,8 +361,7 @@
                     </div>
                 </div>
             </div>
-            <app-category-distribution-chart
-                (chartClick)="onCategoryChartClick($event)"></app-category-distribution-chart>
+            <app-category-distribution-chart></app-category-distribution-chart>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -6,7 +7,17 @@ import { Component } from '@angular/core';
     styleUrls: ['./sidebar.component.scss'],
     standalone: false
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+    isOpen = false;
+
+    constructor(private sidebarService: SidebarService) {}
+
+    ngOnInit() {
+        this.sidebarService.isOpen$.subscribe(isOpen => {
+            this.isOpen = isOpen;
+        });
+    }
+
     menuItems = [
         { label: 'Dashboard', icon: 'bx-grid-alt', active: true, hasSubmenu: false, route: '/' },
         { label: 'Product Management', icon: 'bx-box', hasSubmenu: false, route: '/product-management' },

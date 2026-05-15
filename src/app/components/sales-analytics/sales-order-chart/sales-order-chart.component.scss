@@ -36,18 +36,26 @@
         }
 
         .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
             .icon-actions {
                 display: flex;
-                gap: 12px;
+                align-items: center;
+                gap: 8px;
 
                 i {
-                    font-size: 20px;
+                    font-size: 18px;
                     color: #94a3b8;
                     cursor: pointer;
-                    transition: all 0.2s;
+                    padding: 6px;
+                    border-radius: 8px;
+                    transition: color 0.2s, background 0.2s, transform 0.2s;
 
                     &:hover {
-                        color: #111827;
+                        color: #4f46e5;
+                        background: #eef2ff;
                         transform: translateY(-1px);
                     }
                 }

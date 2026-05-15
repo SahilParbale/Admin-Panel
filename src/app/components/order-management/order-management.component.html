@@ -120,9 +120,8 @@
     </div>
 
     <div class="charts-grid">
-        <app-orders-by-area-heatmap (chartClick)="onAreaChartClick($event)"></app-orders-by-area-heatmap>
-        <app-cancellation-rate-trend-chart
-            (chartClick)="onCancellationChartClick($event)"></app-cancellation-rate-trend-chart>
+        <app-orders-by-area-heatmap></app-orders-by-area-heatmap>
+        <app-cancellation-rate-trend-chart></app-cancellation-rate-trend-chart>
     </div>
 
     <!-- Area Modal -->
@@ -156,11 +155,10 @@
     </app-order-repeat-modal>
 
     <div class="charts-grid-compact">
-        <app-average-order-value-chart (chartClick)="onAovChartClick($event)"></app-average-order-value-chart>
-        <app-order-status-distribution-chart
-            (chartClick)="onStatusChartClick($event)"></app-order-status-distribution-chart>
-        <app-payment-method-split-chart (chartClick)="onPaymentChartClick($event)"></app-payment-method-split-chart>
-        <app-repeat-orders-chart (chartClick)="onRepeatChartClick($event)"></app-repeat-orders-chart>
+        <app-average-order-value-chart></app-average-order-value-chart>
+        <app-order-status-distribution-chart></app-order-status-distribution-chart>
+        <app-payment-method-split-chart></app-payment-method-split-chart>
+        <app-repeat-orders-chart></app-repeat-orders-chart>
     </div>
 
     <!-- Order Details Modal -->

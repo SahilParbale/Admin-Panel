@@ -5,6 +5,32 @@
             <span class="subtitle">Overview of orders across different fulfillment stages</span>
         </div>
         <div class="actions">
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('timeFrame')">
+                        {{ getLabel(selectedTimeFrame, timeFrameOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showTimeFrameDropdown">
+                        <ul>
+                            <li *ngFor="let opt of timeFrameOptions" (click)="setFilter('timeFrame', opt.value)" [class.active]="opt.value === selectedTimeFrame">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('partner')">
+                        {{ getLabel(selectedPartner, partnerOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showPartnerDropdown">
+                        <ul>
+                            <li *ngFor="let opt of partnerOptions" (click)="setFilter('partner', opt.value)" [class.active]="opt.value === selectedPartner">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="icon-actions">
                 <i class='bx bx-printer'></i>
                 <i class='bx bx-export'></i>

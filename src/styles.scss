@@ -66,3 +66,463 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: #aaa;
 }
+
+/* Global Graph Dropdown Styles */
+.filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+
+    .btn-monthly {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        background: #ffffff;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        user-select: none;
+
+        i {
+            font-size: 16px;
+            color: #9ca3af;
+            transition: transform 0.25s ease;
+        }
+
+        &:hover {
+            background: #f9fafb;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+    }
+
+    // Rotate chevron when dropdown is open
+    &.open .btn-monthly i {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.07),
+            0 10px 30px -5px rgba(0, 0, 0, 0.12);
+        min-width: 160px;
+        z-index: 1100;
+        overflow: hidden;
+        padding: 4px;
+        animation: dropdownFadeIn 0.18s ease;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                padding: 9px 14px;
+                font-size: 13px;
+                font-weight: 500;
+                color: #4b5563;
+                cursor: pointer;
+                border-radius: 8px;
+                transition: background 0.15s, color 0.15s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                &::before {
+                    content: '';
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: transparent;
+                    transition: background 0.15s;
+                    flex-shrink: 0;
+                }
+
+                &:hover {
+                    background: #f5f3ff;
+                    color: #4f46e5;
+
+                    &::before {
+                        background: #c4b5fd;
+                    }
+                }
+
+                &.active {
+                    background: #eef2ff;
+                    color: #4f46e5;
+                    font-weight: 700;
+
+                    &::before {
+                        background: #6366f1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Shared panel header action row
+.panel-header .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+        font-size: 18px;
+        color: #9ca3af;
+        cursor: pointer;
+        transition: color 0.2s, transform 0.2s;
+        padding: 6px;
+        border-radius: 8px;
+
+        &:hover {
+            color: #4f46e5;
+            background: #eef2ff;
+            transform: translateY(-1px);
+        }
+    }
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// ============================================================
+// Responsive Utilities — Tables
+// ============================================================
+
+// Wraps any table to allow horizontal scroll on tablet
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+}
+
+// On mobile (≤768px): transform table rows into individual cards
+@media (max-width: 768px) {
+    .responsive-admin-table {
+        display: block;
+        width: 100%;
+
+        thead {
+            display: none; // Labels are shown via data-label pseudo-elements
+        }
+
+        tbody {
+            display: block;
+            width: 100%;
+        }
+
+        tr {
+            display: block;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            text-align: right;
+            font-size: 13px;
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            // Renders the column header label inline before each value
+            &::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #64748b;
+                text-align: left;
+                margin-right: 12px;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+        }
+    }
+}
+
+// ============================================================
+// Responsive Utilities — General
+// ============================================================
+
+// Hide on mobile
+@media (max-width: 767px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+// Hide on desktop
+@media (min-width: 993px) {
+    .hide-desktop {
+        display: none !important;
+    }
+}
+
+// Responsive grid helper
+.responsive-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 576px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 992px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+// ============================================================
+// Shared Perf-* Design System (used across multiple modals)
+// ============================================================
+
+.perf-modal-body {
+    padding: 28px 32px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    background: #f8fafc;
+}
+
+.perf-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e8ecf0;
+}
+
+.perf-section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0 0 18px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    i { font-size: 20px; color: #6366f1; }
+}
+
+.perf-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.perf-kpi-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+
+    &:hover {
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
+        border-color: #6366f1;
+        transform: translateY(-2px);
+    }
+
+    .perf-kpi-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 22px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .perf-kpi-body {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        .perf-kpi-label  { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .perf-kpi-value  { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1; }
+        .perf-kpi-change {
+            font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; gap: 3px;
+            padding: 3px 7px; border-radius: 6px; width: fit-content;
+            &.positive { background: #dcfce7; color: #166534; }
+            &.negative { background: #fee2e2; color: #991b1b; }
+        }
+    }
+}
+
+.perf-table-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.perf-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: #f1f5f9;
+        th {
+            padding: 13px 16px;
+            text-align: left;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+            &:last-child { border-bottom: none; }
+            &:hover td  { background: #fafbff; }
+        }
+        td {
+            padding: 13px 16px;
+            font-size: 13.5px;
+            color: #334155;
+            vertical-align: middle;
+        }
+    }
+
+    .text-success { color: #16a34a !important; font-weight: 600; }
+    .text-danger  { color: #dc2626 !important; font-weight: 600; }
+}
+
+.perf-rate-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    span { font-size: 12px; font-weight: 700; color: #1e293b; min-width: 38px; }
+
+    .perf-mini-bar {
+        flex: 1;
+        height: 7px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 90px;
+
+        .perf-mini-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            &.fill-excellent { background: linear-gradient(90deg, #22c55e, #16a34a); }
+            &.fill-good      { background: linear-gradient(90deg, #6366f1, #4f46e5); }
+            &.fill-avg       { background: linear-gradient(90deg, #f59e0b, #d97706); }
+            &.fill-warn      { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        }
+    }
+}
+
+.perf-badge {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    &.badge-excellent { background: #dcfce7; color: #166534; }
+    &.badge-good      { background: #eef2ff; color: #4338ca; }
+    &.badge-avg       { background: #fef9c3; color: #854d0e; }
+    &.badge-warn      { background: #fee2e2; color: #991b1b; }
+}
+
+// Mobile Responsive Overrides for Perf System
+@media (max-width: 768px) {
+    .perf-modal-body {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .perf-section {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .perf-kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .perf-kpi-card {
+        padding: 14px;
+        
+        .perf-kpi-value {
+            font-size: 20px;
+        }
+    }
+
+    .modal-overlay {
+        padding: 0; // Full screen on mobile
+    }
+
+    .modal-content, .perf-modal-content {
+        max-height: 100vh;
+        border-radius: 0;
+        height: 100%;
+    }
+}
+
+

@@ -160,3 +160,14 @@
         }
     }
 }
+
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        
+        &.open {
+            transform: translateX(0);
+        }
+    }
+}

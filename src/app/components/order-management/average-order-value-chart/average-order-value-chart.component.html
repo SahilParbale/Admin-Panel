@@ -5,6 +5,20 @@
             <span class="subtitle">Visualizing the trend of average transaction value over the last 7 days</span>
         </div>
         <div class="actions">
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('period')">
+                        {{ getLabel(selectedPeriod, periodOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showPeriodDropdown">
+                        <ul>
+                            <li *ngFor="let opt of periodOptions" (click)="setFilter('period', opt.value)" [class.active]="opt.value === selectedPeriod">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="icon-actions">
                 <i class='bx bx-printer'></i>
                 <i class='bx bx-export'></i>

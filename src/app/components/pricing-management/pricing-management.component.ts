@@ -71,6 +71,65 @@ export class PricingManagementComponent implements OnInit {
     productsList: string[] = ['Fresh Alphonso Mango', 'Organic Bananas', 'Shimla Apples', 'Green Grapes', 'Pomegranate', 'Watermelon'];
     offerTypes: string[] = ['Product', 'Category', 'Cart'];
 
+    // Chart Filter States
+    // Revenue Analysis
+    revenuePeriod = 'This Year';
+    showRevenuePeriodDropdown = false;
+    revenuePeriodOptions = [
+        { label: 'This Year', value: 'This Year' },
+        { label: 'Last 6 Months', value: 'Last 6 Months' },
+        { label: 'Last Quarter', value: 'Last Quarter' }
+    ];
+
+    // Discount Impact
+    discountCategory = 'All Categories';
+    showDiscountCategoryDropdown = false;
+    discountCategoryOptions = [
+        { label: 'All Categories', value: 'All Categories' },
+        { label: 'Fruits', value: 'Fruits' },
+        { label: 'Exotic', value: 'Exotic' },
+        { label: 'Berries', value: 'Berries' }
+    ];
+
+    // Offer Rankings
+    rankingMetric = 'Redemptions';
+    showRankingMetricDropdown = false;
+    rankingMetricOptions = [
+        { label: 'Redemptions', value: 'Redemptions' },
+        { label: 'Revenue Generated', value: 'Revenue Generated' },
+        { label: 'Avg Order Value', value: 'Avg Order Value' }
+    ];
+
+    // Price Elasticity
+    elasticityCategory = 'All Categories';
+    showElasticityCategoryDropdown = false;
+    elasticityCategoryOptions = [
+        { label: 'All Categories', value: 'All Categories' },
+        { label: 'Fruits', value: 'Fruits' },
+        { label: 'Exotic', value: 'Exotic' }
+    ];
+
+    toggleChartDropdown(dropdownName: string) {
+        this.showRevenuePeriodDropdown = dropdownName === 'revenuePeriod' ? !this.showRevenuePeriodDropdown : false;
+        this.showDiscountCategoryDropdown = dropdownName === 'discountCategory' ? !this.showDiscountCategoryDropdown : false;
+        this.showRankingMetricDropdown = dropdownName === 'rankingMetric' ? !this.showRankingMetricDropdown : false;
+        this.showElasticityCategoryDropdown = dropdownName === 'elasticityCategory' ? !this.showElasticityCategoryDropdown : false;
+    }
+
+    setChartFilter(filterName: string, value: string) {
+        (this as any)[filterName] = value;
+        console.log(`Pricing chart filter updated: ${filterName} = ${value}`);
+        this.showRevenuePeriodDropdown = false;
+        this.showDiscountCategoryDropdown = false;
+        this.showRankingMetricDropdown = false;
+        this.showElasticityCategoryDropdown = false;
+    }
+
+    getChartLabel(value: string, options: any[]): string {
+        const option = options.find(o => o.value === value);
+        return option ? option.label : value;
+    }
+
     // Chart Configuration
     public revenueChartData: ChartConfiguration<'line'>['data'] = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

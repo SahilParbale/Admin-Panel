@@ -2,6 +2,18 @@
     <div class="chart-header">
         <h3>Rider Status (Active vs Inactive)</h3>
         <div class="header-actions">
+            <div class="dropdown-container">
+                <span class="btn-monthly" (click)="toggleDropdown('zone')">
+                    {{ getLabel(selectedZone, zoneOptions) }} <i class='bx bx-chevron-down'></i>
+                </span>
+                <div class="dropdown-menu" *ngIf="showZoneDropdown">
+                    <ul>
+                        <li *ngFor="let opt of zoneOptions" (click)="setFilter('zone', opt.value)" [class.active]="opt.value === selectedZone">
+                            {{ opt.label }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <button class="icon-btn" title="Print"><i class='bx bx-printer'></i></button>
             <button class="icon-btn" title="Download"><i class='bx bx-download'></i></button>
             <button class="icon-btn" title="Export"><i class='bx bx-export'></i></button>

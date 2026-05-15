@@ -11,6 +11,44 @@
             <div class="legend-item"><span class="box critical"></span> Critical</div>
         </div>
         <div class="actions">
+            <div class="filter-group">
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('period')">
+                        {{ getLabel(selectedPeriod, periodOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showPeriodDropdown">
+                        <ul>
+                            <li *ngFor="let opt of periodOptions" (click)="setFilter('period', opt.value)" [class.active]="opt.value === selectedPeriod">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('metric')">
+                        {{ getLabel(selectedMetric, metricOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showMetricDropdown">
+                        <ul>
+                            <li *ngFor="let opt of metricOptions" (click)="setFilter('metric', opt.value)" [class.active]="opt.value === selectedMetric">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-container">
+                    <span class="btn-monthly" (click)="toggleDropdown('zone')">
+                        {{ getLabel(selectedZone, zoneOptions) }} <i class='bx bx-chevron-down'></i>
+                    </span>
+                    <div class="dropdown-menu" *ngIf="showZoneDropdown">
+                        <ul>
+                            <li *ngFor="let opt of zoneOptions" (click)="setFilter('zone', opt.value)" [class.active]="opt.value === selectedZone">
+                                {{ opt.label }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="icon-actions">
                 <i class='bx bx-printer'></i>
                 <i class='bx bx-export'></i>

@@ -11,7 +11,7 @@ import { BaseChartDirective } from 'ng2-charts';
 export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
     @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
     @Input() isOpen = false;
-    @Input() mode: 'orders' | 'performance' | 'revenue' = 'orders';
+    @Input() mode: 'orders' | 'performance' | 'revenue' | 'product' = 'orders';
     @Output() close = new EventEmitter<void>();
 
     title = 'Order Analytics Dashboard – January 2026';
@@ -22,6 +22,11 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
     advancedKpis: any[] = [];
     tableData: any[] = [];
 
+    // Performance-specific table data
+    performanceZoneData: any[] = [];
+    performancePeakHours: any[] = [];
+    performanceInsights: any[] = [];
+
     // Revenue-specific data
     profitMargins: any[] = [];
     costBreakdown: any[] = [];
@@ -29,6 +34,9 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
     revenueRisks: any[] = [];
     vendorPerformance: any[] = [];
     hourlyDistribution: any[] = [];
+
+    // Product-specific data
+    productData: any[] = [];
 
     // Chart Configurations
     public lineChartData: ChartConfiguration['data'] = { datasets: [] };
@@ -117,6 +125,8 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
             this.loadPerformanceData();
         } else if (this.mode === 'revenue') {
             this.loadRevenueData();
+        } else if (this.mode === 'product') {
+            this.loadProductData();
         } else {
             this.loadOrderData();
         }
@@ -585,69 +595,116 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
     }
 
     loadPerformanceData() {
-        this.title = 'Order Performance – January 2026';
+        this.title = 'Order Performance — Deep Dive';
+        this.dateRange = 'Jan 01 – Jan 31, 2026';
 
+        // 4 KPI Cards
         this.kpis = [
-            { label: 'Avg Delivery Time', value: '32m', change: '-2m', isPositive: true }, // Faster is better (positive)
-            { label: 'On-Time Rate', value: '94%', change: '+1.5%', isPositive: true },
-            { label: 'Customer Rating', value: '4.8', change: '+0.2', isPositive: true },
-            { label: 'Issues Reported', value: '12', change: '-5', isPositive: true } // Fewer issues is positive
+            { label: 'Total Orders', value: '1,480', change: '+17%', isPositive: true, icon: 'bx-package' },
+            { label: 'Completed', value: '1,312', change: '+19%', isPositive: true, icon: 'bx-check-circle' },
+            { label: 'Cancelled', value: '168', change: '-8%', isPositive: true, icon: 'bx-x-circle' },
+            { label: 'Completion Rate', value: '88.6%', change: '+2.1pp', isPositive: true, icon: 'bx-trending-up' }
         ];
 
-        // Green (Good), Yellow (Average/Return), Red (Bad/Cancel)
-        const green = '#28a745';
-        const yellow = '#ffc107';
-        const red = '#dc3545';
+        // Zone-wise performance table
+        this.performanceZoneData = [
+            { zone: 'North', orders: 380, completed: 346, cancelled: 34, completionRate: 91.1, avgDelivery: '28 min', rating: 4.7, status: 'Excellent' },
+            { zone: 'South', orders: 420, completed: 365, cancelled: 55, completionRate: 86.9, avgDelivery: '33 min', rating: 4.4, status: 'Good' },
+            { zone: 'East', orders: 310, completed: 260, cancelled: 50, completionRate: 83.9, avgDelivery: '38 min', rating: 4.2, status: 'Average' },
+            { zone: 'West', orders: 370, completed: 333, cancelled: 37, completionRate: 90.0, avgDelivery: '30 min', rating: 4.6, status: 'Excellent' },
+            { zone: 'Central', orders: 0, completed: 0, cancelled: 0, completionRate: 0, avgDelivery: '—', rating: 0, status: '' }
+        ].filter(z => z.orders > 0);
+
+        // Peak hours table
+        this.performancePeakHours = [
+            { slot: '6 AM – 8 AM',  orders: 62,  completed: 58, cancelled: 4,  rate: 93.5, intensity: 'low' },
+            { slot: '8 AM – 10 AM', orders: 115, completed: 105, cancelled: 10, rate: 91.3, intensity: 'medium' },
+            { slot: '10 AM – 12 PM',orders: 185, completed: 168, cancelled: 17, rate: 90.8, intensity: 'high' },
+            { slot: '12 PM – 2 PM', orders: 280, completed: 248, cancelled: 32, rate: 88.6, intensity: 'peak' },
+            { slot: '2 PM – 4 PM',  orders: 210, completed: 185, cancelled: 25, rate: 88.1, intensity: 'high' },
+            { slot: '4 PM – 6 PM',  orders: 310, completed: 274, cancelled: 36, rate: 88.4, intensity: 'peak' },
+            { slot: '6 PM – 8 PM',  orders: 195, completed: 168, cancelled: 27, rate: 86.2, intensity: 'high' },
+            { slot: '8 PM – 10 PM', orders: 123, completed: 106, cancelled: 17, rate: 86.2, intensity: 'medium' }
+        ];
+
+        // Daily breakdown table (last 10 days)
+        this.tableData = [
+            { date: 'Jan 31', total: 58,  completed: 54, cancelled: 4,  rate: '93.1%', status: 'Excellent' },
+            { date: 'Jan 30', total: 72,  completed: 64, cancelled: 8,  rate: '88.9%', status: 'Good' },
+            { date: 'Jan 29', total: 65,  completed: 56, cancelled: 9,  rate: '86.2%', status: 'Good' },
+            { date: 'Jan 28', total: 38,  completed: 32, cancelled: 6,  rate: '84.2%', status: 'Average' },
+            { date: 'Jan 27', total: 81,  completed: 74, cancelled: 7,  rate: '91.4%', status: 'Excellent' },
+            { date: 'Jan 26', total: 74,  completed: 60, cancelled: 14, rate: '81.1%', status: 'Average' },
+            { date: 'Jan 25', total: 69,  completed: 62, cancelled: 7,  rate: '89.9%', status: 'Good' },
+            { date: 'Jan 24', total: 55,  completed: 51, cancelled: 4,  rate: '92.7%', status: 'Excellent' },
+            { date: 'Jan 23', total: 77,  completed: 63, cancelled: 14, rate: '81.8%', status: 'Average' },
+            { date: 'Jan 22', total: 60,  completed: 46, cancelled: 14, rate: '76.7%', status: 'Warning' }
+        ];
+
+        // Performance insights
+        this.performanceInsights = [
+            { type: 'positive', icon: 'bx-trending-up',    text: 'Completion rate improved +2.1pp vs last month — best in 4 months.' },
+            { type: 'positive', icon: 'bx-time',           text: 'Avg delivery time dropped to 32 min (was 34 min in Dec 2025).' },
+            { type: 'warning',  icon: 'bx-error-circle',   text: 'Zone East cancellation rate at 16.1% — above the 12% alert threshold.' },
+            { type: 'warning',  icon: 'bx-calendar-x',     text: 'Jan 22 completion rate 76.7% — flagged for review (weather + rider shortage).' },
+            { type: 'positive', icon: 'bx-star',           text: 'Wednesday & Saturday consistently hit 90%+ completion rate.' }
+        ];
+
+        // Chart Data for Performance
+        const greenColor = '#28a745';
+        const redColor = '#dc3545';
 
         this.lineChartData = {
-            labels: ['Jan 01', 'Jan 05', 'Jan 10', 'Jan 15', 'Jan 20', 'Jan 25', 'Jan 30'],
+            labels: ['Jan 22', 'Jan 23', 'Jan 24', 'Jan 25', 'Jan 26', 'Jan 27', 'Jan 28', 'Jan 29', 'Jan 30', 'Jan 31'],
             datasets: [
                 {
-                    data: [95, 94, 96, 92, 98, 95, 97],
-                    label: 'On-Time %',
+                    data: [46, 63, 51, 62, 60, 74, 32, 56, 64, 54],
+                    label: 'Completed Orders',
                     fill: true,
                     tension: 0.4,
-                    borderColor: green,
+                    borderColor: greenColor,
                     backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                    pointBackgroundColor: green,
+                    pointBackgroundColor: greenColor,
                     pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: green
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointHoverBackgroundColor: greenColor,
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 3
                 },
                 {
-                    data: [2, 3, 2, 5, 1, 3, 2],
-                    label: 'Issues %',
+                    data: [14, 14, 4, 7, 14, 7, 6, 9, 8, 4],
+                    label: 'Cancelled Orders',
                     fill: false,
                     tension: 0.4,
-                    borderColor: red,
+                    borderColor: redColor,
                     borderDash: [5, 5],
-                    pointRadius: 3,
-                    pointBackgroundColor: red,
-                    pointBorderColor: '#fff'
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: redColor,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: redColor,
+                    pointHoverBorderColor: '#fff'
                 }
             ]
         };
 
         this.doughnutChartData = {
-            labels: ['On-Time', 'Delayed', 'Issues'],
+            labels: ['Completed', 'Cancelled', 'Returned'],
             datasets: [
                 {
-                    data: [94, 4, 2],
-                    backgroundColor: [green, yellow, red],
-                    hoverBackgroundColor: [green, yellow, red],
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    data: [1312, 168, 45],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                    hoverBackgroundColor: ['#218838', '#c82333', '#e0a800'],
+                    borderWidth: 3,
+                    borderColor: '#ffffff',
+                    hoverOffset: 8
                 }
             ]
         };
-
-        this.tableData = [
-            { date: 'Jan 30', total: 270, completed: 262, cancelled: 5, rate: '97.0%', status: 'Excellent' },
-            { date: 'Jan 29', total: 225, completed: 210, cancelled: 8, rate: '93.3%', status: 'Good' },
-            { date: 'Jan 28', total: 125, completed: 115, cancelled: 2, rate: '92.0%', status: 'Good' },
-            { date: 'Jan 27', total: 205, completed: 180, cancelled: 15, rate: '87.8%', status: 'Average' },
-            { date: 'Jan 26', total: 260, completed: 240, cancelled: 5, rate: '92.3%', status: 'Good' },
-        ];
     }
 
     setChartType(type: ChartType) {
@@ -768,6 +825,18 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
         return data[index] || 0;
     }
 
+    getPerformanceDoughnutColor(index: number): string {
+        const colors = ['#28a745', '#dc3545', '#ffc107'];
+        return colors[index] || '#cccccc';
+    }
+
+    getPerformanceDoughnutData(index: number): number {
+        if (this.doughnutChartData && this.doughnutChartData.datasets && this.doughnutChartData.datasets[0] && this.doughnutChartData.datasets[0].data) {
+            return this.doughnutChartData.datasets[0].data[index] as number || 0;
+        }
+        return 0;
+    }
+
     getGradientForIndex(index: number): string {
         const gradients = [
             'background: linear-gradient(135deg, #28a745 0%, #20c997 100%)',
@@ -826,5 +895,36 @@ export class AnalyticsDetailsModalComponent implements OnInit, OnChanges {
         if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
             this.closeModal();
         }
+    }
+
+    loadProductData() {
+        this.title = 'Revenue by Product – January 2026';
+        this.dateRange = 'Jan 01 - Jan 31, 2026';
+
+        this.kpis = [
+            { label: 'Total Revenue', value: '₹3.87L', change: '+18%', isPositive: true, icon: 'bx-rupee' },
+            { label: 'Top Category', value: 'Exotic', change: '+28%', isPositive: true, icon: 'bx-crown' },
+            { label: 'Total Products', value: '48 SKUs', change: '+6', isPositive: true, icon: 'bx-box' },
+            { label: 'Avg Margin', value: '23.9%', change: '+2.1%', isPositive: true, icon: 'bx-pie-chart' },
+            { label: 'Best Seller', value: 'Banana', change: '₹42,500', isPositive: true, icon: 'bx-star' },
+            { label: 'Low Stock', value: '5 Items', change: '-2', isPositive: true, icon: 'bx-error-circle' },
+        ];
+
+        this.productData = [
+            { category: 'Exotic Fruits',    product: 'Dragon Fruit',   orders: 310, revenue: '₹55,800', margin: '31%', growth: '+34%', stock: 'In Stock',    isPositive: true },
+            { category: 'Exotic Fruits',    product: 'Passion Fruit',  orders: 280, revenue: '₹42,000', margin: '29%', growth: '+22%', stock: 'In Stock',    isPositive: true },
+            { category: 'Tropical Fruits',  product: 'Banana',         orders: 920, revenue: '₹42,500', margin: '18%', growth: '+12%', stock: 'In Stock',    isPositive: true },
+            { category: 'Tropical Fruits',  product: 'Mango',          orders: 680, revenue: '₹61,200', margin: '22%', growth: '+19%', stock: 'In Stock',    isPositive: true },
+            { category: 'Tropical Fruits',  product: 'Pineapple',      orders: 420, revenue: '₹37,800', margin: '20%', growth: '+15%', stock: 'Low Stock',   isPositive: true },
+            { category: 'Citrus Fruits',    product: 'Orange',         orders: 560, revenue: '₹33,600', margin: '16%', growth: '+10%', stock: 'In Stock',    isPositive: true },
+            { category: 'Citrus Fruits',    product: 'Lemon',          orders: 480, revenue: '₹24,000', margin: '14%', growth: '+8%',  stock: 'In Stock',    isPositive: true },
+            { category: 'Berries',          product: 'Strawberry',     orders: 390, revenue: '₹58,500', margin: '28%', growth: '+25%', stock: 'In Stock',    isPositive: true },
+            { category: 'Berries',          product: 'Blueberry',      orders: 240, revenue: '₹43,200', margin: '30%', growth: '+20%', stock: 'Low Stock',   isPositive: true },
+            { category: 'Dry Fruits',       product: 'Cashews',        orders: 185, revenue: '₹37,000', margin: '35%', growth: '+30%', stock: 'In Stock',    isPositive: true },
+            { category: 'Dry Fruits',       product: 'Almonds',        orders: 160, revenue: '₹32,000', margin: '33%', growth: '+28%', stock: 'In Stock',    isPositive: true },
+            { category: 'Organic Range',    product: 'Organic Apples', orders: 120, revenue: '₹21,600', margin: '26%', growth: '+32%', stock: 'Low Stock',   isPositive: true },
+            { category: 'Seasonal',         product: 'Litchi',         orders: 200, revenue: '₹18,000', margin: '19%', growth: '-5%',  stock: 'Out of Stock',isPositive: false },
+            { category: 'Combos & Packs',   product: 'Fruit Basket L', orders: 145, revenue: '₹23,200', margin: '22%', growth: '+11%', stock: 'In Stock',    isPositive: true },
+        ];
     }
 }

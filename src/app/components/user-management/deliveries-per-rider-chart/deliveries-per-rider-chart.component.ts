@@ -76,6 +76,29 @@ export class DeliveriesPerRiderChartComponent implements OnInit {
         }
     };
 
+    // Filter states
+    selectedPeriod = 'This Month';
+    showPeriodDropdown = false;
+    periodOptions = [
+        { label: 'Today', value: 'Today' },
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' }
+    ];
+
+    toggleDropdown(name: string) {
+        this.showPeriodDropdown = name === 'period' ? !this.showPeriodDropdown : false;
+    }
+
+    setFilter(type: string, value: string) {
+        if (type === 'period') this.selectedPeriod = value;
+        console.log(`Deliveries per Rider filter: ${type} = ${value}`);
+        this.showPeriodDropdown = false;
+    }
+
+    getLabel(value: string, options: any[]): string {
+        return options.find(o => o.value === value)?.label ?? value;
+    }
+
     constructor() { }
 
     ngOnInit(): void {
