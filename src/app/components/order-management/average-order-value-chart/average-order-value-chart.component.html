@@ -19,6 +19,9 @@
                     </div>
                 </div>
             </div>
+            <button class="btn-view-details" (click)="openDetail()">
+                <i class='bx bx-expand-alt'></i> View Details
+            </button>
             <div class="icon-actions">
                 <i class='bx bx-printer'></i>
                 <i class='bx bx-export'></i>
@@ -26,9 +29,8 @@
             </div>
         </div>
     </div>
-    <div class="chart-container">
-        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"
-            (chartClick)="onChartClick($event)">
+    <div class="chart-container clickable" (click)="openDetail()">
+        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
         </canvas>
     </div>
 </div>

@@ -1,71 +1,125 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="emerald-badge">Efficiency Insight</div>
-                <h2>Average Order Value - {{ period }}</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Financial Analytics</span>
+                </div>
+                <h2>Average Order Value: {{ period }}</h2>
+                <div class="perf-subtitle">Analysis of basket size, revenue distribution, and premium order performance</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="aov-hero">
-                <div class="hero-content">
-                    <span class="label">Current AOV</span>
-                    <h3 class="value">₹{{ aovValue.toLocaleString() }}</h3>
-                    <div class="trend positive">
-                        <i class='bx bx-trending-up'></i> {{ revenueImpact }}
-                    </div>
-                </div>
-                <div class="hero-icon">
-                    <i class='bx bx-wallet'></i>
-                </div>
-            </div>
-
-            <div class="insights-grid">
-                <div class="insight-item">
-                    <div class="item-icon blue">
-                        <i class='bx bx-group'></i>
-                    </div>
-                    <div class="item-meta">
-                        <span class="label">Top Segment</span>
-                        <span class="data">{{ popularSegment }}</span>
-                    </div>
-                </div>
-                <div class="insight-item">
-                    <div class="item-icon purple">
-                        <i class='bx bx-analyse'></i>
-                    </div>
-                    <div class="item-meta">
-                        <span class="label">Upsell Conversion</span>
-                        <span class="data">{{ upsellConversion }}</span>
-                    </div>
-                </div>
-                <div class="insight-item">
-                    <div class="item-icon orange">
-                        <i class='bx bx-time-five'></i>
-                    </div>
-                    <div class="item-meta">
-                        <span class="label">Peak Efficiency</span>
-                        <span class="data">{{ peakTime }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="strategy-box">
-                <div class="box-header">
-                    <i class='bx bx-target-lock'></i>
-                    <span>Growth Strategy</span>
-                </div>
-                <p>Bulk orders from {{ popularSegment }} are driving high AOV today. Suggesting 5% discount on larger
-                    bundles to increase conversion further.</p>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-coin-stack'></i> Basket Optimization</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close AOV Report</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Order Size Distribution Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-bar-chart-alt-2'></i> Order Size & Revenue Distribution</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order Value Range</th>
+                                <th>Volume</th>
+                                <th>Total Revenue</th>
+                                <th>Avg Margin</th>
+                                <th>Segment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of orderSizeData">
+                                <td data-label="Range"><strong>{{ row.range }}</strong></td>
+                                <td data-label="Volume">{{ row.count }} Orders</td>
+                                <td data-label="Revenue" class="text-success">{{ row.revenue }}</td>
+                                <td data-label="Margin">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="row.margin"
+                                                [class.fill-excellent]="+row.margin.replace('%', '') >= 30"
+                                                [class.fill-good]="+row.margin.replace('%', '') >= 20 && +row.margin.replace('%', '') < 30"
+                                                [class.fill-avg]="+row.margin.replace('%', '') < 20">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.margin }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Segment">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Elite' || row.status === 'Premium'"
+                                        [class.badge-good]="row.status === 'Bulk'"
+                                        [class.badge-avg]="row.status === 'Low Tier'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. High Value Orders -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-crown'></i> Top High-Value Orders (Current Period)</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Basket Value</th>
+                                <th>Item Count</th>
+                                <th>Order Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let o of highValueOrders">
+                                <td data-label="Order ID"><strong>{{ o.id }}</strong></td>
+                                <td data-label="Customer">{{ o.customer }}</td>
+                                <td data-label="Value"><strong>{{ o.amount }}</strong></td>
+                                <td data-label="Items">{{ o.items }} Items</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="o.status === 'Completed'"
+                                        [class.badge-good]="o.status === 'Packed'"
+                                        [class.badge-avg]="o.status === 'New'">
+                                        {{ o.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

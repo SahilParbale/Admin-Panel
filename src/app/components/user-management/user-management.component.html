@@ -12,10 +12,10 @@
         <app-user-master-table></app-user-master-table>
         <app-user-complaints-table></app-user-complaints-table>
         <div class="charts-grid">
-            <app-user-growth-trend-chart></app-user-growth-trend-chart>
-            <app-new-vs-returning-ratio-chart></app-new-vs-returning-ratio-chart>
-            <app-user-order-frequency-chart></app-user-order-frequency-chart>
-            <app-customer-lifetime-value-chart></app-customer-lifetime-value-chart>
+            <app-user-growth-trend-chart (chartClick)="openUserGrowthModal()"></app-user-growth-trend-chart>
+            <app-new-vs-returning-ratio-chart (chartClick)="openUserRatioModal()"></app-new-vs-returning-ratio-chart>
+            <app-user-order-frequency-chart (chartClick)="openUserOrderFreqModal()"></app-user-order-frequency-chart>
+            <app-customer-lifetime-value-chart (chartClick)="openUserClvModal()"></app-customer-lifetime-value-chart>
         </div>
     </ng-container>
 
@@ -23,10 +23,17 @@
         <app-rider-master-table></app-rider-master-table>
         <app-rider-earnings-table></app-rider-earnings-table>
         <div class="charts-grid">
-            <app-deliveries-per-rider-chart></app-deliveries-per-rider-chart>
+            <app-deliveries-per-rider-chart (chartClick)="openRiderDeliveriesModal()"></app-deliveries-per-rider-chart>
             <app-rider-performance-score-chart></app-rider-performance-score-chart>
             <app-rider-status-chart></app-rider-status-chart>
             <app-average-delivery-time-chart></app-average-delivery-time-chart>
         </div>
     </ng-container>
+
+    <!-- Shared Analytics Modal -->
+    <app-analytics-details-modal 
+        [isOpen]="showAnalyticsModal" 
+        [mode]="activeModalMode"
+        (close)="closeAnalyticsModal()">
+    </app-analytics-details-modal>
 </div>

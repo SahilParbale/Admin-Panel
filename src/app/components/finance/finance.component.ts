@@ -8,6 +8,20 @@ import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
     standalone: false
 })
 export class FinanceComponent implements OnInit {
+
+    // Analytics Modal State
+    showAnalyticsModal = false;
+    activeModalMode: 'finance-perf' | 'finance-revenue' | 'finance-efficiency' | 'finance-flow' = 'finance-perf';
+
+    openAnalyticsModal(mode: 'finance-perf' | 'finance-revenue' | 'finance-efficiency' | 'finance-flow') {
+        this.activeModalMode = mode;
+        this.showAnalyticsModal = true;
+    }
+
+    closeAnalyticsModal() {
+        this.showAnalyticsModal = false;
+    }
+
     public transactions = [
         {
             date: '03 Feb',

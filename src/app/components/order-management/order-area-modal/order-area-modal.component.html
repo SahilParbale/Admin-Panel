@@ -1,68 +1,103 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="area-badge">Geographic Insight</div>
-                <h2>{{ areaName }} Performance</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Geospatial Analytics</span>
+                </div>
+                <h2>Orders by Area: {{ areaName }}</h2>
+                <div class="perf-subtitle">Regional order density and delivery performance audit</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="performance-grid">
-                <div class="metric-card main">
-                    <div class="icon-wrap">
-                        <i class='bx bx-shopping-bag'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Total Orders</span>
-                        <h3 class="value">{{ orderCount }}</h3>
-                        <span class="trend positive">
-                            <i class='bx bx-trending-up'></i> {{ growthRate }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="details-list">
-                    <div class="detail-item">
-                        <div class="item-icon timer">
-                            <i class='bx bx-timer'></i>
-                        </div>
-                        <div class="item-info">
-                            <span class="label">Avg. Delivery</span>
-                            <span class="value">{{ avgDeliveryTime }}</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="item-icon riders">
-                            <i class='bx bx-cycling'></i>
-                        </div>
-                        <div class="item-info">
-                            <span class="label">Active Riders</span>
-                            <span class="value">{{ activeRiders }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="area-insights">
-                <h4>Hotspots & Alerts</h4>
-                <div class="insight-box">
-                    <div class="box-icon">
-                        <i class='bx bx-map-pin'></i>
-                    </div>
-                    <div class="box-content">
-                        <h5>Top Performing Hub</h5>
-                        <p>High demand identified near Central Plaza. Deploy 3 more riders to maintain SLA.</p>
-                    </div>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-map-alt'></i> View Zone Map</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close Area Report</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Neighborhood Distribution Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-building-house'></i> Neighborhood Order Distribution</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Neighborhood</th>
+                                <th>Total Orders</th>
+                                <th>Revenue Impact</th>
+                                <th>Growth</th>
+                                <th>Regional Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let n of neighborhoodData">
+                                <td data-label="Neighborhood"><strong>{{ n.name }}</strong></td>
+                                <td data-label="Total Orders">{{ n.orders }} Orders</td>
+                                <td data-label="Revenue Impact" class="text-success">{{ n.revenue }}</td>
+                                <td data-label="Growth"><strong>{{ n.growth }}</strong></td>
+                                <td data-label="Regional Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="n.status === 'Hotspot'"
+                                        [class.badge-good]="n.status === 'Steady' || n.status === 'Growing'"
+                                        [class.badge-avg]="n.status === 'Emerging'">
+                                        {{ n.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Zonal Delivery Performance -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-cycling'></i> Zonal Delivery Performance Breakdown</h3>
+                <div class="perf-rate-card" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                    <div class="perf-rate-item" *ngFor="let m of deliveryPerformance">
+                        <div class="perf-rate-header">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <i class='bx {{m.icon}}' style="font-size: 18px; color: #6366f1;"></i>
+                                {{ m.metric }}
+                            </span>
+                            <strong>{{ m.value }}</strong>
+                        </div>
+                        <div class="perf-mini-bar">
+                            <div class="perf-mini-fill"
+                                [style.width]="m.value.includes('/') ? '96%' : m.value"
+                                [class.fill-excellent]="m.status === 'Excellent' || m.status === 'Top Rated'"
+                                [class.fill-good]="m.status === 'High'">
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: #888; margin-top: 4px;">Status: {{ m.status }}</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

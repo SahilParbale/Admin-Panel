@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 @Component({
@@ -8,6 +8,11 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
     standalone: false
 })
 export class ZoneEfficiencyChartComponent implements OnInit {
+    @Output() chartClick = new EventEmitter<void>();
+
+    onChartClick() {
+        this.chartClick.emit();
+    }
 
     public chartType: ChartType = 'bubble';
 

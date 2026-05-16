@@ -1,79 +1,113 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-
-        <!-- Gradient Header Banner -->
-        <div class="modal-banner">
-            <div class="banner-icon">
-                <i class='bx bx-bar-chart-alt-2'></i>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Promotional Audit</span>
+                </div>
+                <h2>Discount Impact: {{ discountTier }}</h2>
+                <div class="perf-subtitle">Analysis of sales velocity, lift metrics, and ROI across various discount tiers and campaigns</div>
             </div>
-            <div class="banner-text">
-                <span class="banner-label">Discount Impact</span>
-                <h2>{{ discountTier }}</h2>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-trending-up'></i> Lift Analysis</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
         </div>
 
-        <div class="modal-body">
-
-            <!-- Main Sales Volume card -->
-            <div class="primary-stat-row">
-                <div class="primary-stat">
-                    <div class="primary-icon"><i class='bx bx-store-alt'></i></div>
-                    <div class="primary-info">
-                        <span class="primary-label">Total Sales Volume</span>
-                        <span class="primary-value">{{ formatNumber(salesVolume) }} units</span>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- KPI Grid -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon revenue"><i class='bx bx-rupee'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Est. Revenue</span>
-                        <span class="kpi-value">₹{{ formatNumber(salesVolume * 450) }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon customers"><i class='bx bx-user-check'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Avg. Order Size</span>
-                        <span class="kpi-value">{{ (salesVolume / 120).toFixed(0) }} units</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon trend"><i class='bx bx-trending-up'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Discount Uptake</span>
-                        <span class="kpi-value positive">High</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon time"><i class='bx bx-time-five'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Peak Period</span>
-                        <span class="kpi-value">6PM – 9PM</span>
-                    </div>
+            <!-- 2. Tier Impact Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-chart'></i> Sales Lift & Volume by Discount Tier</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Discount Range</th>
+                                <th>Sales Volume</th>
+                                <th>YoY Growth</th>
+                                <th>Revenue Contrib.</th>
+                                <th>Strategy Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let t of tierImpact">
+                                <td data-label="Tier"><strong>{{ t.tier }}</strong></td>
+                                <td data-label="Volume">{{ t.sales }} Units</td>
+                                <td data-label="Growth" class="text-success">{{ t.growth }}</td>
+                                <td data-label="Contrib">{{ t.contribution }}</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="t.status === 'Excellent'"
+                                        [class.badge-good]="t.status === 'Stable'"
+                                        [class.badge-warn]="t.status === 'Aggressive'"
+                                        [class.badge-avg]="t.status === 'Low Margin'">
+                                        {{ t.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- Insight Bar -->
-            <div class="insight-bar">
-                <i class='bx bx-bulb'></i>
-                <span>The <strong>{{ discountTier }}</strong> tier drove <strong>{{ formatNumber(salesVolume) }}
-                        units</strong> in sales — consider extending this discount window.</span>
+            <!-- 3. Campaign Audit -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-bullseye'></i> Active & Recent Campaign ROI Audit</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Campaign Name</th>
+                                <th>Marketing Spend</th>
+                                <th>Gross Return</th>
+                                <th>ROI Multiplier</th>
+                                <th>Lifecycle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let c of campaignAudit">
+                                <td data-label="Name"><strong>{{ c.name }}</strong></td>
+                                <td data-label="Spend">{{ c.spend }}</td>
+                                <td data-label="Return" class="text-success">{{ c.return }}</td>
+                                <td data-label="ROI"><strong>{{ c.roi }}</strong></td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="c.status === 'Completed'"
+                                        [class.badge-good]="c.status === 'Active'">
+                                        {{ c.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeModal()">Close</button>
-            <button class="btn-primary" (click)="closeModal()">
-                <i class='bx bx-download'></i> Export Report
-            </button>
         </div>
     </div>
 </div>

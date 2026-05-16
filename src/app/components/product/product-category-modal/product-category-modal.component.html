@@ -1,149 +1,132 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="product-badge">Category Report</div>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Category Insights</span>
+                </div>
                 <h2>{{ categoryName }} Distribution</h2>
+                <div class="perf-subtitle">Multi-dimensional analysis of sub-categories and product performance</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-filter-alt'></i> Advanced Filters</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
         </div>
 
-        <div class="modal-body">
-            <div class="stock-analysis">
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-icon availability">
-                            <i class='bx bx-store'></i>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
                         </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Availability Rate</span>
-                            <strong class="metric-value">{{ inStock > 0 ? ((inStock / (inStock + lowStock + outOfStock)) * 100 | number:'1.0-0') : 0 }}%</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon turnover">
-                            <i class='bx bx-cycling'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Turnover Ratio</span>
-                            <strong class="metric-value">4.2x</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon health">
-                            <i class='bx bx-heart'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Stock Health</span>
-                            <strong class="metric-value">Good</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon coverage">
-                            <i class='bx bx-shield-quarter'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Coverage Days</span>
-                            <strong class="metric-value">18</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-section">
-                    <div class="chart-container">
-                        <canvas baseChart [data]="stockData" [options]="stockOptions" type="doughnut"></canvas>
-                        <div class="total-label">
-                            <span class="value">{{ inStock + lowStock + outOfStock }}</span>
-                            <span class="label">Total Items</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="legend-grid">
-                    <div class="legend-item violet">
-                        <div class="dot"></div>
-                        <div class="info">
-                            <span class="label">In Stock</span>
-                            <span class="value">{{ inStock }}</span>
-                        </div>
-                    </div>
-                    <div class="legend-item amber">
-                        <div class="dot"></div>
-                        <div class="info">
-                            <span class="label">Low Stock</span>
-                            <span class="value">{{ lowStock }}</span>
-                        </div>
-                    </div>
-                    <div class="legend-item rose">
-                        <div class="dot"></div>
-                        <div class="info">
-                            <span class="label">Out of Stock</span>
-                            <span class="value">{{ outOfStock }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="performance-indicators">
-                    <h4><i class='bx bx-bar-chart-alt'></i> Inventory Metrics</h4>
-                    <div class="indicator-list">
-                        <div class="indicator-item">
-                            <span class="indicator-label">Stock Availability</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill excellent" [style.width.%]="getAvailabilityRate()"></div>
-                            </div>
-                            <span class="indicator-value">{{ getAvailabilityRate() | number:'1.0-0' }}%</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-label">Alert Coverage</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill good" [style.width.%]="getAlertCoverage()"></div>
-                            </div>
-                            <span class="indicator-value">{{ getAlertCoverage() | number:'1.0-0' }}%</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-label">Critical Gap</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill warning" [style.width.%]="getCriticalGap()"></div>
-                            </div>
-                            <span class="indicator-value">{{ getCriticalGap() | number:'1.0-0' }}%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recent-activity">
-                    <h4><i class='bx bx-pulse'></i> Stock Health Status</h4>
-                    <div class="health-card" [class.danger]="outOfStock > 0"
-                        [class.warning]="lowStock > 5 && outOfStock === 0"
-                        [class.success]="outOfStock === 0 && lowStock <= 5">
-                        <div class="status-icon">
-                            <i *ngIf="outOfStock > 0" class='bx bx-error-alt'></i>
-                            <i *ngIf="outOfStock === 0 && lowStock > 5" class='bx bx-error-circle'></i>
-                            <i *ngIf="outOfStock === 0 && lowStock <= 5" class='bx bx-check-shield'></i>
-                        </div>
-                        <div class="status-meta">
-                            <h5>{{ outOfStock > 0 ? 'Urgent Restock Needed' : (lowStock > 5 ? 'Monitoring Required' :
-                                'Category Healthy') }}</h5>
-                            <p>{{ outOfStock }} items are currently disconnected. Check vendor availability.</p>
-                        </div>
-                        <div class="action-buttons" *ngIf="outOfStock > 0 || lowStock > 5">
-                            <button class="action-btn primary">
-                                <i class='bx bx-package'></i>
-                                <span>Restock Now</span>
-                            </button>
-                            <button class="action-btn secondary">
-                                <i class='bx bx-envelope'></i>
-                                <span>Notify Vendor</span>
-                            </button>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close {{ categoryName }} Insights</button>
+            <!-- 2. Sub-Category Breakdown Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-grid-alt'></i> Sub-Category Distribution</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Sub-Category</th>
+                                <th>Total Items</th>
+                                <th>Revenue Generated</th>
+                                <th>Growth</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let sub of subCategoryData">
+                                <td data-label="Sub-Category"><strong>{{ sub.name }}</strong></td>
+                                <td data-label="Total Items">{{ sub.items }} SKUs</td>
+                                <td data-label="Revenue Generated" class="text-success">{{ sub.revenue }}</td>
+                                <td data-label="Growth"><strong>{{ sub.growth }}</strong></td>
+                                <td data-label="Priority">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="sub.status === 'Primary' || sub.status === 'Premium'"
+                                        [class.badge-good]="sub.status === 'Growing'"
+                                        [class.badge-avg]="sub.status === 'Steady'">
+                                        {{ sub.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Top Performing Products -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-medal'></i> Top Performing Products in Category</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Stock Status</th>
+                                <th>Rating</th>
+                                <th>Gross Margin</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of productPerformance">
+                                <td data-label="Product"><strong>{{ p.product }}</strong></td>
+                                <td data-label="Stock Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.stock === 'In Stock'"
+                                        [class.badge-avg]="p.stock === 'Low Stock'"
+                                        [class.badge-warn]="p.stock === 'Out of Stock' || p.stock === 'Restocking'">
+                                        {{ p.stock }}
+                                    </span>
+                                </td>
+                                <td data-label="Rating">★ {{ p.rating }}</td>
+                                <td data-label="Gross Margin">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="p.margin"
+                                                [class.fill-excellent]="+p.margin.replace('%', '') >= 25"
+                                                [class.fill-good]="+p.margin.replace('%', '') >= 15 && +p.margin.replace('%', '') < 25"
+                                                [class.fill-avg]="+p.margin.replace('%', '') < 15">
+                                            </div>
+                                        </div>
+                                        <span>{{ p.margin }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Trend">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.trend === 'Upward'"
+                                        [class.badge-good]="p.trend === 'Steady' || p.trend === 'Seasonal'"
+                                        [class.badge-avg]="p.trend === 'Restocking'">
+                                        {{ p.trend }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

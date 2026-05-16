@@ -81,6 +81,12 @@ export class RepeatOrdersChartComponent implements OnInit {
     }
 
     // Filter states
+    @Output() viewDetail = new EventEmitter<{ month: string, firstTime: number, repeat: number }>();
+
+    openDetail(month: string = 'Current Month', firstTime: number = 320, repeat: number = 180) {
+        this.viewDetail.emit({ month, firstTime, repeat });
+    }
+
     selectedResolution = 'Monthly';
     selectedCategory = 'All Categories';
 

@@ -1,71 +1,111 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="method-badge" [style.background-color]="getThemeColor() + '15'"
-                    [style.color]="getThemeColor()">
-                    <i class='bx' [ngClass]="getIcon()"></i>
-                    <span>Payment Detail</span>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Gateway Audit</span>
                 </div>
-                <h2>{{ paymentMethod }} Insights</h2>
+                <h2>Payment Method Analysis: {{ paymentMethod }}</h2>
+                <div class="perf-subtitle">Settlement tracking, gateway health, and transaction success metrics</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="payment-stats">
-                <div class="stat-main" [style.border-left-color]="getThemeColor()">
-                    <span class="label">Total Transactions</span>
-                    <h3 class="value" [style.color]="getThemeColor()">{{ count }}</h3>
-                </div>
-                <div class="stat-secondary">
-                    <div class="sec-item">
-                        <span class="label">Success Rate</span>
-                        <span class="data success">{{ successRate }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="card-icon fee">
-                        <i class='bx bx-receipt'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Processing Fee</span>
-                        <span class="value">{{ avgTransactionFee }}</span>
-                    </div>
-                </div>
-                <div class="detail-card">
-                    <div class="card-icon time">
-                        <i class='bx bx-history'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Settlement</span>
-                        <span class="value">{{ settlementTime }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gateway-info">
-                <h4>Primary Infrastructure</h4>
-                <div class="info-box">
-                    <div class="box-head">
-                        <i class='bx bx-server'></i>
-                        <span>{{ topGateway }}</span>
-                    </div>
-                    <p>Highest transaction volume recorded between 8:00 PM and 10:00 PM. Gateway latency is currently
-                        within healthy limits ( < 200ms).</p>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-lock-shield'></i> Security Audit</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" [style.background-color]="getThemeColor()" (click)="closeModal()">
-                Dismiss Report
-            </button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Gateway Performance Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-data'></i> Gateway Performance & Revenue Split</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Payment Gateway</th>
+                                <th>Transaction Volume</th>
+                                <th>Gross Revenue</th>
+                                <th>Processing Fees</th>
+                                <th>Network Health</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let g of gatewayData">
+                                <td data-label="Gateway"><strong>{{ g.gateway }}</strong></td>
+                                <td data-label="Volume">{{ g.volume }} TXNs</td>
+                                <td data-label="Revenue" class="text-success">{{ g.revenue }}</td>
+                                <td data-label="Fees">{{ g.fee }}</td>
+                                <td data-label="Health">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="g.status === 'Stable'"
+                                        [class.badge-avg]="g.status === 'Warning'">
+                                        {{ g.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Transaction Log -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-receipt'></i> Recent Transaction Audit Log</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Final Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let t of transactionLog">
+                                <td data-label="TXN ID"><strong>{{ t.id }}</strong></td>
+                                <td data-label="Customer">{{ t.customer }}</td>
+                                <td data-label="Amount"><strong>{{ t.amount }}</strong></td>
+                                <td data-label="Method">{{ t.method }}</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="t.status === 'Success'"
+                                        [class.badge-avg]="t.status === 'Pending'">
+                                        {{ t.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

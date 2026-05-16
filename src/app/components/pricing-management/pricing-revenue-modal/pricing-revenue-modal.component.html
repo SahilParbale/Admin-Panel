@@ -1,93 +1,113 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-
-        <!-- Gradient Header Banner -->
-        <div class="modal-banner">
-            <div class="banner-icon">
-                <i class='bx bx-line-chart'></i>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Revenue Audit</span>
+                </div>
+                <h2>Revenue Analysis: {{ month }}</h2>
+                <div class="perf-subtitle">Comparative analysis of revenue streams before and after promotional discount impacts</div>
             </div>
-            <div class="banner-text">
-                <span class="banner-label">Revenue Analysis</span>
-                <h2>{{ month }}</h2>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-calculator'></i> Pricing Simulator</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
         </div>
 
-        <div class="modal-body">
-
-            <!-- Net Revenue Row -->
-            <div class="net-revenue-row">
-                <div class="net-card before">
-                    <div class="net-icon"><i class='bx bx-up-arrow-circle'></i></div>
-                    <div class="net-info">
-                        <span class="net-label">Before Discount</span>
-                        <span class="net-value">{{ formatCurrency(revenueBefore) }}</span>
-                    </div>
-                </div>
-                <div class="net-card after">
-                    <div class="net-icon"><i class='bx bx-down-arrow-circle'></i></div>
-                    <div class="net-info">
-                        <span class="net-label">After Discount</span>
-                        <span class="net-value">{{ formatCurrency(revenueAfter) }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- KPI Grid -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon loss"><i class='bx bx-tag'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Discount Value</span>
-                        <span class="kpi-value">{{ formatCurrency(revenueBefore - revenueAfter) }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon impact"><i class='bx bx-pie-chart-alt-2'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Discount Impact</span>
-                        <span class="kpi-value" *ngIf="revenueBefore > 0">
-                            {{ (((revenueBefore - revenueAfter) / revenueBefore) * 100).toFixed(1) }}%
-                        </span>
-                        <span class="kpi-value" *ngIf="revenueBefore === 0">0%</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon net"><i class='bx bx-wallet-alt'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Net Revenue</span>
-                        <span class="kpi-value retained">{{ formatCurrency(revenueAfter) }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon trend"><i class='bx bx-trending-up'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Revenue Retained</span>
-                        <span class="kpi-value retained" *ngIf="revenueBefore > 0">
-                            {{ (((revenueAfter) / revenueBefore) * 100).toFixed(1) }}%
-                        </span>
-                        <span class="kpi-value" *ngIf="revenueBefore === 0">100%</span>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Insight Bar -->
-            <div class="insight-bar">
-                <i class='bx bx-info-circle'></i>
-                <span>Discounts reduced gross revenue by <strong>{{ formatCurrency(revenueBefore - revenueAfter)
-                        }}</strong> this month.</span>
+            <!-- 2. Revenue Impact Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-stats'></i> Weekly Revenue Compression & Growth Analysis</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Analysis Period</th>
+                                <th>Revenue (Pre-Discount)</th>
+                                <th>Revenue (Post-Discount)</th>
+                                <th>Net Change %</th>
+                                <th>Impact Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of revenueAnalysis">
+                                <td data-label="Period"><strong>{{ r.period }}</strong></td>
+                                <td data-label="Before">{{ r.before }}</td>
+                                <td data-label="After" class="text-success">{{ r.after }}</td>
+                                <td data-label="Change"><strong>{{ r.diff }}</strong></td>
+                                <td data-label="Rating">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="r.status === 'Excellent'"
+                                        [class.badge-good]="r.status === 'Stable'">
+                                        {{ r.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-        </div>
+            <!-- 3. Settlement Audit Log -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-book-content'></i> Category-wise Settlement & Margin Audit</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Settlement ID</th>
+                                <th>Category</th>
+                                <th>Gross Revenue</th>
+                                <th>Net Settlement</th>
+                                <th>Avg Margin</th>
+                                <th>Audit Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let s of settlementAudit">
+                                <td data-label="ID"><strong>{{ s.id }}</strong></td>
+                                <td data-label="Category">{{ s.category }}</td>
+                                <td data-label="Gross">{{ s.gross }}</td>
+                                <td data-label="Net" class="text-success">{{ s.net }}</td>
+                                <td data-label="Margin">{{ s.margin }}</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="s.status === 'Audited'"
+                                        [class.badge-avg]="s.status === 'Pending'">
+                                        {{ s.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-        <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeModal()">Close</button>
-            <button class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);"
-                (click)="closeModal()">
-                <i class='bx bx-download'></i> Export Report
-            </button>
         </div>
     </div>
 </div>

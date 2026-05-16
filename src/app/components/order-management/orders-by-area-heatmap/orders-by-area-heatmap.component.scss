@@ -118,5 +118,48 @@
         width: 100%;
         flex: 1;
         /* Expand to fill card height */
+
+        &.clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                opacity: 0.9;
+                transform: scale(0.995);
+            }
+        }
     }
 }
+
+.btn-view-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+    i {
+        font-size: 16px;
+        color: #6366f1;
+    }
+
+    &:hover {
+        border-color: #6366f1;
+        color: #111827;
+        background: #f8faff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

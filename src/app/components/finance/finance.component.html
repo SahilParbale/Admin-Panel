@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container-small">
+            <div class="chart-container-small" (click)="openAnalyticsModal('finance-perf')" style="cursor: pointer;">
                 <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType">
                 </canvas>
             </div>
@@ -177,7 +177,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container-small">
+            <div class="chart-container-small" (click)="openAnalyticsModal('finance-revenue')" style="cursor: pointer;">
                 <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
                 </canvas>
             </div>
@@ -211,7 +211,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container-small">
+            <div class="chart-container-small" (click)="openAnalyticsModal('finance-efficiency')" style="cursor: pointer;">
                 <canvas baseChart [data]="comboChartData" [options]="comboChartOptions" [type]="comboChartType">
                 </canvas>
             </div>
@@ -245,11 +245,18 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container-small">
+            <div class="chart-container-small" (click)="openAnalyticsModal('finance-flow')" style="cursor: pointer;">
                 <canvas baseChart [data]="waterfallChartData" [options]="waterfallChartOptions"
                     [type]="waterfallChartType">
                 </canvas>
             </div>
         </div>
     </div>
+
+    <!-- Shared Analytics Modal -->
+    <app-analytics-details-modal 
+        [isOpen]="showAnalyticsModal" 
+        [mode]="activeModalMode"
+        (close)="closeAnalyticsModal()">
+    </app-analytics-details-modal>
 </div>

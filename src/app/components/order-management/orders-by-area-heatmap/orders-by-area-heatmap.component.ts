@@ -83,9 +83,15 @@ export class OrdersByAreaHeatmapComponent implements OnInit {
     }
 
     // Filter states
-    selectedPeriod = 'Last 7 Days';
-    selectedMetric = 'Order Volume';
-    selectedZone = 'All Zones';
+    @Output() viewDetail = new EventEmitter<{ areaName: string, orderCount: number }>();
+
+    openDetail(areaName: string = this.selectedZone, orderCount: number = 2450) {
+        this.viewDetail.emit({ areaName, orderCount });
+    }
+
+    selectedPeriod = '7';
+    selectedMetric = 'volume';
+    selectedZone = 'All';
 
     showPeriodDropdown = false;
     showMetricDropdown = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,12 @@ import { CommonModule } from '@angular/common';
     imports: [BaseChartDirective, CommonModule]
 })
 export class UserGrowthTrendChartComponent implements OnInit {
+
+    @Output() chartClick = new EventEmitter<void>();
+
+    onChartClick() {
+        this.chartClick.emit();
+    }
 
     public lineChartData: ChartConfiguration<'line'>['data'] = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

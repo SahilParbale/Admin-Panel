@@ -276,17 +276,176 @@
         margin-top: 24px;
         width: 100%;
 
-        @media (max-width: 1400px) {
+        @media (max-width: 1600px) {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             grid-template-columns: 1fr;
         }
 
         .card-panel {
-            min-height: 340px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+
+            .panel-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 24px;
+                gap: 12px;
+
+                .title-group {
+                    flex: 1;
+                    min-width: 0;
+                    h3 {
+                        font-size: 18px;
+                        font-weight: 800;
+                        color: #2c3e50;
+                        margin: 0 0 4px 0;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .subtitle {
+                        font-size: 12px;
+                        color: #95a5a6;
+                        font-weight: 500;
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .actions {
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                    flex-shrink: 0;
+
+                    .filter-group {
+                        display: flex;
+                        gap: 8px;
+                        align-items: center;
+                    }
+                }
+            }
+
+            .chart-container {
+                position: relative;
+                flex: 1;
+                min-height: 280px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &.clickable {
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    
+                    &:hover {
+                        opacity: 0.9;
+                        transform: scale(0.995);
+                    }
+                }
+            }
         }
+    }
+}
+
+.dropdown-container {
+    position: relative;
+    
+    .btn-monthly {
+        padding: 6px 10px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #4b5563;
+        background: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+        white-space: nowrap;
+
+        &:hover {
+            border-color: #cbd5e1;
+            background: #f9fafb;
+        }
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 5px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        z-index: 100;
+        min-width: 140px;
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                padding: 10px 15px;
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.2s;
+                color: #4b5563;
+
+                &:hover {
+                    background: #f0fdf4;
+                    color: #10b981;
+                }
+
+                &.active {
+                    background: #f0fdf4;
+                    color: #10b981;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
+
+.btn-view-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+
+    i {
+        font-size: 14px;
+        color: #10b981; 
+    }
+
+    &:hover {
+        border-color: #10b981;
+        color: #111827;
+        background: #f0fdf4;
+        transform: translateY(-1px);
     }
 }
 

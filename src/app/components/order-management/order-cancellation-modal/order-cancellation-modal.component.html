@@ -1,69 +1,118 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="status-badge">Loss Analysis</div>
-                <h2>Cancellation Trend - {{ period }}</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Operational Risk Audit</span>
+                </div>
+                <h2>Cancellation Analysis: {{ period }}</h2>
+                <div class="perf-subtitle">Deep-dive into order rejections and customer-initiated cancellations</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="metrics-row">
-                <div class="metric-box">
-                    <span class="label">Cancellation Rate</span>
-                    <h3 class="value rose-text">{{ rate }}%</h3>
-                </div>
-                <div class="metric-box">
-                    <span class="label">Total Loss</span>
-                    <h3 class="value">₹12,450</h3>
-                </div>
-            </div>
-
-            <div class="chart-section">
-                <h4>Primary Reasons</h4>
-                <div class="chart-container">
-                    <canvas baseChart [data]="reasonData" [options]="reasonOptions" type="doughnut"></canvas>
-                    <div class="center-label">
-                        <span class="value">Types</span>
-                    </div>
-                </div>
-
-                <div class="reason-legend">
-                    <div class="legend-item">
-                        <div class="dot buyer"></div>
-                        <span class="name">Buyer Cancelled</span>
-                        <span class="percent">65%</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="dot restaurant"></div>
-                        <span class="name">Restaurant Rejected</span>
-                        <span class="percent">20%</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="dot technical"></div>
-                        <span class="name">Technical/Other</span>
-                        <span class="percent">15%</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="action-card">
-                <div class="card-icon">
-                    <i class='bx bx-bulb'></i>
-                </div>
-                <div class="card-content">
-                    <h5>Prevention Insight</h5>
-                    <p>40% of restaurant rejections are due to "Item Out of Stock". Real-time inventory sync
-                        recommended.</p>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-history'></i> View Reason History</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Acknowledge & Close</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Cancellation Reason Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-pie-chart-alt-2'></i> Reason-Wise Cancellation Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cancellation Reason</th>
+                                <th>Order Count</th>
+                                <th>Revenue Impact</th>
+                                <th>Trend</th>
+                                <th>Alert Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of reasonBreakdown">
+                                <td data-label="Reason"><strong>{{ r.reason }}</strong></td>
+                                <td data-label="Order Count">{{ r.count }} Orders</td>
+                                <td data-label="Revenue Impact" class="text-danger">{{ r.impact }}</td>
+                                <td data-label="Trend">
+                                    <span [class.text-success]="r.trend === 'Decreasing'"
+                                          [class.text-danger]="r.trend === 'Increasing'">
+                                        {{ r.trend }}
+                                    </span>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="r.status === 'Resolved' || r.status === 'Normal'"
+                                        [class.badge-avg]="r.status === 'Warning'"
+                                        [class.badge-warn]="r.status === 'Critical'">
+                                        {{ r.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. High-Risk Order Log -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-list-minus'></i> Recent Cancelled Orders Audit Log</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Primary Reason</th>
+                                <th>Refund Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let o of highRiskOrders">
+                                <td data-label="Order ID"><strong>{{ o.id }}</strong></td>
+                                <td data-label="Customer">{{ o.customer }}</td>
+                                <td data-label="Amount">{{ o.amount }}</td>
+                                <td data-label="Reason">{{ o.reason }}</td>
+                                <td data-label="Refund Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="o.status === 'Refunded'"
+                                        [class.badge-good]="o.status === 'Initiated'"
+                                        [class.badge-avg]="o.status === 'Pending'">
+                                        {{ o.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

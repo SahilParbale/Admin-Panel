@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-sales-analytics',
@@ -6,10 +6,30 @@ import { Component } from '@angular/core';
     styleUrls: ['./sales-analytics.component.scss'],
     standalone: false
 })
-export class SalesAnalyticsComponent {
-    activeTab: 'sales' | 'analytics' = 'sales';
+export class SalesAnalyticsComponent implements OnInit {
 
-    setActiveTab(tab: 'sales' | 'analytics') {
-        this.activeTab = tab;
-    }
+  activeTab: 'sales' | 'analytics' = 'sales';
+
+  // Analytics Modal State
+  showAnalyticsModal = false;
+  activeModalMode: 'sales-order' | 'sales-category' | 'sales-waterfall' | 'sales-cost' | 'sales-zone' = 'sales-order';
+
+  openSalesAnalyticsModal(mode: 'sales-order' | 'sales-category' | 'sales-waterfall' | 'sales-cost' | 'sales-zone') {
+      this.activeModalMode = mode;
+      this.showAnalyticsModal = true;
+  }
+
+  closeSalesAnalyticsModal() {
+      this.showAnalyticsModal = false;
+  }
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  setActiveTab(tab: 'sales' | 'analytics') {
+    this.activeTab = tab;
+  }
+
 }

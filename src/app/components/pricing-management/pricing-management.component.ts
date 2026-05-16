@@ -6,10 +6,10 @@ import {
     ChartOptions
 } from 'chart.js';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { PricingRevenueModalComponent } from './pricing-revenue-modal/pricing-revenue-modal.component';
 import { PricingDiscountImpactModalComponent } from './pricing-discount-impact-modal/pricing-discount-impact-modal.component';
 import { PricingOfferRankingsModalComponent } from './pricing-offer-rankings-modal/pricing-offer-rankings-modal.component';
 import { PricingElasticityModalComponent } from './pricing-elasticity-modal/pricing-elasticity-modal.component';
+import { AnalyticsDetailsModalComponent } from '../dashboard/analytics-details-modal/analytics-details-modal.component';
 
 interface PricingItem {
     id: number;
@@ -30,7 +30,7 @@ interface PricingItem {
     templateUrl: './pricing-management.component.html',
     styleUrls: ['./pricing-management.component.scss'],
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective, PricingRevenueModalComponent, PricingDiscountImpactModalComponent, PricingOfferRankingsModalComponent, PricingElasticityModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, BaseChartDirective, AnalyticsDetailsModalComponent, PricingDiscountImpactModalComponent, PricingOfferRankingsModalComponent, PricingElasticityModalComponent],
     providers: [provideCharts(withDefaultRegisterables())]
 })
 export class PricingManagementComponent implements OnInit {
@@ -424,8 +424,13 @@ export class PricingManagementComponent implements OnInit {
             this.selectedRevenueMonth = this.revenueChartData.labels?.[index] as string;
             this.selectedRevenueBefore = this.revenueChartData.datasets[0].data[index] as number;
             this.selectedRevenueAfter = this.revenueChartData.datasets[1].data[index] as number;
-            this.isRevenueModalOpen = true;
+        } else {
+            // Default to first month or generic view if clicked via button
+            this.selectedRevenueMonth = 'January 2026';
+            this.selectedRevenueBefore = 450000;
+            this.selectedRevenueAfter = 520000;
         }
+        this.isRevenueModalOpen = true;
     }
 
     closeRevenueModal() {
@@ -437,8 +442,11 @@ export class PricingManagementComponent implements OnInit {
             const index = active[0].index;
             this.selectedDiscountTier = this.volumeChartData.labels?.[index] as string;
             this.selectedSalesVolume = this.volumeChartData.datasets[0].data[index] as number;
-            this.isDiscountImpactModalOpen = true;
+        } else {
+            this.selectedDiscountTier = '15% OFF';
+            this.selectedSalesVolume = 400;
         }
+        this.isDiscountImpactModalOpen = true;
     }
 
     closeDiscountImpactModal() {
@@ -450,8 +458,11 @@ export class PricingManagementComponent implements OnInit {
             const index = active[0].index;
             this.selectedOfferRankingName = this.performanceChartData.labels?.[index] as string;
             this.selectedRedemptions = this.performanceChartData.datasets[0].data[index] as number;
-            this.isOfferRankingsModalOpen = true;
+        } else {
+            this.selectedOfferRankingName = 'Summer Sale';
+            this.selectedRedemptions = 950;
         }
+        this.isOfferRankingsModalOpen = true;
     }
 
     closeOfferRankingsModal() {
@@ -464,8 +475,11 @@ export class PricingManagementComponent implements OnInit {
             const point = this.elasticityChartData.datasets[0].data[index] as { x: number; y: number };
             this.selectedPriceChange = point.x;
             this.selectedDemandChange = point.y;
-            this.isElasticityModalOpen = true;
+        } else {
+            this.selectedPriceChange = -10;
+            this.selectedDemandChange = 25;
         }
+        this.isElasticityModalOpen = true;
     }
 
     closeElasticityModal() {

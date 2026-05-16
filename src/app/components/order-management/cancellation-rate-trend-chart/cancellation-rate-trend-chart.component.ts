@@ -81,6 +81,12 @@ export class CancellationRateTrendChartComponent implements OnInit {
     }
 
     // Filter states
+    @Output() viewDetail = new EventEmitter<{ period: string, rate: number }>();
+
+    openDetail(period: string = this.selectedResolution, rate: number = 3.8) {
+        this.viewDetail.emit({ period, rate });
+    }
+
     selectedResolution = 'Monthly';
     selectedReason = 'All Reasons';
     selectedInitiator = 'All';

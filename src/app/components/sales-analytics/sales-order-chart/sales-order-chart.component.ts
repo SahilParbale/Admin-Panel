@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
     selector: 'app-sales-order-chart',
@@ -8,6 +9,12 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
     standalone: false
 })
 export class SalesOrderChartComponent implements OnInit {
+    @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+    @Output() chartClick = new EventEmitter<void>();
+
+    onChartClick() {
+        this.chartClick.emit();
+    }
 
     public chartData: ChartData<'bar' | 'line'> = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

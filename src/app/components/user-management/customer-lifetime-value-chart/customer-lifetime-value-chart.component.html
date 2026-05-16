@@ -19,7 +19,7 @@
             <button class="icon-btn" title="Export"><i class='bx bx-export'></i></button>
         </div>
     </div>
-    <div class="chart-body">
+    <div class="chart-body" (click)="onChartClick()" style="cursor: pointer;">
         <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
         </canvas>
     </div>

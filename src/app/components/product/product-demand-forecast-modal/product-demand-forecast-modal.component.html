@@ -1,145 +1,118 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="product-badge">AI Prediction</div>
-                <h2>Forecast Details: {{ date }}</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">AI Predictive Engine</span>
+                </div>
+                <h2>Demand Forecast Analysis</h2>
+                <div class="perf-subtitle">Strategic inventory projections and replenishment planning &bull; {{ date || 'Next 30 Days' }}</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-brain'></i> Recalculate Model</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
         </div>
 
-        <div class="modal-body">
-            <div class="forecast-insights">
-                <div class="main-prediction">
-                    <div class="chart-container">
-                        <canvas baseChart [data]="confidenceData" [options]="confidenceOptions"
-                            type="doughnut"></canvas>
-                        <div class="chart-label">
-                            <span class="value">92%</span>
-                            <span class="label">Confidence</span>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
                         </div>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Predicted Demand</span>
-                        <h3 class="value">{{ predictedUnits }} <small>Units</small></h3>
-                        <div class="growth positive">
-                            <i class='bx bx-up-arrow-alt'></i>
-                            <span>+8.4% vs average</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-icon accuracy">
-                            <i class='bx bx-target-lock'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Forecast Accuracy</span>
-                            <strong class="metric-value">94%</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon trend">
-                            <i class='bx bx-trending-up'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Demand Trend</span>
-                            <strong class="metric-value">Rising</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon variance">
-                            <i class='bx bx-analyse'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Variance</span>
-                            <strong class="metric-value">±6%</strong>
-                        </div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-icon seasonality">
-                            <i class='bx bx-calendar'></i>
-                        </div>
-                        <div class="metric-content">
-                            <span class="metric-label">Seasonal Factor</span>
-                            <strong class="metric-value">High</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="factors-grid">
-                    <div class="factor-card">
-                        <i class='bx bx-calendar-event'></i>
-                        <div class="details">
-                            <span class="label">Primary Driver</span>
-                            <span class="value">Weekend Surge</span>
-                        </div>
-                    </div>
-                    <div class="factor-card">
-                        <i class='bx bx-cloud-lightning'></i>
-                        <div class="details">
-                            <span class="label">Risk Level</span>
-                            <span class="value low">Very Low</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="performance-indicators">
-                    <h4><i class='bx bx-bar-chart-alt'></i> Prediction Metrics</h4>
-                    <div class="indicator-list">
-                        <div class="indicator-item">
-                            <span class="indicator-label">Model Confidence</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill excellent" style="width: 92%"></div>
-                            </div>
-                            <span class="indicator-value">92%</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-label">Historical Accuracy</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill excellent" style="width: 94%"></div>
-                            </div>
-                            <span class="indicator-value">94%</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-label">Data Quality Score</span>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill good" style="width: 89%"></div>
-                            </div>
-                            <span class="indicator-value">89%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recommendation-box">
-                    <div class="header">
-                        <i class='bx bx-bulb'></i>
-                        <span>Smart Recommendation</span>
-                    </div>
-                    <p>Demand for {{ date }} is projected to peak due to weekend surge. We recommend increasing preparation by 10% and ensuring adequate staff coverage during 2-6 PM peak hours.</p>
-                    <div class="action-items">
-                        <div class="action-tag">
-                            <i class='bx bx-check-circle'></i>
-                            <span>Increase prep by 10%</span>
-                        </div>
-                        <div class="action-tag">
-                            <i class='bx bx-check-circle'></i>
-                            <span>Staff: +2 members</span>
-                        </div>
-                        <div class="action-tag">
-                            <i class='bx bx-check-circle'></i>
-                            <span>Stock buffer: 15%</span>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Apply Forecast Insights</button>
+            <!-- 2. Category Forecast Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-objects-horizontal-left'></i> Category Demand Projections</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Current Sales</th>
+                                <th>Predicted Demand</th>
+                                <th>Est. Growth</th>
+                                <th>Stockout Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cat of categoryForecast">
+                                <td data-label="Category"><strong>{{ cat.name }}</strong></td>
+                                <td data-label="Current Sales">{{ cat.current }} Units</td>
+                                <td data-label="Predicted Demand"><strong>{{ cat.predicted }} Units</strong></td>
+                                <td data-label="Est. Growth" class="text-success">{{ cat.growth }}</td>
+                                <td data-label="Stockout Risk">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.risk === 'Low'"
+                                        [class.badge-avg]="cat.risk === 'Medium'"
+                                        [class.badge-warn]="cat.risk === 'High'">
+                                        {{ cat.risk }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Replenishment Strategy -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-cart-download'></i> Replenishment Strategy & Action Plan</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Current Stock</th>
+                                <th>Required Stock</th>
+                                <th>Urgency</th>
+                                <th>Recommended Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of replenishmentPlans">
+                                <td data-label="Product"><strong>{{ p.product }}</strong></td>
+                                <td data-label="Current Stock">{{ p.stock }} Units</td>
+                                <td data-label="Required Stock"><strong>{{ p.required }} Units</strong></td>
+                                <td data-label="Urgency">
+                                    <span class="perf-badge"
+                                        [class.badge-warn]="p.urgency === 'Critical' || p.urgency === 'Urgent'"
+                                        [class.badge-avg]="p.urgency === 'High'"
+                                        [class.badge-good]="p.urgency === 'Low'">
+                                        {{ p.urgency }}
+                                    </span>
+                                </td>
+                                <td data-label="Recommended Action">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <i class='bx bx-right-arrow-alt' style="color: #6366f1;"></i>
+                                        <strong>{{ p.action }}</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

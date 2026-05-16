@@ -59,5 +59,15 @@
         flex-grow: 1;
         min-height: 300px;
         width: 100%;
+
+        &.clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                opacity: 0.85;
+                transform: scale(0.995);
+            }
+        }
     }
 }

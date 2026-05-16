@@ -26,14 +26,14 @@ import { AnalyticsDetailsModalComponent } from './components/dashboard/analytics
     AnalyticsChartComponent,
     PerformanceChartComponent,
     RevenueChartComponent,
-    OrdersTableComponent,
-    AnalyticsDetailsModalComponent
+    OrdersTableComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    BaseChartDirective
+    BaseChartDirective,
+    AnalyticsDetailsModalComponent
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

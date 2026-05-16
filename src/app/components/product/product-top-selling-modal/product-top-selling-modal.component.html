@@ -1,142 +1,107 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="product-badge">Top Selling Item</div>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Top Seller Insights</span>
+                </div>
                 <h2>{{ productName }}</h2>
+                <div class="perf-subtitle">Performance audit and demand analytics for top performing inventory</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="stats-grid">
-                <div class="stat-card sales">
-                    <div class="icon-wrap">
-                        <i class='bx bx-cart-alt'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Units Sold</span>
-                        <h3 class="value">{{ quantitySold }}</h3>
-                        <span class="trend positive">+22.3% <i class='bx bx-up-arrow-alt'></i></span>
-                    </div>
-                </div>
-                <div class="stat-card satisfaction">
-                    <div class="icon-wrap">
-                        <i class='bx bx-star'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Customer Rating</span>
-                        <h3 class="value">4.8 <small>/5</small></h3>
-                        <span class="trend positive">96% recommended <i class='bx bx-up-arrow-alt'></i></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chart-section">
-                <div class="section-header">
-                    <h4><i class='bx bx-time-five'></i> 7-Day Demand Curve</h4>
-                    <span class="trend positive">Peak: Day 3 (80 units) <i class='bx bx-up-arrow-alt'></i></span>
-                </div>
-                <div class="mini-chart">
-                    <canvas baseChart [data]="performanceData" [options]="performanceOptions" type="line"></canvas>
-                </div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-item">
-                    <div class="metric-icon return">
-                        <i class='bx bx-repurchase'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Return Rate</span>
-                        <strong class="metric-value">1.2%</strong>
-                        <span class="metric-badge low">Low</span>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon time">
-                        <i class='bx bx-timer'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Avg Prep Time</span>
-                        <strong class="metric-value">12 min</strong>
-                        <span class="metric-badge fast">Fast</span>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon stock">
-                        <i class='bx bx-store'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Stock Status</span>
-                        <strong class="metric-value">In Stock</strong>
-                        <span class="metric-badge available">Available</span>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon reorder">
-                        <i class='bx bx-package'></i>
-                    </div>
-                    <div class="metric-content">
-                        <span class="metric-label">Reorder Point</span>
-                        <strong class="metric-value">45 units</strong>
-                        <span class="metric-badge warning">Alert</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="performance-indicators">
-                <h4><i class='bx bx-analyse'></i> Performance Metrics</h4>
-                <div class="indicator-list">
-                    <div class="indicator-item">
-                        <span class="indicator-label">Sales Velocity</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill excellent" style="width: 94%"></div>
-                        </div>
-                        <span class="indicator-value">94%</span>
-                    </div>
-                    <div class="indicator-item">
-                        <span class="indicator-label">Customer Satisfaction</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill excellent" style="width: 96%"></div>
-                        </div>
-                        <span class="indicator-value">96%</span>
-                    </div>
-                    <div class="indicator-item">
-                        <span class="indicator-label">Inventory Turnover</span>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill good" style="width: 88%"></div>
-                        </div>
-                        <span class="indicator-value">88%</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="feedback-highlight">
-                <div class="quote-icon">
-                    <i class='bx bxs-quote-alt-left'></i>
-                </div>
-                <p class="feedback-text">"Best {{ productName }} in town! Always fresh and perfectly packed. Highly recommend for daily orders."</p>
-                <div class="feedback-footer">
-                    <div class="user-info">
-                        <span class="user-name">Sahil P.</span>
-                        <span class="user-badge">Verified Buyer</span>
-                    </div>
-                    <div class="rating-stars">
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                    </div>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-printer'></i> Print Report</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close Performance Report</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Demand History Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-history'></i> 7-Day Demand Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Units Sold</th>
+                                <th>Revenue Impact</th>
+                                <th>Satisfaction</th>
+                                <th>Growth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let h of demandHistory" [class.perf-row-highlight]="h.day === 'Saturday'">
+                                <td data-label="Day"><strong>{{ h.day }}</strong></td>
+                                <td data-label="Units Sold">{{ h.units }} Units</td>
+                                <td data-label="Revenue Impact">{{ h.revenue }}</td>
+                                <td data-label="Satisfaction">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="h.satisfaction >= 4.8"
+                                        [class.badge-good]="h.satisfaction >= 4.5 && h.satisfaction < 4.8">
+                                        ★ {{ h.satisfaction }}
+                                    </span>
+                                </td>
+                                <td data-label="Growth">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="h.growth.startsWith('+')"
+                                        [class.badge-warn]="!h.growth.startsWith('+')">
+                                        {{ h.growth }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Operational Performance -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-line-chart'></i> Operational Performance Metrics</h3>
+                <div class="perf-rate-card" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                    <div class="perf-rate-item" *ngFor="let m of performanceMetrics">
+                        <div class="perf-rate-header">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <i class='bx {{m.icon}}' style="font-size: 18px; color: #6366f1;"></i>
+                                {{ m.metric }}
+                            </span>
+                            <strong>{{ m.value }}</strong>
+                        </div>
+                        <div class="perf-mini-bar">
+                            <div class="perf-mini-fill"
+                                [style.width]="m.value.includes('/') ? '98%' : m.value"
+                                [class.fill-excellent]="m.status === 'Excellent' || m.status === 'Top Rated'"
+                                [class.fill-good]="m.status === 'Good'">
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: #888; margin-top: 4px;">Status: {{ m.status }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

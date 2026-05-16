@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 
 @Component({
@@ -8,6 +8,11 @@ import { ChartConfiguration, ChartData } from 'chart.js';
     standalone: false
 })
 export class CategoryDistributionChartComponent implements OnInit {
+    @Output() chartClick = new EventEmitter<void>();
+
+    onChartClick() {
+        this.chartClick.emit();
+    }
 
     public chartData: ChartData<'bar'> = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

@@ -8,6 +8,8 @@ const routes: Routes = [
     { path: '', component: FinanceComponent }
 ];
 
+import { AnalyticsDetailsModalComponent } from '../dashboard/analytics-details-modal/analytics-details-modal.component';
+
 @NgModule({
     declarations: [
         FinanceComponent
@@ -15,7 +17,8 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        BaseChartDirective
+        BaseChartDirective,
+        AnalyticsDetailsModalComponent
     ]
 })
 export class FinanceModule { }

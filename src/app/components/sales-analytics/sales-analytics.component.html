@@ -13,8 +13,8 @@
         <app-sales-performance-master-table></app-sales-performance-master-table>
         <app-sales-financial-summary-table></app-sales-financial-summary-table>
         <div class="grid-2">
-            <app-sales-order-chart></app-sales-order-chart>
-            <app-category-distribution-chart></app-category-distribution-chart>
+            <app-sales-order-chart (chartClick)="openSalesAnalyticsModal('sales-order')"></app-sales-order-chart>
+            <app-category-distribution-chart (chartClick)="openSalesAnalyticsModal('sales-category')"></app-category-distribution-chart>
         </div>
     </ng-container>
 
@@ -22,10 +22,17 @@
         <app-financial-performance-analytics-table></app-financial-performance-analytics-table>
         <app-financial-composition-breakdown></app-financial-composition-breakdown>
         <div class="grid-3">
-            <app-financial-waterfall-chart></app-financial-waterfall-chart>
-            <app-cost-structure-chart></app-cost-structure-chart>
-            <app-zone-efficiency-chart></app-zone-efficiency-chart>
+            <app-financial-waterfall-chart (chartClick)="openSalesAnalyticsModal('sales-waterfall')"></app-financial-waterfall-chart>
+            <app-cost-structure-chart (chartClick)="openSalesAnalyticsModal('sales-cost')"></app-cost-structure-chart>
+            <app-zone-efficiency-chart (chartClick)="openSalesAnalyticsModal('sales-zone')"></app-zone-efficiency-chart>
         </div>
     </ng-container>
+
+    <!-- Shared Analytics Modal -->
+    <app-analytics-details-modal 
+        [isOpen]="showAnalyticsModal" 
+        [mode]="activeModalMode"
+        (close)="closeSalesAnalyticsModal()">
+    </app-analytics-details-modal>
 
 </div>

@@ -132,9 +132,8 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-wrapper">
-                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"
-                    (chartClick)="onChartClick($event)">
+            <div class="chart-wrapper clickable" (click)="openRevenueDetail('All Products', 0)">
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
                 </canvas>
             </div>
         </div>
@@ -162,6 +161,9 @@
                             </ul>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="openSalesTrendDetail()">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -169,7 +171,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper clickable" (click)="openSalesTrendDetail()">
                 <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
                 </canvas>
             </div>
@@ -214,6 +216,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="openTopSellingDetail()">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -221,7 +226,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper clickable" (click)="openTopSellingDetail()">
                 <canvas baseChart [data]="topSellingChartData" [options]="topSellingChartOptions" [type]="'bar'">
                 </canvas>
             </div>
@@ -262,6 +267,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="openAvailabilityModal()">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -269,7 +277,9 @@
                     </div>
                 </div>
             </div>
-            <app-availability-chart [data]="availabilityData"></app-availability-chart>
+            <div class="chart-wrapper clickable" (click)="openAvailabilityModal()">
+                <app-availability-chart [data]="availabilityData"></app-availability-chart>
+            </div>
         </div>
 
 
@@ -309,6 +319,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="openDemandForecastModal()">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -316,7 +329,9 @@
                     </div>
                 </div>
             </div>
-            <app-demand-forecast-chart></app-demand-forecast-chart>
+            <div class="chart-wrapper clickable" (click)="openDemandForecastModal()">
+                <app-demand-forecast-chart></app-demand-forecast-chart>
+            </div>
         </div>
 
         <!-- Category Distribution Chart (Spans 2 columns) -->
@@ -354,6 +369,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="openCategoryModal()">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -361,7 +379,9 @@
                     </div>
                 </div>
             </div>
-            <app-category-distribution-chart></app-category-distribution-chart>
+            <div class="chart-wrapper clickable" (click)="openCategoryModal()">
+                <app-category-distribution-chart></app-category-distribution-chart>
+            </div>
         </div>
     </div>
 </div>

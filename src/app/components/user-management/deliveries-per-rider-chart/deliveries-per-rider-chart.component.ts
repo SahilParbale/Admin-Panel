@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,12 @@ import { CommonModule } from '@angular/common';
     imports: [BaseChartDirective, CommonModule]
 })
 export class DeliveriesPerRiderChartComponent implements OnInit {
+
+    @Output() chartClick = new EventEmitter<void>();
+
+    onChartClick() {
+        this.chartClick.emit();
+    }
 
     public barChartData: ChartConfiguration<'bar'>['data'] = {
         labels: ['Alex', 'Jordan', 'Chris', 'Taylor', 'Sam', 'Micky', 'Pat'],

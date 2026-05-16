@@ -166,6 +166,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="onRevenueChartClick({active: []})">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -173,7 +176,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
+            <div class="chart-container clickable" style="height: 280px; width: 100%; position: relative;" (click)="onRevenueChartClick({active: []})">
                 <canvas baseChart [data]="revenueChartData" [options]="revenueChartOptions" type="line">
                 </canvas>
             </div>
@@ -201,6 +204,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="onVolumeChartClick({active: []})">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -208,7 +214,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
+            <div class="chart-container clickable" style="height: 280px; width: 100%; position: relative;" (click)="onVolumeChartClick({active: []})">
                 <canvas baseChart [data]="volumeChartData" [options]="volumeChartOptions" type="bar">
                 </canvas>
             </div>
@@ -236,6 +242,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="onPerformanceChartClick({active: []})">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -243,7 +252,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
+            <div class="chart-container clickable" style="height: 280px; width: 100%; position: relative;" (click)="onPerformanceChartClick({active: []})">
                 <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" type="bar">
                 </canvas>
             </div>
@@ -271,6 +280,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn-view-details" (click)="onElasticityChartClick({active: []})">
+                        <i class='bx bx-expand-alt'></i> View Details
+                    </button>
                     <div class="icon-actions">
                         <i class='bx bx-printer'></i>
                         <i class='bx bx-export'></i>
@@ -278,7 +290,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-container" style="height: 280px; width: 100%; position: relative;">
+            <div class="chart-container clickable" style="height: 280px; width: 100%; position: relative;" (click)="onElasticityChartClick({active: []})">
                 <canvas baseChart [data]="elasticityChartData" [options]="elasticityChartOptions" type="scatter">
                 </canvas>
             </div>
@@ -381,10 +393,12 @@
     </div>
 </div>
 
-<!-- Revenue Analysis Details Modal -->
-<app-pricing-revenue-modal [isOpen]="isRevenueModalOpen" [month]="selectedRevenueMonth"
-    [revenueBefore]="selectedRevenueBefore" [revenueAfter]="selectedRevenueAfter" (close)="closeRevenueModal()">
-</app-pricing-revenue-modal>
+<!-- Revenue Analysis Details Modal (Shared Standardization) -->
+<app-analytics-details-modal 
+    [isOpen]="isRevenueModalOpen" 
+    [mode]="'revenue'" 
+    (close)="closeRevenueModal()">
+</app-analytics-details-modal>
 
 <!-- Discount Impact Details Modal -->
 <app-pricing-discount-impact-modal [isOpen]="isDiscountImpactModalOpen" [discountTier]="selectedDiscountTier"

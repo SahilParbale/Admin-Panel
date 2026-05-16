@@ -12,6 +12,7 @@ import { FinancialWaterfallChartComponent } from './revenue-waterfall-chart/reve
 import { CostStructureChartComponent } from './cost-structure-chart/cost-structure-chart.component';
 import { ZoneEfficiencyChartComponent } from './zone-efficiency-chart/zone-efficiency-chart.component';
 import { BaseChartDirective } from 'ng2-charts';
+import { AnalyticsDetailsModalComponent } from '../dashboard/analytics-details-modal/analytics-details-modal.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [
         CommonModule,
         SalesAnalyticsRoutingModule,
-        BaseChartDirective
+        BaseChartDirective,
+        AnalyticsDetailsModalComponent
     ]
 })
 export class SalesAnalyticsModule { }

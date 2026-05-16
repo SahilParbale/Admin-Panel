@@ -74,6 +74,12 @@ export class OrderStatusDistributionChartComponent implements OnInit {
     }
 
     // Filter states
+    @Output() viewDetail = new EventEmitter<{ statusName: string, orderCount: number }>();
+
+    openDetail(statusName: string = 'Current Distribution', orderCount: number = 482) {
+        this.viewDetail.emit({ statusName, orderCount });
+    }
+
     selectedTimeFrame = 'Today';
     selectedPartner = 'All Partners';
 

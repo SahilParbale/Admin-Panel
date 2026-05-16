@@ -1,66 +1,104 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="status-indicator" [style.background-color]="getStatusColor()"></div>
-                <div class="header-text">
-                    <span class="category-label">Operational Status</span>
-                    <h2>{{ statusName }} Overview</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Workflow Diagnostics</span>
                 </div>
+                <h2>Status Distribution Analysis: {{ statusName }}</h2>
+                <div class="perf-subtitle">Live tracking of order lifecycle, fulfillment health, and bottleneck detection</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="status-hero" [style.border-left-color]="getStatusColor()">
-                <div class="hero-metric">
-                    <span class="label">Total Orders</span>
-                    <h3 class="value">{{ orderCount }}</h3>
-                </div>
-                <div class="hero-metric">
-                    <span class="label">Avg. Duration</span>
-                    <span class="value duration">{{ avgTimeInStatus }}</span>
-                </div>
-            </div>
-
-            <div class="insights-row">
-                <div class="insight-card">
-                    <div class="card-icon">
-                        <i class='bx bx-tachometer'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Efficiency</span>
-                        <span class="value trend">{{ efficiencyTrend }}</span>
-                    </div>
-                </div>
-                <div class="insight-card">
-                    <div class="card-icon">
-                        <i class='bx bx-shield-quarter'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Bottlenecks</span>
-                        <span class="value safe">{{ bottleneckAlert }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="optimization-guide">
-                <div class="guide-header">
-                    <i class='bx bx-support'></i>
-                    <span>SLA Recommendation</span>
-                </div>
-                <div class="guide-content">
-                    <p>{{ recommendation }} Keep monitoring the volume of 'Packed' orders for potential delays.</p>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-git-commit'></i> View Lifecycle</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" [style.background-color]="getStatusColor()" (click)="closeModal()">
-                Close Insights
-            </button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Status Volume Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-list-check'></i> Order Volume by Status Segment</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Workflow Stage</th>
+                                <th>Order Count</th>
+                                <th>Avg Time spent</th>
+                                <th>Revenue Lock</th>
+                                <th>Operational Health</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let s of statusVolumeData">
+                                <td data-label="Stage"><strong>{{ s.status }}</strong></td>
+                                <td data-label="Count">{{ s.count }} Orders</td>
+                                <td data-label="Avg Time">{{ s.avgTime }}</td>
+                                <td data-label="Revenue">{{ s.revenue }}</td>
+                                <td data-label="Health">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="s.health === 'Excellent'"
+                                        [class.badge-good]="s.health === 'Good'"
+                                        [class.badge-warn]="s.health === 'Critical'">
+                                        {{ s.health }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Bottleneck Analysis -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-timer'></i> Real-time Bottleneck Detection</h3>
+                <div class="perf-rate-card" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                    <div class="perf-rate-item" *ngFor="let b of bottleneckAnalysis">
+                        <div class="perf-rate-header">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <i class='bx {{b.icon}}' style="font-size: 18px; color: #6366f1;"></i>
+                                {{ b.stage }}
+                            </span>
+                            <strong>{{ b.delay }} Delay</strong>
+                        </div>
+                        <div class="perf-mini-bar">
+                            <div class="perf-mini-fill"
+                                [style.width]="b.impact === 'Critical' ? '85%' : b.impact === 'High' ? '60%' : '20%'"
+                                [class.fill-excellent]="b.status === 'Healthy'"
+                                [class.fill-good]="b.status === 'Warning'"
+                                [class.fill-avg]="b.status === 'Issue'">
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: #888; margin-top: 4px;">Impact Level: {{ b.impact }}</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

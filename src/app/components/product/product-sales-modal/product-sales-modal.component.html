@@ -4,12 +4,13 @@
         <div class="perf-modal-header">
             <div class="perf-header-left">
                 <div class="perf-badge-wrap">
-                    <span class="perf-mode-badge">Sales Insights</span>
+                    <span class="perf-mode-badge">Sales Intelligence</span>
                 </div>
-                <h2>{{ selectedLabel ? selectedLabel + ' Performance' : period + 'ly Sales Trend' }}</h2>
-                <div class="perf-subtitle">Comprehensive sales velocity and demand analysis</div>
+                <h2>Product Sales Performance</h2>
+                <div class="perf-subtitle">Comprehensive sales velocity and demand analysis &bull; {{ period }}ly View</div>
             </div>
             <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-export'></i> Export Report</button>
                 <button class="perf-btn-close" (click)="closeModal()">
                     <i class='bx bx-x'></i>
                 </button>
@@ -18,191 +19,116 @@
 
         <!-- Body -->
         <div class="perf-modal-body">
-            <!-- 1. KPI Grid -->
+            <!-- 1. KPI Summary Cards -->
             <div class="perf-section">
                 <div class="perf-kpi-grid">
-                    <div class="perf-kpi-card">
-                        <div class="perf-kpi-icon"><i class='bx bx-shopping-bag'></i></div>
-                        <div class="perf-kpi-info">
-                            <span class="perf-kpi-label">Total Orders</span>
-                            <h3 class="perf-kpi-value">420</h3>
-                            <span class="perf-trend trend-up">+18.5% <i class='bx bx-up-arrow-alt'></i></span>
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
                         </div>
-                    </div>
-                    <div class="perf-kpi-card">
-                        <div class="perf-kpi-icon icon-blue"><i class='bx bx-trending-up'></i></div>
-                        <div class="perf-kpi-info">
-                            <span class="perf-kpi-label">Growth Rate</span>
-                            <h3 class="perf-kpi-value">12.5%</h3>
-                            <span class="perf-trend trend-up">vs last period <i class='bx bx-up-arrow-alt'></i></span>
-                        </div>
-                    </div>
-                    <div class="perf-kpi-card">
-                        <div class="perf-kpi-icon icon-purple"><i class='bx bx-time-five'></i></div>
-                        <div class="perf-kpi-info">
-                            <span class="perf-kpi-label">Peak Velocity</span>
-                            <h3 class="perf-kpi-value">90/hr</h3>
-                            <span class="perf-trend trend-up">at 8:00 PM <i class='bx bx-bolt-circle'></i></span>
-                        </div>
-                    </div>
-                    <div class="perf-kpi-card">
-                        <div class="perf-kpi-icon icon-orange"><i class='bx bx-repeat'></i></div>
-                        <div class="perf-kpi-info">
-                            <span class="perf-kpi-label">Repeat Rate</span>
-                            <h3 class="perf-kpi-value">72%</h3>
-                            <span class="perf-trend trend-up">Customer Loyalty <i class='bx bx-heart'></i></span>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. Order Velocity Table (Replaces Chart) -->
+            <!-- 2. Sales by Category -->
             <div class="perf-section">
-                <h3 class="perf-section-title"><i class='bx bx-time-five'></i> Hourly Order Velocity</h3>
+                <h3 class="perf-section-title"><i class='bx bx-category-alt'></i> Sales Distribution by Category</h3>
                 <div class="perf-table-wrap">
                     <table class="perf-table responsive-admin-table">
                         <thead>
                             <tr>
-                                <th>Time Slot</th>
-                                <th>Orders</th>
-                                <th>Volume Status</th>
-                                <th>Peak Indicator</th>
-                                <th>Fulfillment</th>
+                                <th>Category</th>
+                                <th>Units Sold</th>
+                                <th>Growth</th>
+                                <th>Velocity</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td data-label="Time Slot">12 AM - 4 AM</td>
-                                <td data-label="Orders">10</td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-avg">Low</span></td>
-                                <td data-label="Peak Indicator">5%</td>
-                                <td data-label="Fulfillment">98%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Time Slot">4 AM - 8 AM</td>
-                                <td data-label="Orders">45</td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-good">Medium</span></td>
-                                <td data-label="Peak Indicator">15%</td>
-                                <td data-label="Fulfillment">97%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Time Slot">8 AM - 12 PM</td>
-                                <td data-label="Orders">80</td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-excellent">High</span></td>
-                                <td data-label="Peak Indicator">25%</td>
-                                <td data-label="Fulfillment">94%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Time Slot">12 PM - 4 PM</td>
-                                <td data-label="Orders">65</td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-good">Steady</span></td>
-                                <td data-label="Peak Indicator">20%</td>
-                                <td data-label="Fulfillment">96%</td>
-                            </tr>
-                            <tr class="perf-row-highlight">
-                                <td data-label="Time Slot"><strong>4 PM - 8 PM</strong></td>
-                                <td data-label="Orders"><strong>90</strong></td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-excellent">Peak</span></td>
-                                <td data-label="Peak Indicator"><strong>35%</strong></td>
-                                <td data-label="Fulfillment">92%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Time Slot">8 PM - 12 AM</td>
-                                <td data-label="Orders">130</td>
-                                <td data-label="Volume Status"><span class="perf-badge badge-excellent">Critical</span></td>
-                                <td data-label="Peak Indicator">Peak</td>
-                                <td data-label="Fulfillment">90%</td>
+                            <tr *ngFor="let cat of categorySales">
+                                <td data-label="Category"><strong>{{ cat.name }}</strong></td>
+                                <td data-label="Units Sold">{{ cat.units }} Units</td>
+                                <td data-label="Growth" class="text-success"><strong>{{ cat.growth }}</strong></td>
+                                <td data-label="Velocity">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.velocity === 'High'"
+                                        [class.badge-good]="cat.velocity === 'Medium' || cat.velocity === 'Steady'"
+                                        [class.badge-avg]="cat.velocity === 'Niche'">
+                                        {{ cat.velocity }}
+                                    </span>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.status === 'Excellent' || cat.status === 'Healthy'"
+                                        [class.badge-good]="cat.status === 'Good' || cat.status === 'Premium'"
+                                        [class.badge-avg]="cat.status === 'Average'">
+                                        {{ cat.status }}
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- 3. Category Demand Split & Indicators -->
-            <div class="perf-grid-2col">
-                <div class="perf-section">
-                    <h3 class="perf-section-title"><i class='bx bx-pie-chart'></i> Category Demand Split</h3>
-                    <div class="perf-rate-card">
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Fresh Fruits</span>
-                                <span>58%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-excellent" style="width: 58%"></div></div>
-                        </div>
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Fruit Combos</span>
-                                <span>28%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-good" style="width: 28%"></div></div>
-                        </div>
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Premium Selection</span>
-                                <span>14%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-avg" style="width: 14%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="perf-section">
-                    <h3 class="perf-section-title"><i class='bx bx-analyse'></i> Performance Indicators</h3>
-                    <div class="perf-rate-card">
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Demand Consistency</span>
-                                <span>92%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-excellent" style="width: 92%"></div></div>
-                        </div>
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Peak Hour Efficiency</span>
-                                <span>88%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-good" style="width: 88%"></div></div>
-                        </div>
-                        <div class="perf-rate-item">
-                            <div class="perf-rate-header">
-                                <span>Order Fulfillment</span>
-                                <span>96%</span>
-                            </div>
-                            <div class="perf-mini-bar"><div class="perf-mini-fill fill-excellent" style="width: 96%"></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. Operational Metrics Grid -->
+            <!-- 3. Product-Level Sales Breakdown -->
             <div class="perf-section">
-                <h3 class="perf-section-title"><i class='bx bx-list-ul'></i> Operational Metrics</h3>
-                <div class="perf-kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
-                    <div class="perf-metric-item">
-                        <span class="perf-metric-label">Top Delivery Area</span>
-                        <strong class="perf-metric-value">City South</strong>
-                    </div>
-                    <div class="perf-metric-item">
-                        <span class="perf-metric-label">Flash Delivery</span>
-                        <strong class="perf-metric-value">18 min</strong>
-                    </div>
-                    <div class="perf-metric-item">
-                        <span class="perf-metric-label">Stock Turnover</span>
-                        <strong class="perf-metric-value">High</strong>
-                    </div>
-                    <div class="perf-metric-item">
-                        <span class="perf-metric-label">Efficiency Score</span>
-                        <strong class="perf-metric-value">4.8/5</strong>
-                    </div>
+                <h3 class="perf-section-title"><i class='bx bx-package'></i> Top Product Sales Velocity</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Product</th>
+                                <th>Units</th>
+                                <th>Fulfillment Rate</th>
+                                <th>Growth</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of productSales">
+                                <td data-label="Category">{{ p.category }}</td>
+                                <td data-label="Product"><strong>{{ p.product }}</strong></td>
+                                <td data-label="Units"><strong>{{ p.units }}</strong></td>
+                                <td data-label="Fulfillment Rate">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="p.velocity"
+                                                [class.fill-excellent]="+p.velocity.replace('%', '') >= 90"
+                                                [class.fill-good]="+p.velocity.replace('%', '') >= 80 && +p.velocity.replace('%', '') < 90"
+                                                [class.fill-avg]="+p.velocity.replace('%', '') < 80">
+                                            </div>
+                                        </div>
+                                        <span>{{ p.velocity }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Growth" class="text-success">{{ p.growth }}</td>
+                                <td data-label="Trend">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.trend === 'Upward'"
+                                        [class.badge-good]="p.trend === 'Steady' || p.trend === 'Seasonal'"
+                                        [class.badge-avg]="p.trend === 'Emerging'">
+                                        {{ p.trend }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <!-- Footer -->
-        <div class="perf-modal-footer">
-            <button class="perf-btn-secondary" (click)="closeModal()">Close Sales Report</button>
-            <button class="perf-btn-primary"><i class='bx bx-download'></i> Export Detailed Report</button>
         </div>
     </div>
-</div>
+</div>

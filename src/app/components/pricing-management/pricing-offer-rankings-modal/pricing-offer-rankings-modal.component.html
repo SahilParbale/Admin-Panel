@@ -1,79 +1,113 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-
-        <!-- Gradient Header Banner -->
-        <div class="modal-banner">
-            <div class="banner-icon">
-                <i class='bx bx-award'></i>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Campaign Rankings</span>
+                </div>
+                <h2>Offer Performance Rankings: {{ offerName }}</h2>
+                <div class="perf-subtitle">Comparative ranking of all active and legacy offers based on redemption velocity and conversion impact</div>
             </div>
-            <div class="banner-text">
-                <span class="banner-label">Offer Rankings</span>
-                <h2>{{ offerName }}</h2>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-medal'></i> Best Performers</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
         </div>
 
-        <div class="modal-body">
-
-            <!-- Main Redemptions card -->
-            <div class="primary-stat-row">
-                <div class="primary-stat">
-                    <div class="primary-icon"><i class='bx bx-gift'></i></div>
-                    <div class="primary-info">
-                        <span class="primary-label">Total Redemptions</span>
-                        <span class="primary-value">{{ formatNumber(redemptions) }}</span>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- KPI Grid -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon new-users"><i class='bx bx-user-plus'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">New Customers</span>
-                        <span class="kpi-value positive">~35%</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon repeat"><i class='bx bx-refresh'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Repeat Users</span>
-                        <span class="kpi-value">~65%</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon peak"><i class='bx bx-time-five'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Peak Time</span>
-                        <span class="kpi-value">6PM – 9PM</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon revenue"><i class='bx bx-rupee'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Est. Revenue</span>
-                        <span class="kpi-value">₹{{ formatNumber(redemptions * 320) }}</span>
-                    </div>
+            <!-- 2. Offer Rankings Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-trophy'></i> Top Performing Offers by Net Conversion</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Offer Identifier</th>
+                                <th>Total Usage</th>
+                                <th>Gross Revenue</th>
+                                <th>Conv. Rate</th>
+                                <th>Rank Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of rankingData">
+                                <td data-label="Offer"><strong>{{ r.name }}</strong></td>
+                                <td data-label="Usage">{{ r.usage }} Users</td>
+                                <td data-label="Revenue" class="text-success">{{ r.revenue }}</td>
+                                <td data-label="Conv"><strong>{{ r.conv }}</strong></td>
+                                <td data-label="Rank">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="r.status === 'Best Seller' || r.status === 'Top Volume'"
+                                        [class.badge-good]="r.status === 'High Conv'"
+                                        [class.badge-avg]="r.status === 'Acquisition'">
+                                        {{ r.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- Insight Bar -->
-            <div class="insight-bar">
-                <i class='bx bx-trophy'></i>
-                <span><strong>{{ offerName }}</strong> is a top-performing offer — it has driven <strong>{{
-                        formatNumber(redemptions) }}</strong> redemptions this period.</span>
+            <!-- 3. Lifespan Audit -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-stopwatch'></i> Offer Lifespan & Redemption Velocity Audit</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Active Duration</th>
+                                <th>Redemption Velocity</th>
+                                <th>Market Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let l of lifespanAudit">
+                                <td data-label="ID">{{ l.id }}</td>
+                                <td data-label="Name"><strong>{{ l.name }}</strong></td>
+                                <td data-label="Duration">{{ l.duration }}</td>
+                                <td data-label="Velocity">{{ l.velocity }}</td>
+                                <td data-label="Impact">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="l.impact === 'High'"
+                                        [class.badge-good]="l.impact === 'Stable'"
+                                        [class.badge-avg]="l.impact === 'Low' || l.impact === 'Niche'">
+                                        {{ l.impact }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeModal()">Close</button>
-            <button class="btn-primary" (click)="closeModal()">
-                <i class='bx bx-download'></i> Export Report
-            </button>
         </div>
     </div>
 </div>

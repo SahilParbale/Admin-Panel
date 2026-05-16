@@ -15,6 +15,81 @@
             </div>
         </div>
 
+        <!-- ORDER ANALYTICS MODE -->
+        <div class="modal-body" *ngIf="mode === 'orders'">
+            <!-- KPI Grid -->
+            <div class="section kpi-section">
+                <div class="kpi-grid">
+                    <div class="kpi-card" *ngFor="let kpi of kpis">
+                        <div class="kpi-icon"><i class='bx {{kpi.icon}}'></i></div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">{{ kpi.label }}</div>
+                            <div class="kpi-value">{{ kpi.value }}</div>
+                            <div class="kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="section charts-row">
+                <div class="chart-card trend-chart">
+                    <div class="chart-header">
+                        <h3>Order Trend Analysis</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card donut-chart">
+                    <div class="chart-header">
+                        <h3>Status Distribution</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions" [type]="'doughnut'"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="section table-section">
+                <h3 class="section-title"><i class='bx bx-list-ul'></i> Recent Orders Breakdown</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of tableData">
+                                <td><strong>#{{ order.id }}</strong></td>
+                                <td>{{ order.customer }}</td>
+                                <td>{{ order.date }}</td>
+                                <td>{{ order.total }}</td>
+                                <td>
+                                    <span class="badge" [class.success]="order.status === 'Completed'" 
+                                          [class.warning]="order.status === 'Pending'"
+                                          [class.danger]="order.status === 'Cancelled'">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                                <td><button class="btn-action"><i class='bx bx-show'></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Revenue Analytics Layout (Performance Theme) -->
         <div class="modal-body perf-modal-body" *ngIf="mode === 'revenue'">
             
@@ -32,8 +107,37 @@
                                 [class.negative]="!kpi.isPositive">
                                 <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
                                     [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
-                                {{ kpi.change }} vs last month
+                                {{ kpi.change }}
                             </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Dynamic Revenue Chart -->
+            <div class="perf-section">
+                <div class="perf-chart-card">
+                    <div class="perf-chart-header">
+                        <div class="perf-chart-title">
+                            <i class='bx bx-stats'></i>
+                            <h3>Revenue & Profit Performance Analysis</h3>
+                        </div>
+                        <div class="perf-chart-actions">
+                            <button [class.active]="chartType === 'line'" (click)="setChartType('line')">
+                                <i class='bx bx-line-chart'></i> Timeline
+                            </button>
+                            <button [class.active]="chartType === 'bar'" (click)="setChartType('bar')">
+                                <i class='bx bx-bar-chart-alt-2'></i> Categories
+                            </button>
+                        </div>
+                    </div>
+                    <div class="perf-chart-body" *ngIf="isChartVisible">
+                        <div class="chart-wrapper" style="height: 320px; position: relative;">
+                            <canvas baseChart 
+                                [data]="chartType === 'line' ? lineChartData : barChartData" 
+                                [options]="chartType === 'line' ? lineChartOptions : barChartOptions" 
+                                [type]="chartType === 'line' ? 'line' : 'bar'">
+                            </canvas>
                         </div>
                     </div>
                 </div>
@@ -518,6 +622,1382 @@
 
 
         </div><!-- /perf-modal-body -->
+
+        <!-- USER GROWTH & RATIO ANALYTICS (Performance Theme) -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'user' || mode === 'user-ratio'">
+
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }} vs last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Interactive Acquisition Graph (Removed as per request) -->
+
+            <!-- 3. Acquisition Channels & Cohorts -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-8">
+                        <h3 class="perf-section-title"><i class='bx bx-share-alt'></i> Top Acquisition Channels</h3>
+                        <div class="perf-table-wrap">
+                            <table class="perf-table">
+                                <thead>
+                                    <tr>
+                                        <th>Source Channel</th>
+                                        <th>New Users</th>
+                                        <th>Growth</th>
+                                        <th>Conversion</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let c of vendorPerformance">
+                                        <td data-label="Source"><strong>{{ c.vendor }}</strong></td>
+                                        <td data-label="New Users">{{ c.orders | number }}</td>
+                                        <td data-label="Growth" class="text-success">{{ c.growth }}</td>
+                                        <td data-label="Conversion">{{ c.revenue }}</td>
+                                        <td data-label="Status">
+                                            <span class="perf-badge"
+                                                [class.badge-excellent]="c.rating >= 4.7"
+                                                [class.badge-good]="c.rating < 4.7">
+                                                {{ c.rating >= 4.7 ? 'High' : 'Stable' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> User Quality Index</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || ak.rating || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Retention Log -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-history'></i> Daily Retention Activity</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Total Reach</th>
+                                <th>Active</th>
+                                <th>Churned</th>
+                                <th>Retention Rate</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Date"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Total Reach">{{ row.total }}</td>
+                                <td data-label="Active" class="text-success">{{ row.completed }}</td>
+                                <td data-label="Churned" class="text-danger">{{ row.cancelled }}</td>
+                                <td data-label="Retention">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate)"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 90"
+                                                [class.fill-good]="parseFloat(row.rate) >= 88 && parseFloat(row.rate) < 90">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge" [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- /user modal-body -->
+
+        <!-- ===== USER ORDER FREQUENCY MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'user-order-freq'">
+
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }} vs last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Frequency Bucket Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-bar-chart-alt-2'></i> Order Frequency Bucket Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Frequency Bucket</th>
+                                <th>No. of Users</th>
+                                <th>User Share</th>
+                                <th>Avg Revenue / User</th>
+                                <th>Total Revenue</th>
+                                <th>Segment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Frequency Bucket"><strong>{{ row.date }}</strong></td>
+                                <td data-label="No. of Users">{{ row.total | number }}</td>
+                                <td data-label="User Share">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate)"
+                                                [class.fill-excellent]="row.status === 'Power'"
+                                                [class.fill-good]="row.status === 'Frequent'"
+                                                [class.fill-avg]="row.status === 'Regular' || row.status === 'Casual'">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Avg Revenue / User">₹{{ (row.cancelled / row.total) | number:'1.0-0' }}</td>
+                                <td data-label="Total Revenue" class="text-success">₹{{ row.cancelled | number }}</td>
+                                <td data-label="Segment">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Power'"
+                                        [class.badge-good]="row.status === 'Frequent'"
+                                        [class.badge-avg]="row.status === 'Regular'"
+                                        [class.badge-warn]="row.status === 'Casual'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Segment Revenue Performance -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-crown'></i> Segment Revenue Performance</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Segment</th>
+                                <th>Users</th>
+                                <th>Revenue</th>
+                                <th>Rating</th>
+                                <th>Growth</th>
+                                <th>Engagement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let seg of vendorPerformance">
+                                <td data-label="Segment"><strong>{{ seg.vendor }}</strong></td>
+                                <td data-label="Users">{{ seg.orders | number }}</td>
+                                <td data-label="Revenue" class="text-success">{{ seg.revenue }}</td>
+                                <td data-label="Rating">
+                                    <span class="star-rating"><i class='bx bxs-star'></i> {{ seg.rating }}</span>
+                                </td>
+                                <td data-label="Growth" class="text-success">{{ seg.growth }}</td>
+                                <td data-label="Engagement">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(seg.rating / 5) * 100"
+                                                [class.fill-excellent]="seg.rating >= 4.7"
+                                                [class.fill-good]="seg.rating >= 4.4 && seg.rating < 4.7"
+                                                [class.fill-avg]="seg.rating < 4.4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. User Quality Index -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Frequency Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /user-order-freq modal-body -->
+
+        <!-- ===== CUSTOMER LIFETIME VALUE MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'user-clv'">
+
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }} vs last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Monthly CLV Trend -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-trending-up'></i> Monthly CLV Trend</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Avg CLV</th>
+                                <th>Top Tier LTV</th>
+                                <th>CAC</th>
+                                <th>LTV : CAC Ratio</th>
+                                <th>Health</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Month"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Avg CLV">{{ row.total }}</td>
+                                <td data-label="Top Tier LTV" class="text-success">{{ row.completed }}</td>
+                                <td data-label="CAC">{{ row.cancelled }}</td>
+                                <td data-label="LTV : CAC Ratio">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate) * 3"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 20"
+                                                [class.fill-good]="parseFloat(row.rate) >= 15 && parseFloat(row.rate) < 20"
+                                                [class.fill-avg]="parseFloat(row.rate) < 15">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Health">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. CLV Tier Revenue Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-layer'></i> CLV Tier Revenue Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Tier</th>
+                                <th>Users</th>
+                                <th>Total Revenue</th>
+                                <th>Rating</th>
+                                <th>Growth</th>
+                                <th>Revenue Share</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tier of vendorPerformance">
+                                <td data-label="Tier"><strong>{{ tier.vendor }}</strong></td>
+                                <td data-label="Users">{{ tier.orders | number }}</td>
+                                <td data-label="Total Revenue" class="text-success">{{ tier.revenue }}</td>
+                                <td data-label="Rating">
+                                    <span class="star-rating"><i class='bx bxs-star'></i> {{ tier.rating }}</span>
+                                </td>
+                                <td data-label="Growth" class="text-success">{{ tier.growth }}</td>
+                                <td data-label="Revenue Share">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(tier.rating / 5) * 100"
+                                                [class.fill-excellent]="tier.rating >= 4.8"
+                                                [class.fill-good]="tier.rating >= 4.5 && tier.rating < 4.8"
+                                                [class.fill-avg]="tier.rating < 4.5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Tier Distribution & Margin Insights -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-8">
+                        <h3 class="perf-section-title"><i class='bx bx-pie-chart-alt-2'></i> Tier Distribution</h3>
+                        <div class="perf-table-wrap">
+                            <table class="perf-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tier</th>
+                                        <th>User Distribution</th>
+                                        <th>Margin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let m of profitMargins">
+                                        <td><strong>{{ m.period }}</strong></td>
+                                        <td style="width: 55%;">
+                                            <div class="perf-rate-cell">
+                                                <div class="perf-mini-bar" style="width: 100%;">
+                                                    <div class="perf-mini-fill" [style.width.%]="m.percentage"
+                                                        [class.fill-excellent]="m.percentage >= 80"
+                                                        [class.fill-good]="m.percentage >= 60 && m.percentage < 80"
+                                                        [class.fill-avg]="m.percentage < 60">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="perf-badge"
+                                                [class.badge-excellent]="m.percentage >= 80"
+                                                [class.badge-good]="m.percentage >= 60 && m.percentage < 80"
+                                                [class.badge-avg]="m.percentage < 60">
+                                                {{ m.percentage }}%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> CLV Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /user-clv modal-body -->
+
+        <!-- ===== RIDER DELIVERIES MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'rider-deliveries'">
+
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }} vs last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Per-Rider Delivery Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-cycling'></i> Per-Rider Delivery Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Rider Name</th>
+                                <th>Total Assigned</th>
+                                <th>Completed</th>
+                                <th>Cancelled/Failed</th>
+                                <th>Completion Rate</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Rider Name"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Total Assigned">{{ row.total }}</td>
+                                <td data-label="Completed" class="text-success">{{ row.completed }}</td>
+                                <td data-label="Cancelled/Failed" class="text-danger">{{ row.cancelled }}</td>
+                                <td data-label="Completion Rate">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate)"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 92"
+                                                [class.fill-good]="parseFloat(row.rate) >= 88 && parseFloat(row.rate) < 92"
+                                                [class.fill-avg]="parseFloat(row.rate) < 88">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Rider Performance & Earnings -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-wallet'></i> Performance & Earnings</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Rider</th>
+                                <th>Completed Orders</th>
+                                <th>Earnings (Est)</th>
+                                <th>Rating</th>
+                                <th>Growth</th>
+                                <th>Reliability Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rider of vendorPerformance">
+                                <td data-label="Rider"><strong>{{ rider.vendor }}</strong></td>
+                                <td data-label="Completed Orders">{{ rider.orders }}</td>
+                                <td data-label="Earnings (Est)" class="text-success">{{ rider.revenue }}</td>
+                                <td data-label="Rating">
+                                    <span class="star-rating"><i class='bx bxs-star'></i> {{ rider.rating }}</span>
+                                </td>
+                                <td data-label="Growth" class="text-success">{{ rider.growth }}</td>
+                                <td data-label="Reliability Index">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(rider.rating / 5) * 100"
+                                                [class.fill-excellent]="rider.rating >= 4.8"
+                                                [class.fill-good]="rider.rating >= 4.5 && rider.rating < 4.8"
+                                                [class.fill-avg]="rider.rating < 4.5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Delivery Speed Insights -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Speed & Efficiency Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /rider-deliveries modal-body -->
+
+        <!-- ===== FINANCE PERFORMANCE MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'finance-perf'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Weekly Performance Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-trending-up'></i> Weekly Performance Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Gross Revenue</th>
+                                <th>Net Revenue</th>
+                                <th>Net Profit</th>
+                                <th>Profit Margin</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Week"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Gross Revenue">{{ row.total }}</td>
+                                <td data-label="Net Revenue" class="text-success">{{ row.completed }}</td>
+                                <td data-label="Net Profit" class="text-success">{{ row.cancelled }}</td>
+                                <td data-label="Profit Margin">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate) * 3"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 23"
+                                                [class.fill-good]="parseFloat(row.rate) >= 22 && parseFloat(row.rate) < 23"
+                                                [class.fill-avg]="parseFloat(row.rate) < 22">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Performance Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /finance-perf modal-body -->
+
+        <!-- ===== FINANCE REVENUE MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'finance-revenue'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Revenue Component Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-pie-chart-alt-2'></i> Revenue Components</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Impact Scope</th>
+                                <th>Amount</th>
+                                <th>Severity/Health</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of vendorPerformance">
+                                <td data-label="Component"><strong>{{ item.vendor }}</strong></td>
+                                <td data-label="Impact Scope">{{ item.orders }} orders</td>
+                                <td data-label="Amount" [ngClass]="{'text-success': item.rating === 5.0, 'text-danger': item.rating < 4.0}">{{ item.revenue }}</td>
+                                <td data-label="Severity/Health">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(item.rating / 5) * 100"
+                                                [class.fill-excellent]="item.rating >= 4.5"
+                                                [class.fill-good]="item.rating >= 4.0 && item.rating < 4.5"
+                                                [class.fill-avg]="item.rating < 4.0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Trend">{{ item.growth }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Cost Distribution</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /finance-revenue modal-body -->
+
+        <!-- ===== FINANCE EFFICIENCY MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'finance-efficiency'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Daily Efficiency Logs -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-list-check'></i> Daily Efficiency Logs</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Order Volume</th>
+                                <th>Gross Revenue</th>
+                                <th>Avg Order Value</th>
+                                <th>Profit Margin</th>
+                                <th>Efficiency Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Date"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Order Volume">{{ row.total }}</td>
+                                <td data-label="Gross Revenue" class="text-success">{{ row.completed }}</td>
+                                <td data-label="Avg Order Value">{{ row.cancelled }}</td>
+                                <td data-label="Profit Margin">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate) * 3"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 26"
+                                                [class.fill-good]="parseFloat(row.rate) >= 24 && parseFloat(row.rate) < 26"
+                                                [class.fill-avg]="parseFloat(row.rate) < 24">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Efficiency Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Operational Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /finance-efficiency modal-body -->
+
+        <!-- ===== FINANCE FLOW MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'finance-flow'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Money Flow Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-water'></i> Money Flow Stages</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Stage</th>
+                                <th>Amount Impact</th>
+                                <th>Stage Health</th>
+                                <th>Nature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of vendorPerformance">
+                                <td data-label="Stage"><strong>{{ item.vendor }}</strong></td>
+                                <td data-label="Amount Impact" [ngClass]="{'text-success': item.rating === 5.0, 'text-danger': item.rating < 5.0}">{{ item.revenue }}</td>
+                                <td data-label="Stage Health">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(item.rating / 5) * 100"
+                                                [class.fill-excellent]="item.rating >= 4.8"
+                                                [class.fill-good]="item.rating >= 4.0 && item.rating < 4.8"
+                                                [class.fill-avg]="item.rating < 4.0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Nature">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="item.growth === 'Baseline' || item.growth === 'Retained'"
+                                        [class.badge-good]="item.growth === 'Cost' || item.growth === 'Compliance'"
+                                        [class.badge-warn]="item.growth === 'Leakage'">
+                                        {{ item.growth }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Retained Value Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /finance-flow modal-body -->
+
+        <!-- ===== SALES ORDER MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'sales-order'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Weekly Performance Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-trending-up'></i> Order Volume & Revenue Tracking</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Total Orders</th>
+                                <th>Gross Revenue</th>
+                                <th>AOV</th>
+                                <th>Conversion Rate</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Week"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Total Orders">{{ row.total }}</td>
+                                <td data-label="Gross Revenue" class="text-success">{{ row.completed }}</td>
+                                <td data-label="AOV">{{ row.cancelled }}</td>
+                                <td data-label="Conversion Rate">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="parseFloat(row.rate) * 5"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 14"
+                                                [class.fill-good]="parseFloat(row.rate) >= 13 && parseFloat(row.rate) < 14"
+                                                [class.fill-avg]="parseFloat(row.rate) < 13">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Order Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /sales-order modal-body -->
+
+        <!-- ===== SALES CATEGORY MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'sales-category'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Category Performance Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-category'></i> Category Breakdowns</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Volume</th>
+                                <th>Revenue</th>
+                                <th>Customer Rating</th>
+                                <th>Growth Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of vendorPerformance">
+                                <td data-label="Category"><strong>{{ item.vendor }}</strong></td>
+                                <td data-label="Volume">{{ item.orders }}</td>
+                                <td data-label="Revenue" class="text-success">{{ item.revenue }}</td>
+                                <td data-label="Customer Rating">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(item.rating / 5) * 100"
+                                                [class.fill-excellent]="item.rating >= 4.7"
+                                                [class.fill-good]="item.rating >= 4.3 && item.rating < 4.7"
+                                                [class.fill-avg]="item.rating < 4.3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Growth Trend" [ngClass]="{'text-success': item.growth.startsWith('+'), 'text-danger': item.growth.startsWith('-')}">
+                                    {{ item.growth }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Assortment Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /sales-category modal-body -->
+
+        <!-- ===== SALES WATERFALL MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'sales-waterfall'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Revenue Component Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-water'></i> Financial Journey Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Amount Impact</th>
+                                <th>Severity/Health</th>
+                                <th>Nature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of vendorPerformance">
+                                <td data-label="Component"><strong>{{ item.vendor }}</strong></td>
+                                <td data-label="Amount Impact" [ngClass]="{'text-success': item.rating === 5.0, 'text-danger': item.rating < 5.0 && item.rating > 4.2}">{{ item.revenue }}</td>
+                                <td data-label="Severity/Health">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(item.rating / 5) * 100"
+                                                [class.fill-excellent]="item.rating >= 4.8"
+                                                [class.fill-good]="item.rating >= 4.5 && item.rating < 4.8"
+                                                [class.fill-avg]="item.rating < 4.5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Nature">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="item.growth === 'Baseline' || item.growth === 'Retained' || item.growth === 'Revenue'"
+                                        [class.badge-good]="item.growth === 'Cost' || item.growth === 'Compliance'"
+                                        [class.badge-warn]="item.growth === 'Leakage'">
+                                        {{ item.growth }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Value Realization Insights</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /sales-waterfall modal-body -->
+
+        <!-- ===== SALES COST MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'sales-cost'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Cost Distribution Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-pie-chart-alt-2'></i> Cost Distribution</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cost Center</th>
+                                <th>Share (%)</th>
+                                <th>Efficiency Rating</th>
+                                <th>Trend Analysis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of vendorPerformance">
+                                <td data-label="Cost Center"><strong>{{ item.vendor }}</strong></td>
+                                <td data-label="Share (%)" class="text-danger">{{ item.revenue }}</td>
+                                <td data-label="Efficiency Rating">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width.%]="(item.rating / 5) * 100"
+                                                [class.fill-excellent]="item.rating >= 4.5"
+                                                [class.fill-good]="item.rating >= 4.2 && item.rating < 4.5"
+                                                [class.fill-avg]="item.rating < 4.2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Trend Analysis">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="item.growth === 'Optimized'"
+                                        [class.badge-good]="item.growth === 'Stable'"
+                                        [class.badge-warn]="item.growth === 'High Cost'">
+                                        {{ item.growth }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Operational Metrics</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /sales-cost modal-body -->
+
+        <!-- ===== SALES ZONE MODAL ===== -->
+        <div class="modal-body perf-modal-body" *ngIf="mode === 'sales-zone'">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive" [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive" [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Zone Efficiency Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-map-alt'></i> Zone Performance Breakdown</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Zone</th>
+                                <th>Volume</th>
+                                <th>Avg Revenue/Order</th>
+                                <th>Cost/Order</th>
+                                <th>Efficiency Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData">
+                                <td data-label="Zone"><strong>{{ row.date }}</strong></td>
+                                <td data-label="Volume">{{ row.total }}</td>
+                                <td data-label="Avg Revenue/Order" class="text-success">{{ row.completed }}</td>
+                                <td data-label="Cost/Order" class="text-danger">{{ row.cancelled }}</td>
+                                <td data-label="Efficiency Score">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill" [style.width]="row.rate"
+                                                [class.fill-excellent]="parseFloat(row.rate) >= 80"
+                                                [class.fill-good]="parseFloat(row.rate) >= 70 && parseFloat(row.rate) < 80"
+                                                [class.fill-avg]="parseFloat(row.rate) < 70">
+                                            </div>
+                                        </div>
+                                        <span>{{ row.rate }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="row.status === 'Excellent'"
+                                        [class.badge-good]="row.status === 'Good'"
+                                        [class.badge-avg]="row.status === 'Average'">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Insights Panel -->
+            <div class="perf-section">
+                <div class="perf-row">
+                    <div class="perf-col-4">
+                        <h3 class="perf-section-title"><i class='bx bx-radar'></i> Zone Characteristics</h3>
+                        <div class="perf-metrics-list">
+                            <div class="perf-metric-item" *ngFor="let ak of advancedKpis">
+                                <div class="perf-metric-info">
+                                    <span class="label">{{ ak.label }}</span>
+                                    <span class="value">{{ ak.value }}</span>
+                                </div>
+                                <div class="perf-mini-bar">
+                                    <div class="perf-mini-fill" [style.width]="ak.percentage || '60%'"
+                                        [class.fill-excellent]="ak.status === 'excellent'"
+                                        [class.fill-good]="ak.status === 'good'"
+                                        [class.fill-avg]="ak.status === 'avg'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /sales-zone modal-body -->
 
         <!-- ===== REVENUE BY PRODUCT MODAL ===== -->
         <div class="modal-body perf-modal-body" *ngIf="mode === 'product'">

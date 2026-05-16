@@ -1,85 +1,106 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="loyalty-badge">Loyalty Analysis</div>
-                <h2>{{ month }} Retention Report</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Retention Analytics</span>
+                </div>
+                <h2>Repeat Orders Analysis: {{ month }}</h2>
+                <div class="perf-subtitle">Customer loyalty audit, purchase frequency distribution, and LTV tracking</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="retention-hero">
-                <div class="hero-left">
-                    <span class="label">Repeat Rate</span>
-                    <h3 class="value">{{ getRepeatPercentage() }}</h3>
-                    <div class="trend positive">
-                        <i class='bx bx-up-arrow-alt'></i> {{ clvGrowth }} CLV
-                    </div>
-                </div>
-                <div class="hero-right">
-                    <div class="split-item first">
-                        <span class="dot"></span>
-                        <div class="info">
-                            <span class="label">First-time</span>
-                            <span class="count">{{ firstTimeOrders }}</span>
-                        </div>
-                    </div>
-                    <div class="split-item repeat">
-                        <span class="dot"></span>
-                        <div class="info">
-                            <span class="label">Repeat</span>
-                            <span class="count">{{ repeatOrders }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="loyalty-metrics">
-                <div class="metric-card">
-                    <div class="card-icon churn">
-                        <i class='bx bx-user-minus'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Churn Risk</span>
-                        <span class="value">{{ churnRisk }}</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="card-icon retention">
-                        <i class='bx bx-refresh'></i>
-                    </div>
-                    <div class="card-info">
-                        <span class="label">Retention</span>
-                        <span class="value">{{ retentionRate }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tier-breakdown">
-                <h4>Customer Tier Distribution</h4>
-                <div class="tier-bar">
-                    <div class="tier gold" style="width: 15%"></div>
-                    <div class="tier silver" style="width: 30%"></div>
-                    <div class="tier bronze" style="width: 55%"></div>
-                </div>
-                <p class="tier-legend">{{ loyaltyTierDistribution }}</p>
-            </div>
-
-            <div class="retention-strategy">
-                <div class="strategy-header">
-                    <i class='bx bx-bulb'></i>
-                    <span>Retention Tip</span>
-                </div>
-                <p>Repeat orders are peaking in {{ month }}. High concentration of Silver tier customers. Launching a
-                    "Road to Gold" campaign could boost CLV by another 10%.</p>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-user-plus'></i> Campaign Manager</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Download retention Report</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Purchase Frequency Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-group'></i> Customer Segment & Purchase Frequency</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Loyalty Segment</th>
+                                <th>Customer Count</th>
+                                <th>Revenue Contribution</th>
+                                <th>Estimated LTV</th>
+                                <th>Growth Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of retentionData">
+                                <td data-label="Segment"><strong>{{ r.segment }}</strong></td>
+                                <td data-label="Count">{{ r.count }} Customers</td>
+                                <td data-label="Revenue" class="text-success">{{ r.revenue }}</td>
+                                <td data-label="LTV">{{ r.ltv }}</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="r.status === 'Elite' || r.status === 'VIP'"
+                                        [class.badge-good]="r.status === 'Active'"
+                                        [class.badge-avg]="r.status === 'Acquisition'">
+                                        {{ r.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Top Returning Customers -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-medal'></i> Top Returning Customers (VIP List)</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Full Name</th>
+                                <th>Total Orders</th>
+                                <th>Total Spend</th>
+                                <th>Last Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let c of loyalCustomers">
+                                <td data-label="CUST ID"><strong>{{ c.id }}</strong></td>
+                                <td data-label="Name">{{ c.name }}</td>
+                                <td data-label="Orders">{{ c.totalOrders }} Orders</td>
+                                <td data-label="Spend"><strong>{{ c.totalSpend }}</strong></td>
+                                <td data-label="Last Activity">{{ c.lastOrder }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

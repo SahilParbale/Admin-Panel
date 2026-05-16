@@ -1,89 +1,137 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-        <div class="modal-header">
-            <div class="header-main">
-                <div class="product-badge">Inventory Health</div>
-                <h2>Product Availability</h2>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Inventory Vitals</span>
+                </div>
+                <h2>Inventory Availability Audit</h2>
+                <div class="perf-subtitle">Real-time analysis of active vs. inactive inventory assets</div>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="summary-stats">
-                <div class="stat-card active">
-                    <div class="icon-wrap">
-                        <i class='bx bx-check-double'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Active Items</span>
-                        <h3 class="value">{{ activeCount }}</h3>
-                        <span class="percent">{{ activePercentage }}% of total</span>
-                    </div>
-                </div>
-                <div class="stat-card inactive">
-                    <div class="icon-wrap">
-                        <i class='bx bx-block'></i>
-                    </div>
-                    <div class="meta">
-                        <span class="label">Inactive Items</span>
-                        <h3 class="value">{{ inactiveCount }}</h3>
-                        <span class="percent">{{ inactivePercentage }}% of total</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="analysis-section">
-                <h4>Category Health</h4>
-                <div class="category-bars">
-                    <div class="cat-item">
-                        <div class="info">
-                            <span>Electronics</span>
-                            <span class="status healthy">Healthy</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="fill active" style="width: 85%"></div>
-                            <div class="fill inactive" style="width: 15%"></div>
-                        </div>
-                    </div>
-                    <div class="cat-item">
-                        <div class="info">
-                            <span>Fashion</span>
-                            <span class="status warning">Low Stock</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="fill active" style="width: 60%"></div>
-                            <div class="fill inactive" style="width: 40%"></div>
-                        </div>
-                    </div>
-                    <div class="cat-item">
-                        <div class="info">
-                            <span>Grocery</span>
-                            <span class="status healthy">Healthy</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="fill active" style="width: 92%"></div>
-                            <div class="fill inactive" style="width: 8%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="restock-alert" *ngIf="inactiveCount > 0">
-                <div class="alert-icon">
-                    <i class='bx bx-alarm-exclamation'></i>
-                </div>
-                <div class="alert-content">
-                    <h5>Action Required</h5>
-                    <p>{{ inactiveCount }} products are currently offline. Review stock levels to prevent lost sales.
-                    </p>
-                </div>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-refresh'></i> Refresh Data</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-primary" (click)="closeModal()">Close Availability Report</button>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Summary Cards -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Category Availability Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-category'></i> Category-Wise Inventory Health</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Active Items</th>
+                                <th>Inactive Items</th>
+                                <th>Health %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cat of categoryHealth">
+                                <td data-label="Category"><strong>{{ cat.name }}</strong></td>
+                                <td data-label="Active Items" class="text-success">{{ cat.active }}</td>
+                                <td data-label="Inactive Items" class="text-danger">{{ cat.inactive }}</td>
+                                <td data-label="Health %">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="cat.pct"
+                                                [class.fill-excellent]="+cat.pct.replace('%', '') >= 90"
+                                                [class.fill-good]="+cat.pct.replace('%', '') >= 80 && +cat.pct.replace('%', '') < 90"
+                                                [class.fill-avg]="+cat.pct.replace('%', '') < 80">
+                                            </div>
+                                        </div>
+                                        <span>{{ cat.pct }}</span>
+                                    </div>
+                                </td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="cat.status === 'Optimal' || cat.status === 'Healthy' || cat.status === 'Excellent'"
+                                        [class.badge-good]="cat.status === 'Watchlist'"
+                                        [class.badge-warn]="cat.status === 'Low'">
+                                        {{ cat.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Product Status Breakdown -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-list-check'></i> Product Stock Status Audit</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Status</th>
+                                <th>Availability Health</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of stockStatusData">
+                                <td data-label="Product"><strong>{{ p.product }}</strong></td>
+                                <td data-label="Category">{{ p.category }}</td>
+                                <td data-label="Current Stock">{{ p.stock }} Units</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="p.status === 'In Stock'"
+                                        [class.badge-avg]="p.status === 'Low Stock'"
+                                        [class.badge-warn]="p.status === 'Out of Stock'">
+                                        {{ p.status }}
+                                    </span>
+                                </td>
+                                <td data-label="Availability Health">
+                                    <div class="perf-rate-cell">
+                                        <div class="perf-mini-bar">
+                                            <div class="perf-mini-fill"
+                                                [style.width]="p.health"
+                                                [class.fill-excellent]="+p.health.replace('%', '') >= 90"
+                                                [class.fill-good]="+p.health.replace('%', '') >= 70 && +p.health.replace('%', '') < 90"
+                                                [class.fill-avg]="+p.health.replace('%', '') < 70">
+                                            </div>
+                                        </div>
+                                        <span>{{ p.health }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

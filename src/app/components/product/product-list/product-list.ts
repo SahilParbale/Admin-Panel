@@ -707,6 +707,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.selectedRevenueProduct = null;
   }
 
+  openSalesTrendDetail() {
+    this.isSalesModalOpen = true;
+  }
+
   selectedTrendPeriod: string = 'Week';
   showTrendDropdown = false;
   trendOptions = ['Day', 'Week', 'Month'];
@@ -794,10 +798,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  closeSalesModal() {
-    this.isSalesModalOpen = false;
-  }
-
   onTopSellingChartClick({ active }: { active?: any[] }): void {
     if (active && active.length > 0) {
       const index = active[0].index;
@@ -806,6 +806,27 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       this.selectedTopSellingProduct = { name: label, sold: value };
       this.isTopSellingModalOpen = true;
     }
+  }
+
+  openTopSellingDetail() {
+    this.selectedTopSellingProduct = null; // Shows overall report
+    this.isTopSellingModalOpen = true;
+  }
+
+  openAvailabilityModal() {
+    this.isAvailabilityModalOpen = true;
+  }
+
+  openDemandForecastModal() {
+    this.isDemandForecastModalOpen = true;
+  }
+
+  openCategoryModal() {
+    this.isCategoryModalOpen = true;
+  }
+
+  closeSalesModal() {
+    this.isSalesModalOpen = false;
   }
 
   closeTopSellingModal() {

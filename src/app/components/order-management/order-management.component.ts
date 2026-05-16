@@ -74,7 +74,44 @@ export class OrderManagementComponent implements OnInit {
         });
     }
 
-    openDetails(order: any) {
+    handleAreaDetail(event: { areaName: string, orderCount: number }) {
+    this.selectedAreaName = event.areaName;
+    this.selectedAreaOrderCount = event.orderCount;
+    this.isAreaModalOpen = true;
+  }
+
+  handleCancellationDetail(event: { period: string, rate: number }) {
+    this.selectedCancellationPeriod = event.period;
+    this.selectedCancellationRate = event.rate;
+    this.isCancellationModalOpen = true;
+  }
+
+  handleAovDetail(event: { period: string, aovValue: number }) {
+    this.selectedAovPeriod = event.period;
+    this.selectedAovValue = event.aovValue;
+    this.isAovModalOpen = true;
+  }
+
+  handleStatusDetail(event: { statusName: string, orderCount: number }) {
+    this.selectedStatusName = event.statusName;
+    this.selectedStatusCount = event.orderCount;
+    this.isStatusModalOpen = true;
+  }
+
+  handlePaymentDetail(event: { paymentMethod: string, count: number }) {
+    this.selectedPaymentMethod = event.paymentMethod;
+    this.selectedPaymentCount = event.count;
+    this.isPaymentModalOpen = true;
+  }
+
+  handleRepeatDetail(event: { month: string, firstTime: number, repeat: number }) {
+    this.selectedMonth = event.month;
+    this.selectedFirstTimeCount = event.firstTime;
+    this.selectedRepeatCount = event.repeat;
+    this.isRepeatModalOpen = true;
+  }
+
+  openDetails(order: any) {
         this.selectedOrder = order;
     }
 

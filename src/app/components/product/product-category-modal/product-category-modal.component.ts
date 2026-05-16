@@ -1,68 +1,58 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-product-category-modal',
     standalone: true,
-    imports: [CommonModule, BaseChartDirective],
+    imports: [CommonModule],
     templateUrl: './product-category-modal.component.html',
-    styleUrls: ['./product-category-modal.component.scss']
+    styleUrl: './product-category-modal.component.scss'
 })
-export class ProductCategoryModalComponent {
-    @Input() isOpen: boolean = false;
-    @Input() categoryName: string = '';
-    @Input() inStock: number = 0;
-    @Input() lowStock: number = 0;
-    @Input() outOfStock: number = 0;
+export class ProductCategoryModalComponent implements OnChanges {
+    @Input() isOpen = false;
+    @Input() categoryName = 'All Categories';
+    @Input() inStock = 0;
+    @Input() lowStock = 0;
+    @Input() outOfStock = 0;
     @Output() close = new EventEmitter<void>();
 
-    public stockData: ChartConfiguration<'doughnut'>['data'] = {
-        labels: ['In Stock', 'Low Stock', 'Out of Stock'],
-        datasets: [{
-            data: [0, 0, 0],
-            backgroundColor: ['#8b5cf6', '#f59e0b', '#f43f5e'],
-            borderWidth: 0,
-            hoverOffset: 10
-        }]
-    };
+    kpis: any[] = [];
+    subCategoryData: any[] = [];
+    productPerformance: any[] = [];
 
-    public stockOptions: ChartOptions<'doughnut'> = {
-        cutout: '75%',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false },
-            tooltip: { enabled: true }
-        }
-    };
-
-    ngOnChanges() {
-        if (this.isOpen) {
-            this.stockData = {
-                ...this.stockData,
-                datasets: [{
-                    ...this.stockData.datasets[0],
-                    data: [this.inStock, this.lowStock, this.outOfStock]
-                }]
-            };
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['isOpen'] && this.isOpen) {
+            this.loadData();
         }
     }
 
-    getAvailabilityRate(): number {
-        const total = this.inStock + this.lowStock + this.outOfStock;
-        return total > 0 ? (this.inStock / total) * 100 : 0;
-    }
+    loadData() {
+        const total = this.inStock + this.lowStock + this.outOfStock || 48;
+        const healthy = this.inStock || 35;
 
-    getAlertCoverage(): number {
-        const total = this.inStock + this.lowStock + this.outOfStock;
-        return total > 0 ? (this.lowStock / total) * 100 : 0;
-    }
+        this.kpis = [
+            { label: 'Total SKUs', value: total, change: '+4 New', isPositive: true, icon: 'bx-layer' },
+            { label: 'Active Items', value: healthy, change: '72% ratio', isPositive: true, icon: 'bx-check-circle' },
+            { label: 'Low/Out Items', value: (total - healthy), change: 'Restock Required', isPositive: false, icon: 'bx-error-circle' },
+            { label: 'Market Share', value: '28.4%', change: '+2.1%', isPositive: true, icon: 'bx-pie-chart-alt' },
+            { label: 'Avg Unit Price', value: '₹145', change: 'Stable', isPositive: true, icon: 'bx-tag' },
+            { label: 'Category ROI', value: '4.2x', change: 'Excellent', isPositive: true, icon: 'bx-trending-up' },
+        ];
 
-    getCriticalGap(): number {
-        const total = this.inStock + this.lowStock + this.outOfStock;
-        return total > 0 ? (this.outOfStock / total) * 100 : 0;
+        this.subCategoryData = [
+            { name: 'Fresh Fruits', items: 18, revenue: '₹45,200', growth: '+12%', status: 'Primary' },
+            { name: 'Organic Range', items: 12, revenue: '₹28,600', growth: '+25%', status: 'Growing' },
+            { name: 'Exotic Imports', items: 8,  revenue: '₹52,800', growth: '+18%', status: 'Premium' },
+            { name: 'Dry & Packaged', items: 10, revenue: '₹15,400', growth: '+5%',  status: 'Steady' },
+        ];
+
+        this.productPerformance = [
+            { product: 'Alphonso Mango', stock: 'In Stock', rating: 4.8, margin: '22%', trend: 'Upward' },
+            { product: 'Kashmir Apple',  stock: 'Low Stock', rating: 4.5, margin: '18%', trend: 'Steady' },
+            { product: 'Dragon Fruit',   stock: 'In Stock', rating: 4.9, margin: '31%', trend: 'Upward' },
+            { product: 'Strawberry',     stock: 'In Stock', rating: 4.7, margin: '25%', trend: 'Seasonal' },
+            { product: 'Organic Banana', stock: 'Out of Stock', rating: 4.2, margin: '15%', trend: 'Restocking' },
+        ];
     }
 
     closeModal() {
@@ -70,7 +60,7 @@ export class ProductCategoryModalComponent {
     }
 
     onBackdropClick(event: MouseEvent) {
-        if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
+        if ((event.target as HTMLElement).classList.contains('perf-modal-overlay')) {
             this.closeModal();
         }
     }

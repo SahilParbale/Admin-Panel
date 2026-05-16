@@ -81,6 +81,12 @@ export class AverageOrderValueChartComponent implements OnInit {
     }
 
     // Filter states
+    @Output() viewDetail = new EventEmitter<{ period: string, aovValue: number }>();
+
+    openDetail(period: string = this.selectedPeriod, aovValue: number = 450) {
+        this.viewDetail.emit({ period, aovValue });
+    }
+
     selectedPeriod = 'Last 7 Days';
 
     showPeriodDropdown = false;

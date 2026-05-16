@@ -81,6 +81,12 @@ export class PaymentMethodSplitChartComponent implements OnInit {
     }
 
     // Filter states
+    @Output() viewDetail = new EventEmitter<{ paymentMethod: string, count: number }>();
+
+    openDetail(paymentMethod: string = 'All Methods', count: number = 1250) {
+        this.viewDetail.emit({ paymentMethod, count });
+    }
+
     selectedPeriod = 'Last 7 Days';
     selectedOrderValue = 'All Values';
 

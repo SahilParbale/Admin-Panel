@@ -1,103 +1,113 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
-    <div class="modal-content glass-effect">
-
-        <!-- Gradient Header Banner -->
-        <div class="modal-banner"
-            [style.background]="'linear-gradient(135deg, ' + bannerDark + ' 0%, ' + elasticityColor + ' 100%)'">
-            <div class="banner-icon">
-                <i class='bx bx-scatter-chart'></i>
+<div class="perf-modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="perf-modal-content">
+        <!-- Header -->
+        <div class="perf-modal-header">
+            <div class="perf-header-left">
+                <div class="perf-badge-wrap">
+                    <span class="perf-mode-badge">Elasticity Audit</span>
+                </div>
+                <h2>Price vs Demand Elasticity Analysis</h2>
+                <div class="perf-subtitle">Analysis of consumer behavior and demand fluctuations relative to pricing adjustments</div>
             </div>
-            <div class="banner-text">
-                <span class="banner-label">Price vs Demand</span>
-                <h2>{{ elasticityType }} Demand</h2>
+            <div class="perf-header-right">
+                <button class="perf-btn-secondary"><i class='bx bx-line-chart'></i> Prediction Model</button>
+                <button class="perf-btn-close" (click)="closeModal()">
+                    <i class='bx bx-x'></i>
+                </button>
             </div>
-            <button class="close-btn" (click)="closeModal()">
-                <i class='bx bx-x'></i>
-            </button>
         </div>
 
-        <div class="modal-body">
-
-            <!-- Main Stats Row -->
-            <div class="primary-stat-row">
-                <div class="primary-stat" [style.border-color]="elasticityColor + '44'">
-                    <div class="primary-icon" [style.background]="elasticityColor + '22'"
-                        [style.color]="elasticityColor">
-                        <i class='bx bx-trending-down'></i>
-                    </div>
-                    <div class="primary-info">
-                        <span class="primary-label">Price Change</span>
-                        <span class="primary-value" [style.color]="elasticityColor">{{ priceSign }}{{ priceChange
-                            }}%</span>
-                    </div>
-                </div>
-                <div class="primary-stat demand" [style.border-color]="elasticityColor + '44'">
-                    <div class="primary-icon" [style.background]="elasticityColor + '22'"
-                        [style.color]="elasticityColor">
-                        <i class='bx bx-user-voice'></i>
-                    </div>
-                    <div class="primary-info">
-                        <span class="primary-label">Demand Change</span>
-                        <span class="primary-value" [style.color]="elasticityColor">{{ demandSign }}{{ demandChange
-                            }}%</span>
+        <!-- Body -->
+        <div class="perf-modal-body">
+            <!-- 1. KPI Grid -->
+            <div class="perf-section">
+                <div class="perf-kpi-grid">
+                    <div class="perf-kpi-card" *ngFor="let kpi of kpis">
+                        <div class="perf-kpi-icon">
+                            <i class='bx {{kpi.icon}}'></i>
+                        </div>
+                        <div class="perf-kpi-body">
+                            <span class="perf-kpi-label">{{ kpi.label }}</span>
+                            <span class="perf-kpi-value">{{ kpi.value }}</span>
+                            <span class="perf-kpi-change" [class.positive]="kpi.isPositive"
+                                [class.negative]="!kpi.isPositive">
+                                <i class='bx' [class.bx-up-arrow-alt]="kpi.isPositive"
+                                    [class.bx-down-arrow-alt]="!kpi.isPositive"></i>
+                                {{ kpi.change }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- KPI Grid -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon ratio"><i class='bx bx-line-chart'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Elasticity Ratio</span>
-                        <span class="kpi-value">{{ elasticityRatio }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon type" [style.background]="elasticityColor + '22'"
-                        [style.color]="elasticityColor">
-                        <i class='bx bx-analyse'></i>
-                    </div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Demand Type</span>
-                        <span class="kpi-value" [style.color]="elasticityColor">{{ elasticityType }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon impact"><i class='bx bx-target-lock'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Pricing Power</span>
-                        <span class="kpi-value">{{ elasticityType === 'Inelastic' ? 'Strong' : 'Weak' }}</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon action"><i class='bx bx-bulb'></i></div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Recommendation</span>
-                        <span class="kpi-value">{{ elasticityType === 'Inelastic' ? 'Raise price' : 'Hold / reduce'
-                            }}</span>
-                    </div>
+            <!-- 2. Price-Point Table -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-dollar-circle'></i> Multi Price-Point Revenue & Demand Forecast</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Price Point</th>
+                                <th>Projected Demand</th>
+                                <th>Estimated Revenue</th>
+                                <th>Demand Impact</th>
+                                <th>Pricing Tier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of elasticityData">
+                                <td data-label="Price"><strong>{{ e.price }}</strong></td>
+                                <td data-label="Demand">{{ e.demand }} Units</td>
+                                <td data-label="Revenue" class="text-success">{{ e.revenue }}</td>
+                                <td data-label="Impact"><strong>{{ e.impact }}</strong></td>
+                                <td data-label="Tier">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="e.status === 'Optimal'"
+                                        [class.badge-good]="e.status === 'Bulk Buy'"
+                                        [class.badge-warn]="e.status === 'Elite'"
+                                        [class.badge-avg]="e.status === 'Premium'">
+                                        {{ e.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- Insight Bar -->
-            <div class="insight-bar" [style.background]="elasticityColor + '12'"
-                [style.border-color]="elasticityColor + '44'" [style.color]="elasticityColor">
-                <i class='bx bx-info-circle'></i>
-                <span>A <strong>{{ priceSign }}{{ priceChange }}%</strong> price change led to a <strong>{{ demandSign
-                        }}{{ demandChange }}%</strong> demand shift — elasticity ratio of <strong>{{ elasticityRatio
-                        }}</strong>.</span>
+            <!-- 3. Sensitivity Audit -->
+            <div class="perf-section">
+                <h3 class="perf-section-title"><i class='bx bx-analyse'></i> Category-specific Price Sensitivity & Elasticity Index</h3>
+                <div class="perf-table-wrap">
+                    <table class="perf-table responsive-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Analysis ID</th>
+                                <th>Product Category</th>
+                                <th>Elasticity Factor</th>
+                                <th>Market Response</th>
+                                <th>Economic Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let s of sensitivityAudit">
+                                <td data-label="ID">{{ s.id }}</td>
+                                <td data-label="Category"><strong>{{ s.category }}</strong></td>
+                                <td data-label="Factor">{{ s.elasticity }}</td>
+                                <td data-label="Response">{{ s.response }}</td>
+                                <td data-label="Status">
+                                    <span class="perf-badge"
+                                        [class.badge-excellent]="s.health === 'Healthy' || s.health === 'Necessity'"
+                                        [class.badge-avg]="s.health === 'Inelastic' || s.health === 'Sensitive'">
+                                        {{ s.health }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeModal()">Close</button>
-            <button class="btn-primary"
-                [style.background]="'linear-gradient(135deg, ' + bannerDark + ', ' + elasticityColor + ')'"
-                [style.box-shadow]="'0 8px 20px ' + elasticityColor + '44'" (click)="closeModal()">
-                <i class='bx bx-download'></i> Export Report
-            </button>
         </div>
     </div>
 </div>
